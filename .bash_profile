@@ -1,6 +1,10 @@
 # alias other
 alias ll='ls -la'
 
+# git
+alias git-log="git log --show-signature -1"
+alias git-pull="git pull origin --verify-signatures"
+
 # show all files in finder
 alias fshow='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder'
 alias fhide='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder'
