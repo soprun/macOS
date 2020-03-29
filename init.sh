@@ -9,3 +9,4 @@ ln -s "$PWD/.bash_profile" ~/.bash_profile
 ln -s "$PWD/.bash_profile" ~/.zshrc
 ln -s "$PWD/git.conf" ~/.gitconfig
 ln -s "$PWD/ssh.conf" ~/.ssh/config
+ln -s "$PWD/docker-drop.sh" /usr/local/bin/docker-drop
