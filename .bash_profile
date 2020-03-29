@@ -20,8 +20,8 @@ alias sshcopy='pbcopy < ~/.ssh/id_rsa'
 # killall gpg-agent > /dev/null 2>&1
 # killall ssh-agent > /dev/null 2>&1
 
-pkill ssh-agent;
-pkill gpg-agent;
+# pkill ssh-agent;
+# pkill gpg-agent;
 
 # note: eval is used because the produced STDOUT is a bunch of ENV settings
 eval $(gpg-agent --daemon --enable-ssh-support --options ~/.gnupg/gpg-agent.conf)
