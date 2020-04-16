@@ -65,4 +65,4 @@ alias finderHideHidden='defaults write com.apple.finder AppleShowAllFiles -bool 
 # Alias copy
 # alias copy-uuid="uuidgen | awk '{print tolower(\$0)}' | pbcopy; pbpaste;"
 # alias copy-gpg="gpg --armor --export ${GPG_KEY_EMAIL} | pbcopy"
-alias copy-ssh="pbcopy < ${SSH_KEY_PUBLIC}";
+# alias copy-ssh="pbcopy < ${SSH_KEY_PUBLIC}";

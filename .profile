@@ -5,17 +5,33 @@ fi
 # Default variables: identity, security, gpg
 id_email="develop@soprun.com"
 id_name="Vladislav Soprun"
+id_gpg_id="C5DC44C2"
+id_gpg_email="${id_email}"
 
-gpg_key_id="C5DC44C2"
-gpg_key_email=${gpg_key_email:-${id_email}}
-
-## Environment
+# SSH authentication
 export SSH_KEY_ID="id_rsa"
 export SSH_KEY_EMAIL=${id_email}
 export SSH_KEY="${HOME}/.ssh/${SSH_KEY_ID}"
 export SSH_KEY_PUBLIC="${SSH_KEY}.pub"
-# export ssh_key_passphrase=""
+export SSH_KEY_PASSPHRASE=""
 
-export GPG_KEY_ID=${gpg_key_id}
-export GPG_KEY_EMAIL=${gpg_key_email}
+if [[ ! -z ${SSH_AGENT_PID:-} ]]; then
+  # eval $(ssh-agent -s) > /dev/null 2>&1
+  eval $(ssh-agent -s)
+fi
+
+# GNU Privacy Guard
+export GPG_KEY_ID=${id_gpg_id}
+export GPG_KEY_EMAIL=${id_email}
+
+# pkill ssh-agent;
+# pkill gpg-agent;
+
+# note: eval is used because the produced STDOUT is a bunch of ENV settings
+# eval $(gpg-agent --daemon --enable-ssh-support --options ~/.gnupg/gpg-agent.conf)
+
+
+# Alias copy
+alias copy-ssh="pbcopy < ${SSH_KEY_PUBLIC}"
+alias copy-gpg="gpg --armor --export ${GPG_KEY_EMAIL} | pbcopy"
 
