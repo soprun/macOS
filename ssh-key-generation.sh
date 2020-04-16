@@ -50,7 +50,4 @@ echo ""
 echo "Test your connection:"
 echo "GitHub: ssh -T git@github.com"
 
-# ssh-keygen -R github.com
-
-# ssh -o StrictHostKeyChecking=no -T git@github.com
 ssh -T git@github.com
