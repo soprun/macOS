@@ -23,5 +23,11 @@ fi
 #fi
 
 
-eval "$(ssh-agent -s)"
+# SSH authentication
+# killall gpg-agent > /dev/null 2>&1
+# killall ssh-agent > /dev/null 2>&1
 
+# pkill ssh-agent;
+# pkill gpg-agent;
+
+# eval "$(ssh-agent -s)" > /dev/null

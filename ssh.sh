@@ -1,6 +1,32 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set -e
+set -u
+# set -eu -o pipefail
+
+#if read -t 2 -p "Enter your name: " name
+#
+#then
+#  echo "Hello $name, welcome to my script"
+#else
+#  echo "Sorry, too slow! "
+#fi
+#
+#exit;
+
+
+if [[ $# -eq 0 ]]; then
+    echo -e "An error occurred, empty parameters."
+    exit 1;
+fi
+
+
+
+#[[ -n "${1:-}" ]]
+
+#if [[ "${1:-unset}" == "unset" ]]; then
+#    echo -e "No parameters found. "
+#    exit 1
+#fi
 
 # [name] Имя пользователя для подключения к экземпляру.
 # name="develop@soprun.com";
@@ -22,64 +48,106 @@ set -e
 #  "${key_file}.pub" \
 #  "~/.ssh/known_hosts"
 
-identity="develop"
-remote_host="github.com"
+# identity="develop@soprun.com"
+# hostname="github.com"
+# remote_host="github.com"
 
-key="${HOME}/.ssh/${identity}_rsa"
-key_public="${key}.pub"
+
+identity=${1:-"develop@soprun.com"}
+
+#if [[ -n "${0}" ]]; then
+#  echo "No parameters found."
+#fi
+
+echo "Hello 👀: ${identity}"
+
+exit;
+
+#echo -e -n "Enter your identity [${identity}]: "
+#read identity_input
+#
+#identity=${identity_input:-${identity}}
+#
+#echo -e "\n"
+
 
 # identity
 
-# rm -rf ~/.ssh;
+# pkill ssh-agent;
+# killall ssh-agent;
+
+rm -rf ~/.ssh/*;
+
 # mkdir -p ~/.ssh
 # mkdir -p "${HOME}/.ssh"
 # chmod 0700 "${HOME}/.ssh"
-# touch "${HOME}/.ssh/known_hosts"
 
-if [[ ! -f ${key} ]]; then
-    echo "${key} does not exist!"
+# ssh $1 "googel.com"
+# ssh $1 "uptime"
 
-    ssh-keygen \
-      -t rsa \
-      -b 2048 \
-      -C ${identity} \
-      -f ${key} \
-      -P "1234567890"
+known_hosts="${HOME}/.ssh/known_hosts";
 
-    # ssh-add -L ${key}
-    chmod 400 ${key}
+# SSH fingerprints
+if [[ ! -f ${known_hosts} ]]; then
+  echo -e "Create file: ${known_hosts}";
+  touch ${known_hosts};
 fi
 
+# ssh-keyscan -H 192.168.1.162 >> ~/.ssh/known_hosts
 
-# ssh-keygen -p -f ${key_public};
-# pbcopy < ${key}.pub;
+# echo "Authentication key generation!"
 
-# cat ${key}.pub;
+declare -ir bits=2048
+declare -r type="rsa"
 
-# ssh-keygen -R example.com
+passphrase=''
 
-# ssh-keygen -l -f ${key_public};
-# ssh-add -L ${key}
+filename="${HOME}/.ssh/${identity}_rsa"
+key_public="${filename}.pub"
+key_private="${filename}"
 
-# ssh-keygen -R gitlab.com
+if [[ ! -f ${filename} ]]; then
+    echo -e "\nGenerating an ${type}-${bits} bit key for \"${identity}\"";
 
-# ssh-add -K ${key}
+    # read -s -p "Enter your passphrase: " ${passphrase}
+    # echo "Is your password really ${passphrase}? "
 
-# echo ${key};
+    ssh-keygen \
+      -q \
+      -b ${bits} \
+      -t ${type} \
+      -N ${passphrase} \
+      -C ${identity} \
+      -f ${filename}
 
-# ssh -i ${key} -T git@gitlab.com
+    chmod 400 ${filename};
+fi
 
-# ssh-keygen -F gitlab.com;
-
-# ssh-add -K ${key}
-# ssh ${identity}@${remote_host}:22
-
-
-# ssh git@gitlab.com;
+# echo "Identity: ${identity}"
 #
+#die(){
+#  echo "$1" 2>&1
+#}
 
-ssh -vT git@github.com
+#if [[ -f ${key_public} ]]; then
+##  echo -e "${key_public}"
+#  # die "File not found";
+#fi
 
-# ssh-keygen -R [example.com]:222
+echo -e "\tPublic key: ${key_public}"
 
-# ssh -T ${username}@github.com
+
+# echo "Private key: ${key_private}"
+
+# pbcopy < ${key_public};
+# ssh-keyscan -H 192.168.1.162 >> ~/.ssh/known_hosts
+
+#ssh-add -A;
+#ssh-add -L;
+
+#ssh-add -L -f ${filename}
+# echo -e "-----"
+# ssh -T git@github.com
+
+echo "Finished.."
+exit 0;

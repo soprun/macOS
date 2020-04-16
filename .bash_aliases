@@ -38,8 +38,18 @@ alias su='sudo -i'
 # alias git-pull="git pull origin --verify-signatures"
 
 # show all files in finder
-#alias fshow='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder;'
-#alias fhide='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder;'
+
+
+# AppleScript
+
+function restartFinder() {
+  osascript -e 'quit app "Finder"';
+  # killall Finder;
+  echo 'Finder was restarted!';
+}
+
+alias finderShowHidden='defaults write com.apple.finder AppleShowAllFiles -bool true; restartFinder'
+alias finderHideHidden='defaults write com.apple.finder AppleShowAllFiles -bool false; restartFinder'
 
 # security gpg
 # export GPG_KEY_ID="C5DC44C2"
