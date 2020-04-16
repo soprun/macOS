@@ -10,15 +10,21 @@
 # echo ${GPG_KEY_ID}
 export GPG_KEY_ID="C5DC44C2"
 export GPG_KEY_FINGERPRINT="B7502F96C5DC44C2"
-export GPG_KEY_FORMAT="B7502F96C5DC44C2"
+export GPG_KEY_FORMAT="short" # short, 0xshort or long, 0xlong
+
+# alias gpg="gpg --keyid-format ${GPG_KEY_FORMAT}"
+
+# gpg --fingerprint "develop@soprun.com"
+# gpg --edit-key ${GPG_KEY_ID}
+
 
 # git config --local gpg.x509.program smimesign
 # git config --local gpg.format x509
 
 # git config --global gpg.program smimesign
-git config --global gpg.program gpg
-git config --global commit.gpgsign true
-git config --global user.signingkey ${GPG_KEY_FINGERPRINT}
+# git config --global gpg.program gpg2
+# git config --global commit.gpgsign false
+# git config --global user.signingkey ${GPG_KEY_FINGERPRINT}
 
 # gpg --recv-keys
 
@@ -38,4 +44,5 @@ git config --global user.signingkey ${GPG_KEY_FINGERPRINT}
 # --------------------------------------------------
 
 # Creates a signed commit
-git commit -S -m your commit message
+# git commit -m "initial commit message..."
+# git commit -S -m "signed commit message..."
