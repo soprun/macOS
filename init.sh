@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
 
-bash_profile="$HOME/.bash_profile";
-bash_profile_src="$PWD/.bash_profile";
-
-# ln -sf ${bash_profile_src} ${bash_profile}
-
-cat ${bash_profile}
-exit;
-
-# touch .bash_profile
-# echo "${key} does not exist!"
-
-bash_aliases="$HOME/.bash_aliases";
-bash_aliases_src="$PWD/.bash_aliases";
-
-ln -sf ${bash_aliases_src} ${bash_aliases}
-
+ln -sf "$PWD/.bash_profile" "$HOME/.bash_profile"
+ln -sf "$PWD/.bash_aliases" "$HOME/.bash_aliases"
 ln -sf "$PWD/git.conf" "$HOME/.gitconfig"
-ln -sf "$PWD/ssh/config.conf" "$HOME/.ssh/config"
-ln -sf "$PWD/ssh/options.conf" "$HOME/.ssh/options"
+
+ssh_config_target="$HOME/.ssh/config"
+ssh_config_source="$PWD/ssh/config.conf"
+ssh_options_target="$HOME/.ssh/options"
+ssh_options_source="$PWD/ssh/options.conf"
+
+ln -sf ${ssh_config_source} ${ssh_config_target}
+ln -sf ${ssh_options_source} ${ssh_options_target}
+chmod 600 ${ssh_config_target}
+chmod 600 ${ssh_options_target}
