@@ -8,7 +8,7 @@ mkdir -p "${HOME}/.ssh"
 chmod 0700 "${HOME}/.ssh"
 
 id="develop@soprun.com"
-filename="${HOME}/.ssh/${id}"
+filename="${HOME}/.ssh/id_rsa"
 
 if [[ ! -f ${filename} ]]; then
   echo "Generating key for \"${id}\"";
@@ -52,4 +52,5 @@ echo "GitHub: ssh -T git@github.com"
 
 # ssh-keygen -R github.com
 
-ssh -o StrictHostKeyChecking=no -T git@github.com
+# ssh -o StrictHostKeyChecking=no -T git@github.com
+ssh -T git@github.com
