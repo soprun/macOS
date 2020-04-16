@@ -1,5 +1,9 @@
-if [[ -e $HOME/.bash_aliases ]]; then
-  source "${HOME}/.bash_aliases"
+
+# var
+bash_aliases_file="${HOME}/.bash_aliases"
+
+if [[ -e ${bash_aliases_file} ]]; then
+  source ${bash_aliases_file};
 fi
 
 
