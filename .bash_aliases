@@ -22,9 +22,6 @@ alias ll='ls -la'
 
 
 
-# Alias copy uuid
-alias copy-uuid="uuidgen | awk '{print tolower(\$0)}' | pbcopy; pbpaste;"
-
 
 
 
@@ -55,9 +52,6 @@ alias finderHideHidden='defaults write com.apple.finder AppleShowAllFiles -bool 
 # export GPG_KEY_ID="C5DC44C2"
 # export GPG_KEY_EMAIL="develop@soprun.com"
 
-# alias copy-gpg="gpg --armor --export ${GPG_KEY_EMAIL} | pbcopy"
-# alias copy-ssh='pbcopy < ~/.ssh/id_rsa'
-
 # SSH authentication
 # killall gpg-agent > /dev/null 2>&1
 # killall ssh-agent > /dev/null 2>&1
@@ -67,3 +61,8 @@ alias finderHideHidden='defaults write com.apple.finder AppleShowAllFiles -bool 
 
 # note: eval is used because the produced STDOUT is a bunch of ENV settings
 # eval $(gpg-agent --daemon --enable-ssh-support --options ~/.gnupg/gpg-agent.conf)
+
+# Alias copy
+# alias copy-uuid="uuidgen | awk '{print tolower(\$0)}' | pbcopy; pbpaste;"
+# alias copy-gpg="gpg --armor --export ${GPG_KEY_EMAIL} | pbcopy"
+alias copy-ssh="pbcopy < ${SSH_KEY_PUBLIC}";

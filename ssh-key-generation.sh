@@ -2,16 +2,21 @@
 
 set -e
 
+echo ${SSH_KEY};
+
+exit;
+
+echo "Environment variables are not set."
+
+[[ -z ${SSH_KEY} ]] && echo "Empty"; exit 1;
+
 # rm -rf "${HOME}/.ssh/k"
 # if not existing, first create folder
 mkdir -p "${HOME}/.ssh"
 chmod 0700 "${HOME}/.ssh"
 
-id="develop@soprun.com"
-filename="${HOME}/.ssh/id_rsa"
-
-if [[ ! -f ${filename} ]]; then
-  echo "Generating key for \"${id}\"";
+if [[ ! -f ${SSH_KEY} ]]; then
+  echo "Generating key for \"${SSH_KEY_EMAIL}\"";
 
   # Generate Keypair - Enter and password
   ssh-keygen \
@@ -19,32 +24,31 @@ if [[ ! -f ${filename} ]]; then
     -b 4096 \
     -t "rsa" \
     -N "" \
-    -C ${id} \
-    -f ${filename}
+    -C ${SSH_KEY_EMAIL} \
+    -f ${SSH_KEY}
 
-  chmod 600 ${filename};
+  chmod 600 ${SSH_KEY};
 fi
 
 echo "Starting the ssh-agent in the background"
-
 pkill ssh-agent
 eval "$(ssh-agent -s)" > /dev/null
 
 echo "Adding your SSH key to the ssh-agent"
-ssh-add "${filename}"
-# ssh-add -L > /dev/null
-# ssh-add -LAK > /dev/null
+ssh-add "${SSH_KEY}"
+ssh-add -l
+ssh-keygen -l -f "${SSH_KEY_PUBLIC}"
 
 echo "Copy the public SSH key content to your clipboard"
-pbcopy < "${filename}.pub"
+pbcopy < "${SSH_KEY_PUBLIC}"
 
 echo "-----------"
-cat "${filename}.pub"
+cat "${SSH_KEY_PUBLIC}"
 echo "-----------"
 
-echo "Hi, ${id} 👀"
+echo "Hi, ${SSH_KEY_EMAIL} 👀"
 echo "You've successfully generate key."
-echo "Public key: ${filename}.pub"
+echo "Public key: ${SSH_KEY_PUBLIC}"
 
 echo ""
 echo "Test your connection:"
