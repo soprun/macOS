@@ -2,32 +2,20 @@
 alias ..='cd ..'
 alias ...='cd ../../'
 
-alias c='clear'
-
 ## Colorize the ls output ##
 alias ls='ls -G'
 ## Use a long listing format ##
-alias ll='ls -la'
+alias ll='ls -laG'
 ## Show hidden files ##
 # alias l.='ls -d .*'
+
+alias c='clear'
 
 ##########
 
 
 
-# get web server headers #
-# alias header='curl -I'
-# find out if remote server supports gzip / mod_deflate or not #
-# alias headerc='curl -I --compress'
 
-
-
-
-
-
-# become root #
-alias root='sudo -i'
-alias su='sudo -i'
 
 
 # git
