@@ -27,7 +27,8 @@ if [[ ! -f ${SSH_KEY} ]]; then
     -C ${SSH_KEY_EMAIL} \
     -f ${SSH_KEY}
 
-  chmod 600 ${SSH_KEY};
+  chmod 600 ${SSH_KEY}
+  chmod 600 ${SSH_KEY_PUBLIC}
 fi
 
 echo "Starting the ssh-agent in the background"

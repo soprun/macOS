@@ -1,3 +1,9 @@
+# pkill ssh-agent; pkill gpg-agent;
+if [[ -z ${SSH_AUTH_SOCK} ]]; then
+  # GPG agent restarted!
+  eval $(gpg-agent --daemon --enable-ssh-support --verbose)
+fi
+
 # Default variables: identity, security, gpg
 id_email="develop@soprun.com"
 # id_email_public="mail@soprun.com"
@@ -32,8 +38,13 @@ alias ...='cd ../../'
 alias ls='ls -G'
 alias ll='ls -laG'
 
-# pkill ssh-agent; pkill gpg-agent;
-if [[ -z ${SSH_AUTH_SOCK} ]]; then
-  # GPG agent restarted!
-  eval $(gpg-agent --daemon --enable-ssh-support --verbose)
-fi
+alias issh="ssh -t develop@34.89.252.154"
+
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+#alias ll='ls -l'
+#alias la='ls -A'
+#alias l='ls -CF'
