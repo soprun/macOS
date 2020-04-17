@@ -18,7 +18,8 @@ export GPG_KEY_FORMAT="short" # short, 0xshort or long, 0xlong
 export GPG_TTY=$(tty)
 
 # alias gpg="gpg2 --keyserver ${GPG_KEY_SERVER} --keyid-format ${GPG_KEY_FORMAT}"
-alias gpg="gpg2 --keyid-format ${GPG_KEY_FORMAT}"
+# alias gpg="gpg2 --keyid-format ${GPG_KEY_FORMAT}"
+alias gpg="gpg2"
 
 # Alias copy
 alias copy-ssh="pbcopy < ${SSH_KEY_PUBLIC};"
@@ -34,7 +35,5 @@ alias ll='ls -laG'
 # pkill ssh-agent; pkill gpg-agent;
 if [[ -z ${SSH_AUTH_SOCK} ]]; then
   # GPG agent restarted!
-  # eval $(gpg-agent --daemon --enable-ssh-support --verbose)
+  eval $(gpg-agent --daemon --enable-ssh-support --verbose)
 fi
-
-# eval $(gpg-agent --daemon --enable-ssh-support --verbose)
