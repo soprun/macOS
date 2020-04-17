@@ -35,4 +35,11 @@ fi
 ########################### END!
 # pkill ssh-agent; pkill gpg-agent;
 
-alias issh="ssh -t develop@34.89.252.154"
+instance_ip=""
+
+alias issh="ssh -t develop@soprun.com"
+alias bssh="issh 'sudo su - bitnami'"
+
+# ssh -N -L SOURCE-PORT:127.0.0.1:DESTINATION-PORT -i KEYFILE bitnami@34.89.236.1
+# ssh -N -L 8888:127.0.0.1:80 -i ${SSH_KEY_ID} develop@34.89.252.154
+
