@@ -19,14 +19,14 @@ if [[ ! -z ${SSH_AGENT_PID:-} ]]; then
 fi
 
 # GNU Privacy Guard
-export GPG_KEY_ID="C5DC44C2"
-export GPG_KEY_ID_LONG="B7502F96C5DC44C2"
+export GPG_KEY_ID="B7502F96C5DC44C2"
 export GPG_KEY_EMAIL="mail@soprun.com"
 export GPG_KEY_FORMAT="short" # short, 0xshort or long, 0xlong
 export GPG_KEY_SERVER="hkps://keys.openpgp.org"
 export GPG_TTY=$(tty)
 
-# alias gpg="gpg --keyid-format ${GPG_KEY_FORMAT}"
+# alias gpg="gpg2 --keyserver pgp.mit.edu --keyid-format ${GPG_KEY_FORMAT}"
+alias gpg="gpg2 --keyid-format ${GPG_KEY_FORMAT}"
 
 # pkill ssh-agent;
 # pkill gpg-agent;
@@ -59,9 +59,9 @@ alias ls='ls -G'
 alias ll='ls -laG'
 
 # get web server headers #
-alias header='curl -I'
+# alias header='curl -I'
 # find out if remote server supports gzip / mod_deflate or not #
-alias headerc='curl -I --compress'
+# alias headerc='curl -I --compress'
 
 # become root #
 # alias root='sudo -i'

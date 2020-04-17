@@ -67,3 +67,13 @@ gpg --export ${GPG_KEY_ID} | curl -T - https://keys.openpgp.org
 
 
 gpg --auto-key-locate --keyserver hkps://keys.openpgp.org --locate-keys ${GPG_KEY_ID}
+
+
+gpg --keyserver pgp.mit.edu --send-keys ${GPG_KEY_ID}
+gpg --keyserver keys.openpgp.org --send-keys ${GPG_KEY_ID}
+
+gpg --list-sigs ${GPG_KEY_EMAIL}
+gpg --check-sigs ${GPG_KEY_EMAIL}
+
+gpg --keyserver pgp.mit.edu --refresh-keys
+gpg --keyserver keys.openpgp.org --refresh-keys
