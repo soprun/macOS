@@ -6,26 +6,30 @@ export ID_EMAIL="develop@soprun.com"
 export ID_NAME="Vladislav Soprun"
 
 # SSH authentication
-export SSH_KEY_ID="id_rsa"
-export SSH_KEY_EMAIL=${ID_EMAIL}
-export SSH_KEY="${HOME}/.ssh/${SSH_KEY_ID}"
+export SSH_KEY_ID="${ID_EMAIL}"
+export SSH_KEY_FILENAME="id_rsa"
+export SSH_KEY="${HOME}/.ssh/${SSH_KEY_FILENAME}"
 export SSH_KEY_PUBLIC="${SSH_KEY}.pub"
 
 # GNU Privacy Guard
+export GPG_TTY=$(tty)
 export GPG_KEY_ID="B7502F96C5DC44C2"
 export GPG_KEY_EMAIL="mail@soprun.com"
 # export GPG_KEY_FINGERPRINT=""
 # export GPG_KEY_FORMAT="short" # short, 0xshort or long, 0xlong
 # export GPG_KEY_SERVER="keys.openpgp.org" # pgp.mit.edu | keys.openpgp.org
-export GPG_TTY=$(tty)
 
-# alias gpg="gpg2 --keyserver ${GPG_KEY_SERVER} --keyid-format ${GPG_KEY_FORMAT}"
-# alias gpg="gpg2 --keyid-format ${GPG_KEY_FORMAT}"
-alias gpg="gpg2"
+# GPG agent start!
+if [[ -z ${SSH_AUTH_SOCK} ]]; then
+  eval "$(gpg-agent --daemon --enable-ssh-support -s)"
+fi
 
 # Alias definitions
 if [[ -f ~/.bash_aliases ]]; then
   . ~/.bash_aliases
 fi
+
+########################### END!
+# pkill ssh-agent; pkill gpg-agent;
 
 alias issh="ssh -t develop@34.89.252.154"

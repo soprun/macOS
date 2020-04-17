@@ -28,7 +28,7 @@ if [[ ! -f ${SSH_KEY} ]]; then
     -f ${SSH_KEY}
 
   chmod 600 ${SSH_KEY}
-  chmod 600 ${SSH_KEY_PUBLIC}
+  chmod 400 ${SSH_KEY_PUBLIC}
 fi
 
 echo "Starting the ssh-agent in the background"
@@ -36,8 +36,9 @@ pkill ssh-agent
 eval "$(ssh-agent -s)" > /dev/null
 
 echo "Adding your SSH key to the ssh-agent"
-ssh-add "${SSH_KEY}"
-ssh-add -l
+# ssh-add "${SSH_KEY}"
+# ssh-add -l
+ssh-add -K ${SSH_KEY}
 ssh-keygen -l -f "${SSH_KEY_PUBLIC}"
 
 echo "Copy the public SSH key content to your clipboard"
