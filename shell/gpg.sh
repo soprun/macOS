@@ -7,12 +7,7 @@
 
 # PASSPHRASE
 
-# echo ${GPG_KEY_ID}
-export GPG_KEY_ID="C5DC44C2"
-export GPG_KEY_FINGERPRINT="B7502F96C5DC44C2"
-export GPG_KEY_FORMAT="short" # short, 0xshort or long, 0xlong
-
-# alias gpg="gpg --keyid-format ${GPG_KEY_FORMAT}"
+#gpg -k
 
 # gpg --fingerprint "develop@soprun.com"
 # gpg --edit-key ${GPG_KEY_ID}
