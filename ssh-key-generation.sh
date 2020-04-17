@@ -3,12 +3,11 @@
 
 # rm -rf "${HOME}/.ssh/k"
 # if not existing, first create folder
-mkdir -p $HOME/.ssh
-chmod 0700 $HOME/.ssh
+mkdir -p "$HOME/.ssh"
+chmod 0700 "$HOME/.ssh"
 
 echo "Generating a new SSH key"
-
-echo ${SSH_KEY};
+echo $SSH_KEY
 exit;
 
 echo "Environment variables are not set."
@@ -31,6 +30,7 @@ if [[ ! -f ${SSH_KEY} ]]; then
   chmod 400 ${SSH_KEY_PUBLIC}
 fi
 
+
 echo "Starting the ssh-agent in the background"
 pkill ssh-agent
 eval "$(ssh-agent -s)" > /dev/null
@@ -40,6 +40,8 @@ echo "Adding your SSH key to the ssh-agent"
 # ssh-add -l
 ssh-add -K ${SSH_KEY}
 ssh-keygen -l -f "${SSH_KEY_PUBLIC}"
+
+# TODO: add ssh-keysign
 
 echo "Copy the public SSH key content to your clipboard"
 pbcopy < "${SSH_KEY_PUBLIC}"

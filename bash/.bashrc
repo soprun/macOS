@@ -2,14 +2,17 @@
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # Default variables and identity
-export ID_EMAIL="develop@soprun.com"
+export ID_USER="develop"
 export ID_NAME="Vladislav Soprun"
+export ID_EMAIL="develop@soprun.com"
 
-# SSH authentication
+# Default SSH authentication
+export SSH_KEY_ID="${HOME}/.ssh/id_rsa"
+
 # declare -r ssh_key_default_id="develop"
-export SSH_KEY_ID="develop"
-export SSH_KEY="${HOME}/.ssh/id_rsa"
-export SSH_KEY_PUBLIC="${SSH_KEY}.pub"
+# export SSH_KEY_NAME="id_rsa"
+# export SSH_KEY_EMAIL="${ID_USER}"
+# export SSH_KEY_PUBLIC="${SSH_KEY}.pub"
 
 # GNU Privacy Guard
 export GPG_TTY=$(tty)
