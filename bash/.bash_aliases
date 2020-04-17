@@ -12,7 +12,7 @@ alias gpg="gpg2"
 # alias gpg="gpg --keyid-format ${GPG_KEY_FORMAT}"
 
 # alias copy
-alias copy-ssh="pbcopy < ${SSH_KEY_PUBLIC}"
+alias copy-ssh="pbcopy < ${SSH_KEY_DEFAULT}.pub"
 alias copy-gpg="gpg --armor --export ${GPG_KEY_ID} | pbcopy;"
 alias copy-ip="curl http://ipecho.net/plain | pbcopy;"
 

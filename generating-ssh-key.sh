@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
-# set -e
 
-# rm -rf "${HOME}/.ssh/k"
-# if not existing, first create folder
-mkdir -p $HOME/.ssh
-chmod 0700 $HOME/.ssh
 
-echo "Generating a new SSH key"
+Generating a new SSH key
+
+set -e
 
 echo ${SSH_KEY};
 exit;
@@ -14,6 +11,11 @@ exit;
 echo "Environment variables are not set."
 
 [[ -z ${SSH_KEY} ]] && echo "Empty"; exit 1;
+
+# rm -rf "${HOME}/.ssh/k"
+# if not existing, first create folder
+mkdir -p "${HOME}/.ssh"
+chmod 0700 "${HOME}/.ssh"
 
 if [[ ! -f ${SSH_KEY} ]]; then
   echo "Generating key for \"${SSH_KEY_EMAIL}\"";
