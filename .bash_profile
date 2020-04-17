@@ -36,3 +36,5 @@ if [[ -z ${SSH_AUTH_SOCK} ]]; then
   # GPG agent restarted!
   # eval $(gpg-agent --daemon --enable-ssh-support --verbose)
 fi
+
+# eval $(gpg-agent --daemon --enable-ssh-support --verbose)
