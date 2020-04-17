@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-# keyserver hkps://keys.openpgp.org
+#keyserver keys.openpgp.org
+#default-key C5DC44C2
+#keyid-format short
 
 # gpg --list-keys --quiet
 # keyid-format 0xlong
@@ -72,6 +74,7 @@ gpg --auto-key-locate --keyserver hkps://keys.openpgp.org --locate-keys ${GPG_KE
 gpg --keyserver pgp.mit.edu --send-keys ${GPG_KEY_ID}
 gpg --keyserver keys.openpgp.org --send-keys ${GPG_KEY_ID}
 
+gpg --list-keys ${GPG_KEY_EMAIL}
 gpg --list-sigs ${GPG_KEY_EMAIL}
 gpg --check-sigs ${GPG_KEY_EMAIL}
 
