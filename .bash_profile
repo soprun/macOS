@@ -34,5 +34,5 @@ alias ll='ls -laG'
 # pkill ssh-agent; pkill gpg-agent;
 if [[ -z ${SSH_AUTH_SOCK} ]]; then
   # GPG agent restarted!
-  eval $(gpg-agent --daemon --enable-ssh-support --verbose)
+  # eval $(gpg-agent --daemon --enable-ssh-support --verbose)
 fi
