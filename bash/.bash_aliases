@@ -16,3 +16,7 @@ alias copy-ssh="pbcopy < ${SSH_KEY_ID}.pub"
 alias copy-gpg="gpg --armor --export ${GPG_KEY_ID} | pbcopy;"
 alias copy-ip="curl http://ipecho.net/plain | pbcopy;"
 
+# get web server headers #
+# alias header='curl -I'
+# find out if remote server supports gzip / mod_deflate or not #
+# alias headerc='curl -I --compress'
