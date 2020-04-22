@@ -7,7 +7,7 @@ alias ..='cd ..'
 alias ...='cd ../../'
 
 # GNU Privacy Guard
-alias gpg="gpg2"
+# alias gpg="gpg2"
 # alias gpg="gpg --keyserver ${GPG_KEY_SERVER} --keyid-format ${GPG_KEY_FORMAT}"
 # alias gpg="gpg --keyid-format ${GPG_KEY_FORMAT}"
 alias gibson="gpg --encrypt --sign --armor"

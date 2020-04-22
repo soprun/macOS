@@ -79,4 +79,6 @@ gpg --list-sigs ${GPG_KEY_EMAIL}
 gpg --check-sigs ${GPG_KEY_EMAIL}
 
 gpg --keyserver pgp.mit.edu --refresh-keys
-gpg --keyserver keys.openpgp.org --refresh-keys
+gpg --keyserver hkps://keys.openpgp.org --refresh-keys
+
+# gpg-connect-agent --dirmngr 'keyserver --hosttable'

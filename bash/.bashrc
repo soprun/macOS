@@ -20,12 +20,23 @@ export GPG_KEY_ID="B7502F96C5DC44C2"
 # export GPG_KEY_EMAIL="mail@soprun.com"
 # export GPG_KEY_FINGERPRINT=""
 # export GPG_KEY_FORMAT="short" # short, 0xshort or long, 0xlong
-# export GPG_KEY_SERVER="keys.openpgp.org" # pgp.mit.edu | keys.openpgp.org
 
-# GPG agent start!
-if [[ -z ${SSH_AUTH_SOCK} ]]; then
-  eval "$(gpg-agent --daemon --enable-ssh-support -s)"
+# pgp.mit.edu | keys.openpgp.org | hkps://hkps.pool.sks-keyservers.net
+# ipv4.pool.sks-keyservers.net
+# pgp.mit.edu
+# keyserver.pgp.com
+# keys.openpgp.org
+# export GPG_KEY_SERVER="keys.openpgp.org"
+
+## SSH-agent running!
+# pkill ssh-agent;
+if [[ -z ${SSH_AGENT_PID} ]]; then
+  eval `ssh-agent -s` /usr/bin/tty > /dev/null
 fi
+
+## GPG-agent running!
+# pkill gpg-agent;
+gpg-agent --daemon --enable-ssh-support --sh --options ~/.gnupg/gpg-agent.conf &>/dev/null
 
 # Alias definitions
 if [[ -f ~/.bash_aliases ]]; then
@@ -34,21 +45,3 @@ fi
 
 ########################### END!
 # pkill ssh-agent; pkill gpg-agent;
-
-instance_ip=""
-
-alias issh="ssh -t develop@soprun.com"
-alias bssh="issh 'sudo su - bitnami'"
-# cloud_key="~/SecurityKey/bitnami-google-publication-274603.pem"
-
-function ssh-cloud() {
-  ( ssh -t -i ${SSH_KEY_ID} "${ID_USER}@35.198.124.128" "sudo su - bitnami" $* )
-}
-
-# ssh -N -L SOURCE-PORT:127.0.0.1:DESTINATION-PORT -i KEYFILE bitnami@34.89.236.1
-# ssh -N -L 8888:127.0.0.1:80 -i ${SSH_KEY_ID} develop@34.89.252.154
-
-# ~/SecurityKey/bitnami-google-publication-274603
-# ssh -i ~/SecurityKey/bitnami-google-publication-274603.pem bitnami@35.198.124.128
-# /SecurityKey/bitnami-google-publication-274603.pem
-# spRxvtA7ZXyX
