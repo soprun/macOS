@@ -27,3 +27,6 @@ fi
 #
 #Emacs Lisp files have been installed to:
 #  /usr/local/share/emacs/site-lisp/git
+
+
+commit...
