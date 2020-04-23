@@ -9,8 +9,5 @@ alias cd..="cd .."
 alias edit="${EDITOR}"
 
 # Creates a signed commit
-# alias git-scommit="git commit -S -m 'signed commit message...'"
-# alias git-scommit="git commit -S -m 'signed commit message...'"
-
 alias git-commit="git commit -a -m 'commit message...'"
 alias git-signing-commit="git commit -a -S -m 'signed commit message...'"
