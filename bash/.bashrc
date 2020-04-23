@@ -2,7 +2,7 @@
 
 # environment variables
 export PS1="\[$(tput bold)\]\[$(tput setaf 2)\][\u:\w]\\$ \[$(tput sgr0)\]"
-export EDITOR="open -enW" # open -enW | atom --wait
+# export EDITOR="open -enW" # open -enW | atom --wait
 
 # alias definitions
 if [[ -r ~/.bash_aliases ]]; then

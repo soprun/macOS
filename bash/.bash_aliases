@@ -6,7 +6,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias cd..="cd .."
 
-alias edit="${EDITOR}"
+alias edit="atom --wait"
 
 # Creates a signed commit
 alias git-commit='git commit -a -S -m "commit message..."'
