@@ -18,3 +18,26 @@ export ID_SSH_KEY="${HOME}/.ssh/${ID_EMAIL}"
 
 # GNU Privacy Guard
 # SSH authentication
+
+function commit-changelog() {
+  local changelog_file="CHANGELOG.md"
+  local version="$1"
+  local modifiedFiles="$(git ls-files -m)"
+
+  if [[ ! -r ${changelog_file} ]]; then
+    touch ${changelog_file}
+  fi
+
+  git add CHANGELOG.md ${modifiedFiles}
+  git commit -am "Updating CHANGELOG.md for ${version} release"
+
+  # commit-changelog.
+  # alias
+  # git ls-files -m
+
+  git add CHANGELOG.md
+
+
+  echo ${version};
+  echo ${modifiedFiles};
+}
