@@ -7,7 +7,7 @@ alias ...="cd ../.."
 alias cd..="cd .."
 
 alias edit="atom --wait"
-# alias editor="viv"
+# alias editor="vim"
 
 # Creates a signed commit
 alias git-commit='git commit -a -S -m "commit message..."'
@@ -27,3 +27,10 @@ alias git-pull="git pull origin --verify-signatures"
 # alias fhide='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder'
 alias finderShowHidden='defaults write com.apple.finder AppleShowAllFiles -bool true;killall Finder;'
 alias finderHideHidden='defaults write com.apple.finder AppleShowAllFiles -bool false;killall Finder'
+
+# alias copy
+alias copy-ssh="pbcopy < ${ID_SSH_KEY}.pub"
+alias copy-ssh-git="pbcopy < ${ID_GIT_SSH_KEY}.pub"
+alias copy-gpg="gpg --armor --export ${GPG_KEY_ID} | pbcopy"
+alias copy-ip="curl http://ipecho.net/plain | pbcopy"
+alias copy-uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy && pbpaste && echo"
