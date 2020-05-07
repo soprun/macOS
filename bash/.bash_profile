@@ -25,3 +25,22 @@ fi
 # export PATH="/usr/local/opt/python@3.8/bin:$PATH"
 # export PATH="/usr/local/opt/icu4c/bin:$PATH"
 # export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+export PATH="/usr/local/opt/go@1.13/bin:$PATH"
+
+function get-url() {
+  ( curl -LS --ssl-reqd --url $* )
+}
+
+function get-url-head() {
+  ( get-url $* --head )
+}
+
+function gpg-url-import() {
+  ( curl -sSL --ssl-reqd --url $* | gpg --import -)
+}
+
+# -I, --head - Show document info only
+# -L, --location - Follow redirects (H)
+# -S, --show-error - Show error.
+# curl -ILS --ssl-reqd --url 'https://soprun.com'
+# curl -ILS 'https://keys.openpgp.org/vks/v1/by-fingerprint/8120213055C84C2C3324FB08B7502F96C5DC44C2'
