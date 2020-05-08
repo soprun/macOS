@@ -44,3 +44,9 @@ function gpg-url-import() {
 # -S, --show-error - Show error.
 # curl -ILS --ssl-reqd --url 'https://soprun.com'
 # curl -ILS 'https://keys.openpgp.org/vks/v1/by-fingerprint/8120213055C84C2C3324FB08B7502F96C5DC44C2'
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/soprun/google-cloud-sdk/path.bash.inc' ]; then . '/Users/soprun/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/soprun/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/soprun/google-cloud-sdk/completion.bash.inc'; fi
