@@ -34,3 +34,7 @@ alias copy-ssh-git="pbcopy < ${ID_GIT_SSH_KEY}.pub"
 alias copy-gpg="gpg --armor --export ${GPG_KEY_ID} | pbcopy"
 alias copy-ip="curl http://ipecho.net/plain | pbcopy"
 alias copy-uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy && pbpaste && echo"
+
+# GNU Privacy Guard
+alias gibson="gpg2 --encrypt --sign --armor"
+alias ungibson="gpg2 --decrypt"
