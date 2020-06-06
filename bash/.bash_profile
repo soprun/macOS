@@ -16,6 +16,9 @@ if [[ -d "$HOME/bin" ]] ; then
   PATH="$HOME/bin:$PATH"
 fi
 
+export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/bin/kubectl:$PATH"
+
 # Use bash-completion, if available
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && \
   . "/usr/local/etc/profile.d/bash_completion.sh"
@@ -50,3 +53,5 @@ if [ -f '/Users/soprun/google-cloud-sdk/path.bash.inc' ]; then . '/Users/soprun/
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/soprun/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/soprun/google-cloud-sdk/completion.bash.inc'; fi
+
+eval $(docker-machine env)
