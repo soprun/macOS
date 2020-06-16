@@ -13,4 +13,16 @@
 1. Check the existing GPG key for `ID_EMAIL`.
 1. Check the existing SSH key for `ID_EMAIL` or create.
 
-## Alias
+# Configure identity
+
+# Configure .bash_aliases
+
+# Configure .bash_profile
+
+# Configure security GPG
+
+# Configure security SSH
+
+# Configure security GIT
+
+# Configure Docker .bash_aliases
