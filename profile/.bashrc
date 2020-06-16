@@ -22,10 +22,7 @@ export ID_EMAIL="develop@soprun.com"
 export ID_TO_HASH="$(email_to_hash ${ID_EMAIL})"
 
 export ID_GPG_KEY="0x8120213055C84C2C3324FB08B7502F96C5DC44C2"
-# readonly ID_GPG_KEY_SHORT="B7502F96C5DC44C2"
-
 export ID_SSH_KEY="${HOME}/.ssh/${ID_TO_HASH}"
-# readonly ID_SSH_KEY_PUBLIC="${HOME}/.ssh/${ID_TO_HASH}.pub"
 
 alias copy-ip="curl http://ipecho.net/plain | pbcopy"
 alias copy-uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy"
@@ -50,3 +47,29 @@ function gpg-url-import() {
 
 # curl -ILS --ssl-reqd --url 'https://soprun.com'
 # curl -ILS 'https://keys.openpgp.org/vks/v1/by-fingerprint/8120213055C84C2C3324FB08B7502F96C5DC44C2'
+
+# pkill ssh-agent;
+# pkill gpg-agent;
+
+# SSH-agent running!
+if [[ -z ${SSH_AGENT_PID} ]]; then
+  eval `ssh-agent -s` /usr/bin/tty > /dev/null
+fi
+
+# GNU Privacy Guard
+export GPG_TTY=$(tty)
+export GPG_KEY_FORMAT="0xlong" # short, 0xshort or long, 0xlong
+
+if [[ -z ${SSH_AUTH_SOCK} ]]; then
+  # GPG agent restarted!
+  eval $(gpg-agent --daemon --enable-ssh-support --sh --options ~/.gnupg/gpg-agent.conf) &>/dev/null
+fi
+
+
+
+
+# alias gibson="gpg2 --encrypt --sign --armor"
+# alias ungibson="gpg2 --decrypt"
+
+# gpg --fingerprint ${ID_GPG_KEY}
+# gpg --edit-key ${ID_GPG_KEY}

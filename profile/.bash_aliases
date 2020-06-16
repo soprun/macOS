@@ -23,6 +23,10 @@ alias cd..="cd .."
 # alias git-log="git log --show-signature -1"
 # alias git-pull="git pull origin --verify-signatures"
 
-# GNU Privacy Guard
-# alias gibson="gpg2 --encrypt --sign --armor"
-# alias ungibson="gpg2 --decrypt"
+# git config --local gpg.x509.program smimesign
+# git config --local gpg.format x509
+
+# git config --global gpg.program smimesign
+# git config --global gpg.program gpg2
+# git config --global commit.gpgsign false
+# git config --global user.signingkey ${GPG_KEY_FINGERPRINT}
