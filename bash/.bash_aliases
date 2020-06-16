@@ -40,7 +40,7 @@ function email_to_hash {
     echo -n $1 | tr '[A-Z]' '[a-z]' | md5
 }
 
-readonly email_hash=$(email_to_hash mail@soprun.com)
+readonly email_hash=$(email_to_hash ${ID_EMAIL})
 
 alias copy-gravatar="echo http://www.gravatar.com/avatar/${email_hash}?size=250 | pbcopy"
 

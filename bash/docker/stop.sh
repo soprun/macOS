@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo ""
+echo ">> Stopping docker"
+docker stop $(docker ps -a -q)
+echo ""
+echo "Cleaning the images"
+echo ""
+docker rm $(docker ps -a -q)
+echo ""
+echo "Cleaning complete.
+echo ""
