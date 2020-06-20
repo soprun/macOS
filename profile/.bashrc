@@ -65,11 +65,12 @@ if [[ -z ${SSH_AUTH_SOCK} ]]; then
   eval $(gpg-agent --daemon --enable-ssh-support --sh --options ~/.gnupg/gpg-agent.conf) &>/dev/null
 fi
 
-
-
-
 # alias gibson="gpg2 --encrypt --sign --armor"
 # alias ungibson="gpg2 --decrypt"
 
 # gpg --fingerprint ${ID_GPG_KEY}
 # gpg --edit-key ${ID_GPG_KEY}
+
+# настройка автодополнения в текущую сессию bash,
+# предварительно должен быть установлен пакет bash-completion .
+source <(kubectl completion bash)
