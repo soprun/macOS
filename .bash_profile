@@ -15,7 +15,22 @@ export PATH="$PATH:/usr/local/bin/"
 #   fi
 # fi
 
-# Docker
-# ------------------------------------------------------------
+# ---------------------------------------
+# SYSTEMS OPERATIONS & INFORMATION
+# ---------------------------------------
 
-# alias docker-build="docker-compose build"
+# cleanupDS: recursively delete .DS_Store files
+# -------------------------------------------------------------------
+alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
+
+
+# docker-compose up --build --detach
+# docker-compose up --build --detach --force-recreate --remove-orphans
+
+# docker-compose build --force-rm
+
+# Stop one or more running containers
+# docker stop $(docker ps -a -q)
+
+# Remove one or more containers
+# docker rm $(docker ps -a -q) --volumes

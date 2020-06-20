@@ -8,5 +8,11 @@
 # git config --global commit.gpgsign true
 # git config --global user.signingkey ${ID_GPG_KEY}
 
+
+# show all files in finder
+defaults write com.apple.finder AppleShowAllFiles -bool true;
+defaults write com.apple.finder ShowAllFiles -bool true;
+
+# killall Finder;
 # pkill ssh-agent;
 # pkill gpg-agent;
