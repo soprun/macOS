@@ -23,7 +23,6 @@ export PATH="$PATH:/usr/local/bin/"
 # -------------------------------------------------------------------
 alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 
-
 # docker-compose up --build --detach
 # docker-compose up --build --detach --force-recreate --remove-orphans
 
