@@ -19,6 +19,14 @@ chmod 700 ~/.ssh/config
 
 ./set-defaults.sh
 
+if [[ ! -f ${ID_SSH_KEY} ]]; then
+  echo "Generating key: ${ID_EMAIL_HASH}"
+
+  ssh-keygen -t rsa -b 4096 -N '' -f ${ID_SSH_KEY} -C ${ID_EMAIL}
+  chmod 400 ${ID_SSH_KEY}
+fi
+
+# gpg --fingerprint ${ID_GPG_KEY}
 
 # killall Finder;
 # pkill ssh-agent;
