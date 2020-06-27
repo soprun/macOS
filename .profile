@@ -65,10 +65,13 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 # docker-compose build --force-rm
 
 # Stop one or more running containers
-# docker stop $(docker ps -a -q)
+# docker stop $(docker ps --all --quiet)
 
 # Remove one or more containers
-# docker rm $(docker ps -a -q) --volumes
+# docker rm $(docker ps --all --quiet) --volumes
+
+# Remove one or more images
+# docker rmi $(docker images --all --quiet) --force
 
 # Creates a signed commit
 alias git-commit='git commit -a -S -m "commit message..."'
