@@ -30,3 +30,6 @@ alias cd..="cd .."
 # git config --global gpg.program gpg2
 # git config --global commit.gpgsign false
 # git config --global user.signingkey ${GPG_KEY_FINGERPRINT}
+
+
+# alias hosts=""

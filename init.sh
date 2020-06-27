@@ -10,8 +10,8 @@
 
 
 # show all files in finder
-defaults write com.apple.finder AppleShowAllFiles -bool true;
-defaults write com.apple.finder ShowAllFiles -bool true;
+# defaults write com.apple.finder AppleShowAllFiles -bool true;
+# defaults write com.apple.finder ShowAllFiles -bool true;
 
 # killall Finder;
 # pkill ssh-agent;
