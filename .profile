@@ -82,7 +82,7 @@ alias git-signing-commit='git commit -a -S -m "signed commit message..."'
 # git
 alias git-log="git log --show-signature -1"
 alias git-pull="git pull origin --verify-signatures"
-
+alias git-verify-master="git verify-commit master"
 
 ###############################################################################
 # Aliases: Docker
