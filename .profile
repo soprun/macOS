@@ -77,3 +77,6 @@ alias git-signing-commit='git commit -a -S -m "signed commit message..."'
 # git
 alias git-log="git log --show-signature -1"
 alias git-pull="git pull origin --verify-signatures"
+
+alias hosts="sudo vim /etc/hosts"
+
