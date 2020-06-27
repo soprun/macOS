@@ -28,6 +28,6 @@ fi
 
 # gpg --fingerprint ${ID_GPG_KEY}
 
-# killall Finder;
-# pkill ssh-agent;
-# pkill gpg-agent;
+killall Finder;
+pkill ssh-agent;
+pkill gpg-agent;
