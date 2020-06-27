@@ -30,20 +30,7 @@ alias copy-ssh="pbcopy < ${ID_SSH_KEY}.pub"
 alias copy-gpg="gpg --armor --export ${ID_GPG_KEY} | pbcopy"
 alias copy-gravatar="echo http://www.gravatar.com/avatar/${ID_TO_HASH}?size=250 | pbcopy;"
 
-# get-url https://soprun.com
-function get-url() {
-  ( curl -LS --ssl-reqd --url $* )
-}
 
-# get-url-head https://soprun.com
-function get-url-head() {
-  ( get-url $* --head )
-}
-
-# get-url-head https://keybase.io/soprun/pgp_keys.asc
-function gpg-url-import() {
-  ( curl -sSL --ssl-reqd --url $* | gpg --import -)
-}
 
 # curl -ILS --ssl-reqd --url 'https://soprun.com'
 # curl -ILS 'https://keys.openpgp.org/vks/v1/by-fingerprint/8120213055C84C2C3324FB08B7502F96C5DC44C2'

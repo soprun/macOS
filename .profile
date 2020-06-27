@@ -7,6 +7,21 @@ function email_to_hash {
     echo -n $1 | tr '[A-Z]' '[a-z]' | md5
 }
 
+# get-url https://soprun.com
+function get-url() {
+  ( curl -LS --ssl-reqd --url $* )
+}
+
+# get-url-head https://soprun.com
+function get-url-head() {
+  ( get-url $* --head )
+}
+
+# get-url-head https://keybase.io/soprun/pgp_keys.asc
+function gpg-url-import() {
+  ( curl -sSL --ssl-reqd --url $* | gpg --import -)
+}
+
 ###############################################################################
 # Configuration identity variables defaults...
 ###############################################################################
@@ -31,6 +46,7 @@ alias cd..="cd .."
 
 # alias edit="atom --wait"
 alias editor="vim"
+alias hosts="sudo vim /etc/hosts"
 
 # Creates a signed commit
 # alias git-commit='git commit -a -S -m "commit message..."'
@@ -59,20 +75,6 @@ alias editor="vim"
 # -------------------------------------------------------------------
 alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 
-# docker-compose up --build --detach
-# docker-compose up --build --detach --force-recreate --remove-orphans
-
-# docker-compose build --force-rm
-
-# Stop one or more running containers
-# docker stop $(docker ps --all --quiet)
-
-# Remove one or more containers
-# docker rm $(docker ps --all --quiet) --volumes
-
-# Remove one or more images
-# docker rmi $(docker images --all --quiet) --force
-
 # Creates a signed commit
 alias git-commit='git commit -a -S -m "commit message..."'
 alias git-signing-commit='git commit -a -S -m "signed commit message..."'
@@ -81,5 +83,48 @@ alias git-signing-commit='git commit -a -S -m "signed commit message..."'
 alias git-log="git log --show-signature -1"
 alias git-pull="git pull origin --verify-signatures"
 
-alias hosts="sudo vim /etc/hosts"
 
+###############################################################################
+# Aliases: Docker
+###############################################################################
+
+function docker-up() {
+  echo 'Building and start containers...'
+  docker-compose up --build --detach
+}
+
+function docker-up-force() {
+  echo 'Building and start containers...'
+  docker-compose up --build --detach --force-recreate --remove-orphans
+}
+
+function docker-build() {
+  echo 'Building now...'
+  docker-compose build --force-rm
+}
+
+function docker-down() {
+  echo 'Stopping docker...'
+
+  # Stop one or more running containers
+  docker stop $(docker ps --all --quiet)
+}
+
+function docker-remove() {
+  docker-down
+
+  # Remove one or more containers
+  docker rm $(docker ps --all --quiet) --volumes
+  # Remove one or more images
+  docker rmi $(docker images --all --quiet) --force
+}
+
+###############################################################################
+# Aliases: Copy
+###############################################################################
+
+alias copy-ip="curl http://ipecho.net/plain | pbcopy"
+alias copy-uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy"
+alias copy-ssh="pbcopy < ${ID_SSH_KEY}.pub"
+alias copy-gpg="gpg --armor --export ${ID_GPG_KEY} | pbcopy"
+alias copy-gravatar="echo http://www.gravatar.com/avatar/${ID_EMAIL_HASH}?size=250 | pbcopy;"
