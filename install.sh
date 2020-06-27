@@ -31,3 +31,5 @@ fi
 killall Finder;
 pkill ssh-agent;
 pkill gpg-agent;
+
+echo "You've successfully copy bash profiler."
