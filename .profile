@@ -1,6 +1,18 @@
 # Enable tracing
 set -e
+
 # https://natelandau.com/my-mac-osx-bash_profile/
+
+# set PATH so it includes user's private bin if it exists
+if [[ -d "${HOME}/bin" ]] ; then
+    export PATH="${HOME}/bin:${PATH}"
+fi
+
+export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
+
+###############################################################################
+# Configuration identity variables defaults...
+###############################################################################
 
 # https://en.gravatar.com/site/implement/hash/
 function email_to_hash {
