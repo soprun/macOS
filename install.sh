@@ -32,4 +32,17 @@ killall Finder;
 pkill ssh-agent;
 pkill gpg-agent;
 
+# @todo: add composer
+
 echo "You've successfully copy bash profiler."
+
+
+# @todo: add install php
+
+# export PATH="$(brew --prefix homebrew/php/php70)/bin:$PATH"
+# brew unlink php56
+# brew install php@7.4
+# brew services start php
+
+# Now we want to clean out the old configuration options for PHP:
+# $ rm -Rf /usr/local/etc/php/*

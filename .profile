@@ -10,6 +10,8 @@ fi
 
 export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
 
+export PHP_INI_PATH="/usr/local/etc/php/7.4/php.ini"
+
 ###############################################################################
 # Configuration identity variables defaults...
 ###############################################################################
