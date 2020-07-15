@@ -56,6 +56,14 @@ echo "You've successfully copy bash profiler."
 # Now we want to clean out the old configuration options for PHP:
 # $ rm -Rf /usr/local/etc/php/*
 
+# https://getgrav.org/blog/macos-catalina-apache-multiple-php-versions
+# curl -L https://gist.githubusercontent.com/rhukster/f4c04f1bf59e0b74e335ee5d186a98e2/raw > /usr/local/bin/sphp
+# chmod +x /usr/local/bin/sphp
+
+# pecl install memcached
+
+# ln -s /usr/local/opt/php /usr/local/opt/php@7.4
+# ln -s /usr/local/opt/php /usr/local/opt/php@7.2
 
 # sudo blackfire-agent --register --server-id=fbfea6d3-961e-492d-bbb1-8fd0d39d34de --server-token=ad2555dba8d54d06d620a874ab90fcf56431a55a19ea585ab4cf2c26fa2e8d76
 
@@ -63,3 +71,7 @@ echo "You've successfully copy bash profiler."
 # export BLACKFIRE_CLIENT_TOKEN=yyy
 # export BLACKFIRE_LOG_LEVEL=4
 # export BLACKFIRE_LOG_FILE=/tmp/probe.log
+
+
+
+COMPOSER_MEMORY_LIMIT=-1 

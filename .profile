@@ -10,7 +10,21 @@ fi
 
 export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
 
-export PHP_INI_PATH="/usr/local/etc/php/7.4/php.ini"
+# export PHP_INI_PATH="/usr/local/etc/php/7.4/php.ini"
+# export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+
+export PATH="/usr/local/opt/php/bin:$PATH"
+export PATH="/usr/local/opt/php/sbin:$PATH"
+
+# export PATH="/usr/local/opt/php@7.2/bin:$PATH"
+# export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
+
+# For compilers to find zlib you may need to set:
+# export LDFLAGS="-L/usr/local/opt/zlib/lib"
+# export CPPFLAGS="-I/usr/local/opt/zlib/include"
+
+# For pkg-config to find zlib you may need to set:
+# export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
 
 ###############################################################################
 # Configuration identity variables defaults...
@@ -102,6 +116,8 @@ alias git-verify-master="git verify-commit master"
 # Aliases: Docker
 ###############################################################################
 
+# export DOCKER_HOST=unix:///var/run/docker.sock
+
 function docker-up() {
   echo 'Building and start containers...'
   docker-compose up --build --detach
@@ -142,3 +158,10 @@ alias copy-uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy"
 alias copy-ssh="pbcopy < ${ID_SSH_KEY}.pub"
 alias copy-gpg="gpg --armor --export ${ID_GPG_KEY} | pbcopy;"
 alias copy-gravatar="echo 'http://www.gravatar.com/avatar/${ID_EMAIL_HASH}?size=250' | pbcopy;"
+
+
+# sudo -i
+# логин эмулируется.
+
+# sudo su
+# полностью выполняется логин от имени рута.
