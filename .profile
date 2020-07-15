@@ -13,8 +13,8 @@ export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
 # export PHP_INI_PATH="/usr/local/etc/php/7.4/php.ini"
 # export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
-export PATH="/usr/local/opt/php/bin:$PATH"
-export PATH="/usr/local/opt/php/sbin:$PATH"
+# export PATH="/usr/local/opt/php/bin:$PATH"
+# export PATH="/usr/local/opt/php/sbin:$PATH"
 
 # export PATH="/usr/local/opt/php@7.2/bin:$PATH"
 # export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
@@ -25,6 +25,23 @@ export PATH="/usr/local/opt/php/sbin:$PATH"
 
 # For pkg-config to find zlib you may need to set:
 # export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
+
+# export PATH="/usr/local/opt/php@7.1/bin:$PATH"
+# export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
+
+# export LDFLAGS="-L/usr/local/opt/php@7.1/lib"
+# export CPPFLAGS="-I/usr/local/opt/php@7.1/include"
+
+# If you need to have icu4c first in your PATH run:
+# echo 'export PATH="/usr/local/opt/icu4c/bin:$PATH"' >> ~/.zshrc
+# echo 'export PATH="/usr/local/opt/icu4c/sbin:$PATH"' >> ~/.zshrc
+
+# For compilers to find icu4c you may need to set:
+# export LDFLAGS="-L/usr/local/opt/icu4c/lib"
+# export CPPFLAGS="-I/usr/local/opt/icu4c/include"
+
+# For pkg-config to find icu4c you may need to set:
+# export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
 
 ###############################################################################
 # Configuration identity variables defaults...
@@ -148,6 +165,14 @@ function docker-remove() {
   # Remove one or more images
   docker rmi $(docker images --all --quiet) --force
 }
+
+# export DOCKER_TLS_VERIFY="1"
+# export DOCKER_HOST="tcp://192.168.99.100:2376"
+# export DOCKER_CERT_PATH="/Users/soprun/.docker/machine/machines/default"
+# export DOCKER_MACHINE_NAME="default"
+
+# Run this command to configure your shell: 
+# eval $(docker-machine env)
 
 ###############################################################################
 # Aliases: Copy
