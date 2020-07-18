@@ -75,3 +75,5 @@ echo "You've successfully copy bash profiler."
 
 
 COMPOSER_MEMORY_LIMIT=-1 
+
+ls -al /usr/local/bin/php

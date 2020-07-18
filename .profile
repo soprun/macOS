@@ -10,6 +10,22 @@ fi
 
 export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
 
+export PATH="/usr/local/bin/php:$PATH"
+export PATH="/usr/local/opt/php@7.2/bin:$PATH"
+export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
+
+export LDFLAGS="-L/usr/local/opt/php@7.2/lib"
+export CPPFLAGS="-I/usr/local/opt/php@7.2/include"
+
+# ln -s /usr/local/opt/php@7.2/bin /usr/local/bin/php
+
+# export PATH="/usr/local/opt/icu4c/bin:$PATH"
+# export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+
+# export LDFLAGS="-L/usr/local/opt/icu4c/lib"
+# export CPPFLAGS="-I/usr/local/opt/icu4c/include"
+# export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
+
 # export PHP_INI_PATH="/usr/local/etc/php/7.4/php.ini"
 # export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
