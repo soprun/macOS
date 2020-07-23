@@ -8,8 +8,6 @@ if [[ -d "${HOME}/bin" ]] ; then
     export PATH="${HOME}/bin:${PATH}"
 fi
 
-export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
-
 export PATH="/usr/local/bin/php:$PATH"
 export PATH="/usr/local/opt/php@7.2/bin:$PATH"
 export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
@@ -150,6 +148,7 @@ alias git-verify-master="git verify-commit master"
 ###############################################################################
 
 # export DOCKER_HOST=unix:///var/run/docker.sock
+export DOCKER_BUILDKIT=1
 
 function docker-up() {
   echo 'Building and start containers...'
@@ -167,20 +166,40 @@ function docker-build() {
 }
 
 function docker-down() {
-  echo 'Stopping docker...'
+  echo 'Down docker...'
 
-  # Stop one or more running containers
-  docker stop $(docker ps --all --quiet)
+  echo ' - Stop all containers. ✅';
+  docker stop $(docker ps --all --quiet) &> /dev/null
+
+  echo ' - Disconnect a container from a network. ✅';
+  docker network disconnect $(docker ps --all --quiet) &> /dev/null
+
+  echo ' - Remove all unused networks. ✅';
+  docker network prune --force;
+
+  echo ' - Remove all containers. ✅';
+  docker rm $(docker ps --all --quiet) &> /dev/null;
 }
 
 function docker-remove() {
-  docker-down
+  echo ' - Remove all containers. ✅';
+  docker rm $(docker ps --all --quiet) --link --volumes;
 
-  # Remove one or more containers
-  docker rm $(docker ps --all --quiet) --volumes
-  # Remove one or more images
-  docker rmi $(docker images --all --quiet) --force
+  echo ' - Remove all networks. ✅';
+  docker network rm $(docker ps --all --quiet) &> /dev/null;
+  
+  echo ' - Remove all images. ✅';
+  docker rmi $(docker images --all --quiet) &> /dev/null;
 }
+
+### Display the running processes of a container
+# docker top
+
+### Unpause all processes within one or more containers
+# docker unpause
+
+### Fetch the logs of a container
+# docker logs
 
 # export DOCKER_TLS_VERIFY="1"
 # export DOCKER_HOST="tcp://192.168.99.100:2376"
@@ -201,9 +220,25 @@ alias copy-ssh-gpg="gpg --armor --export-ssh-key ${ID_GPG_KEY} | pbcopy;"
 alias copy-gpg="gpg --armor --export ${ID_GPG_KEY} | pbcopy;"
 alias copy-gravatar="echo 'http://www.gravatar.com/avatar/${ID_EMAIL_HASH}?size=250' | pbcopy;"
 
+#######################################
+# RabbitMQ
 
 # sudo -i
 # логин эмулируется.
 
 # sudo su
 # полностью выполняется логин от имени рута.
+
+#######################################
+# Composer
+
+export COMPOSER_MEMORY_LIMIT="-1"
+export COMPOSER_HOME="${HOME}/.config/composer"
+export COMPOSER_CACHE_DIR="${HOME}/.cache/composer"
+
+export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
+
+#######################################
+# Bash Completion
+
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
