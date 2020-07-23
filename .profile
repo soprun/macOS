@@ -166,30 +166,33 @@ function docker-build() {
 }
 
 function docker-down() {
-  echo 'Down docker...'
-
+  echo 'Down docker... 🚛';
+  echo '#######################################';
+  echo ''
   echo ' - Stop all containers. ✅';
-  docker stop $(docker ps --all --quiet) &> /dev/null
-
+  docker stop $(docker ps --all --quiet) &> /dev/null;
   echo ' - Disconnect a container from a network. ✅';
-  docker network disconnect $(docker ps --all --quiet) &> /dev/null
-
+  docker network disconnect $(docker ps --all --quiet) &> /dev/null;
   echo ' - Remove all unused networks. ✅';
-  docker network prune --force;
-
+  docker network prune --force &> /dev/null;
   echo ' - Remove all containers. ✅';
   docker rm $(docker ps --all --quiet) &> /dev/null;
+  echo ''
 }
 
 function docker-remove() {
-  echo ' - Remove all containers. ✅';
-  docker rm $(docker ps --all --quiet) --link --volumes;
-
-  echo ' - Remove all networks. ✅';
-  docker network rm $(docker ps --all --quiet) &> /dev/null;
+  docker-down;
   
-  echo ' - Remove all images. ✅';
+  echo 'Remove docker... 🚒';
+  echo '#######################################';
+  echo ''
+  echo ' - Remove all containers and volumes. 🚨';
+  docker rm $(docker ps --all --quiet) --link --volumes &> /dev/null;
+  echo ' - Remove all networks. 🚨';
+  docker network rm $(docker ps --all --quiet) &> /dev/null;
+  echo ' - Remove all images. 🚨';
   docker rmi $(docker images --all --quiet) &> /dev/null;
+  echo ''
 }
 
 ### Display the running processes of a container
@@ -242,3 +245,9 @@ export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
 # Bash Completion
 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
+
+
+
+# Print environment variables
+# printenv | grep MYSQLDB
