@@ -149,6 +149,8 @@ alias git-verify-master="git verify-commit master"
 
 # export DOCKER_HOST=unix:///var/run/docker.sock
 export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+# export BUILDKIT_PROGRESS=plain
 
 function docker-up() {
   echo 'Building and start containers...'
