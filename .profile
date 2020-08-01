@@ -238,18 +238,22 @@ alias copy-gravatar="echo 'http://www.gravatar.com/avatar/${ID_EMAIL_HASH}?size=
 # Composer
 
 export COMPOSER_MEMORY_LIMIT="-1"
-export COMPOSER_HOME="${HOME}/.config/composer"
-export COMPOSER_CACHE_DIR="${HOME}/.cache/composer"
-
+# export COMPOSER_HOME="${HOME}/.config/composer"
+# export COMPOSER_CACHE_DIR="${HOME}/.cache/composer"
 export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
 
 #######################################
 # Bash Completion
 
+# Use bash-completion, if available
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
+
+if [ -f /sw/etc/bash_completion ]; then
+   . /sw/etc/bash_completion
+fi
+
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-
-
-
 
 # Print environment variables
 # printenv | grep MYSQLDB
