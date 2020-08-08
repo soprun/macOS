@@ -85,9 +85,9 @@ function gpg-url-import() {
 # Configuration identity variables defaults...
 ###############################################################################
 
-export ID_USER="develop"
-export ID_NAME="Vladislav Soprun"
-export ID_EMAIL="develop@soprun.com"
+export ID_USER='develop'
+export ID_NAME='Vladislav Soprun'
+export ID_EMAIL='develop@soprun.com'
 export ID_EMAIL_HASH=$(email_to_hash ${ID_EMAIL})
 export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
 export ID_SSH_KEY="${HOME}/.ssh/${ID_EMAIL_HASH}"
@@ -193,7 +193,7 @@ function docker-remove() {
   echo ' - Remove all networks. 🚨';
   docker network rm $(docker ps --all --quiet) &> /dev/null;
   echo ' - Remove all images. 🚨';
-  docker rmi $(docker images --all --quiet) &> /dev/null;
+  docker rmi $(docker images --all --quiet) --force  &> /dev/null;
   echo ''
 }
 
@@ -238,9 +238,10 @@ alias copy-gravatar="echo 'http://www.gravatar.com/avatar/${ID_EMAIL_HASH}?size=
 # Composer
 
 export COMPOSER_MEMORY_LIMIT="-1"
-# export COMPOSER_HOME="${HOME}/.config/composer"
-# export COMPOSER_CACHE_DIR="${HOME}/.cache/composer"
-export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
+export COMPOSER_HOME="${HOME}/.composer"
+export COMPOSER_CACHE_DIR="${HOME}/.cache/composer"
+
+export PATH="${COMPOSER_HOME}/vendor/bin/:${PATH}"
 
 #######################################
 # Bash Completion
