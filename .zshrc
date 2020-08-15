@@ -125,9 +125,6 @@ fi
 # Autoload
 ###############################################################################
 
-
-fpath=(~/my-zsh-functions $fpath)
-
-autoload -Uz fn
-
-fn
+# fpath=(~/my-zsh-functions $fpath)
+# autoload -Uz fn
+# fn
