@@ -47,7 +47,7 @@ alias homestead-update='cd ~/Homestead && vagrant box update && git pull origin 
 
 # starts and provisions the vagrant environment
 alias hup='homestead up'
-alias hupp='homestead up --provision --parallel'
+alias hupp='homestead up --provision --parallel --debug'
 
 # restarts vagrant machine, loads new Vagrantfile configuration
 alias hr='homestead reload'
@@ -57,3 +57,21 @@ alias hrp='homestead reload --provision'
 alias hdown='homestead halt'
 
 alias hssh='homestead ssh'
+
+# export VAGRANT_LOG=info
+
+function homestead-reload() {
+    # homestead halt
+    # homestead reload --provision
+    # homestead up --provision --parallel --debug
+    # homestead up --provision --parallel --debug &> ${PWD}/.vagrant.log
+
+    homestead reload --provision && homestead up --provision --parallel
+}
+
+# code/billing/web
+
+# function hssh() {
+#     ## if exists APP_DIR ...
+#     ( homestead ssh -c "sudo su; cd ~/code/" && $* )
+# }
