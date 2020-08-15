@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#######################################
+# Composer
+
+export COMPOSER_MEMORY_LIMIT="-1"
+export COMPOSER_HOME="${HOME}/.composer"
+export COMPOSER_CACHE_DIR="${HOME}/.cache/composer"
+
+export PATH="${COMPOSER_HOME}/vendor/bin/:${PATH}"

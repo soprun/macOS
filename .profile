@@ -1,3 +1,4 @@
+
 # Enable tracing
 set -e
 
@@ -103,9 +104,10 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias cd..="cd .."
 
-# alias edit="atom --wait"
-alias editor="vim"
-alias hosts="sudo vim /etc/hosts"
+# alias edit="code --wait"
+# alias editor="code"
+
+alias hosts="sudo code /etc/hosts"
 
 # Creates a signed commit
 # alias git-commit='git commit -a -S -m "commit message..."'
@@ -234,14 +236,34 @@ alias copy-gravatar="echo 'http://www.gravatar.com/avatar/${ID_EMAIL_HASH}?size=
 # sudo su
 # полностью выполняется логин от имени рута.
 
-#######################################
-# Composer
 
-export COMPOSER_MEMORY_LIMIT="-1"
-export COMPOSER_HOME="${HOME}/.composer"
-export COMPOSER_CACHE_DIR="${HOME}/.cache/composer"
 
-export PATH="${COMPOSER_HOME}/vendor/bin/:${PATH}"
+# Print environment variables
+# printenv | grep MYSQLDB
+
+###############################################################################
+# Homestead
+###############################################################################
+
+function homestead() {
+    ( cd ~/Homestead && vagrant $* )
+}
+
+# Homestead
+alias homestead-edit='code ~/Homestead/Homestead.yaml'
+alias homestead-update='cd ~/Homestead && vagrant box update && git pull origin master'
+
+# starts and provisions the vagrant environment
+alias hup='homestead up'
+alias hupp='homestead up --provision --color --parallel'
+
+# restarts vagrant machine, loads new Vagrantfile configuration
+# alias hreload='homestead reload'
+
+# stops the vagrant machine
+alias hdown='homestead halt'
+
+alias hssh='homestead ssh'
 
 #######################################
 # Bash Completion
@@ -255,6 +277,3 @@ if [ -f /sw/etc/bash_completion ]; then
 fi
 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-
-# Print environment variables
-# printenv | grep MYSQLDB

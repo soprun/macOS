@@ -1,18 +1,57 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set -o pipefail  # trace ERR through pipes
-set -o errtrace  # trace ERR through 'time command' and other functions
-set -o nounset   ## set -u : exit the script if you try to use an uninitialised variable
-set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
+# "unofficial" bash strict mode
+# See: http://redsymbol.net/articles/unofficial-bash-strict-mode
+# See: https://scriptingosx.com/2017/04/about-bash_profile-and-bashrc-on-macos/
+set -o errexit  # Exit when simple command fails               'set -e'
+set -o errtrace # Exit on error inside any functions or subshells.
+set -o nounset  # Trigger error when expanding unset variables 'set -u'
+set -o pipefail # Do not hide errors within pipes              'set -o pipefail'
+#set -o xtrace   # Display expanded command and arguments       'set -x'
 
-# https://scriptingosx.com/2017/04/about-bash_profile-and-bashrc-on-macos/
+readonly bash_profile_source="${PWD}/.bash_profile"
+readonly bash_profile="${HOME}/.bash_profile"
 
-# Enable tracing
-set -e
+readonly bash_aliases_source="${PWD}/.bash_aliases"
+readonly bash_aliases="${HOME}/.bash_aliases"
+
+readonly zshrc_source="${PWD}/.zshrc"
+readonly zshrc="${HOME}/.zshrc"
+
+# readonly text_normal='\033[0m';
+# readonly text_success='\033[0;32m';
+# readonly text_error='\033[0;31m';
+
+if [[ -f ${bash_profile} ]]; then
+  cp "${bash_profile}" "${bash_profile}.backup"
+fi
+
+ln -sf "${bash_profile_source}" "${bash_profile}"
+chmod 700 "${bash_profile}"
+
+if [[ -f ${bash_aliases} ]]; then
+  cp "${bash_aliases}" "${bash_aliases}.backup"
+fi
+
+ln -sf "${bash_aliases_source}" "${bash_aliases}"
+chmod 700 "${bash_aliases}"
+
+if [[ -f ${zshrc} ]]; then
+  cp "${zshrc}" "${zshrc}.backup"
+fi
+ln -sf "${zshrc_source}" "${zshrc}"
+chmod 700 "${zshrc}"
+
+
+echo -e "=>\033[0;32m Create ${bash_profile}.backup 💾\033[0m"
+echo -e "=>\033[0;31m Set permissions symbolic value 🔐 \033[0m"
+echo -e "=>\033[0;30m Created a link to profile file 🔗 \033[0m"
+
+exit 0
 
 echo "Creates a link to the profile file..."
-ln -sf "${PWD}/.profile" ~/.profile
-chmod 700 ~/.profile
+ln -sf "${PWD}/.bash_profile" "${HOME}/.bash_profile"
+chmod 700 "${HOME}/.bash_profile"
 
 echo "Creates a link to the git config file..."
 ln -sf "$PWD/app/git/config.conf" ~/.gitconfig
@@ -33,14 +72,13 @@ fi
 
 # gpg --fingerprint ${ID_GPG_KEY}
 
-killall Finder;
-pkill ssh-agent;
-pkill gpg-agent;
+killall Finder
+#pkill ssh-agent;
+#pkill gpg-agent;
 
 # @todo: add composer
 
 echo "You've successfully copy bash profiler."
-
 
 # @todo: add install php
 
@@ -72,8 +110,6 @@ echo "You've successfully copy bash profiler."
 # export BLACKFIRE_LOG_LEVEL=4
 # export BLACKFIRE_LOG_FILE=/tmp/probe.log
 
+# COMPOSER_MEMORY_LIMIT=-1
 
-
-COMPOSER_MEMORY_LIMIT=-1 
-
-ls -al /usr/local/bin/php
+# ls -al /usr/local/bin/php
