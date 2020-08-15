@@ -3,7 +3,7 @@
 # "unofficial" bash strict mode
 # See: http://redsymbol.net/articles/unofficial-bash-strict-mode
 # See: https://scriptingosx.com/2017/04/about-bash_profile-and-bashrc-on-macos/
-set -o errexit  # Exit when simple command fails               'set -e'
+set -o errexit # Exit when simple command fails               'set -e'
 # set -o errtrace # Exit on error inside any functions or subshells.
 # set -o nounset  # Trigger error when expanding unset variables 'set -u'
 # set -o pipefail # Do not hide errors within pipes              'set -o pipefail'
@@ -57,3 +57,19 @@ git config --global gpg.program "gpg"
 git config --global user.signingkey "8120213055C84C2C3324FB08B7502F96C5DC44C2"
 
 # git config --global --list
+
+###############################################################################
+# SSH configuration
+###############################################################################
+
+mkdir -p "${HOME}/.ssh/"
+
+readonly ssh_config_source="${PWD}/app/ssh/config.conf"
+readonly ssh_config="${HOME}/.ssh/config"
+
+if [[ -f ${ssh_config} ]]; then
+  cp "${ssh_config}" "${ssh_config}.backup"
+fi
+
+ln -sf "${ssh_config_source}" "${ssh_config}"
+chmod 700 "${ssh_config}"

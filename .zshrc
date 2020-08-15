@@ -8,7 +8,7 @@ export ZSH="/Users/soprun/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="avit"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -42,7 +42,7 @@ ZSH_THEME="avit"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -70,11 +70,11 @@ ENABLE_CORRECTION="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(history)
 plugins+=(git)
-plugins+=(common-aliases)
+# plugins+=(common-aliases)
 # plugins+=(composer)
-# plugins+=(homestead)
+plugins+=(homestead)
 # plugins+=(dotenv)
-# plugins+=(gpg-agent ssh-agent)
+plugins+=(gpg-agent ssh-agent)
 # plugins+=(docker docker-compose)
 
 source $ZSH/oh-my-zsh.sh
@@ -84,10 +84,10 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+# export LANG=en_US.UTF-8
 
 # Enable Terminal color
-export CLICOLOR=1
+# export CLICOLOR=1
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -95,7 +95,6 @@ export CLICOLOR=1
 # else
 #   export EDITOR='mvim'
 # fi
-export EDITOR=code
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -109,22 +108,55 @@ export EDITOR=code
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# export ID_NAME='Vladislav Soprun'
-# export ID_USER='develop'
-# export ID_EMAIL='mail@soprun.com'
-# export ID_TO_HASH="$(email_to_hash ${ID_EMAIL})"
+###############################################################################
+# Configuration identity variables defaults...
+###############################################################################
 
-# export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
+# https://en.gravatar.com/site/implement/hash/
+function email_to_hash {
+    echo -n $1 | tr '[A-Z]' '[a-z]' | md5
+}
+
+# curl_timeout=10
+
+# get-url https://soprun.com
+function get-url() {
+  ( curl -LS --ssl-reqd --max-time 20 --url $* )
+}
+
+# get-url-head https://soprun.com
+function get-url-head() {
+  ( get-url $* --head )
+}
+
+# get-url-head https://keybase.io/soprun/pgp_keys.asc
+function gpg-url-import() {
+  ( curl -sSL --ssl-reqd --url $* | gpg --import -)
+}
+
+export ID_NAME='Vladislav Soprun'
+export ID_USER='develop'
+export ID_EMAIL='mail@soprun.com'
+export ID_TO_HASH="$(email_to_hash ${ID_EMAIL})"
+
+export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
+# export ID_SSH_KEY="${HOME}/.ssh/${ID_EMAIL}"
+export ID_SSH_KEY="${HOME}/.ssh/id_rsa"
 
 # include .bashrc if it exists
 if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
+
 ###############################################################################
-# Autoload
+# Homestead
 ###############################################################################
 
-# fpath=(~/my-zsh-functions $fpath)
-# autoload -Uz fn
-# fn
+alias hosts-edit='code /etc/hosts'
+
+###############################################################################
+# edit
+###############################################################################
+
+alias edit-hosts="hosts-edit"
