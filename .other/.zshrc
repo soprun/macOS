@@ -1,3 +1,62 @@
+# http://sebastiancelis.com/2009/11/16/zsh-prompt-git-users/
+
+# Initialize colors.
+autoload -U colors
+colors
+
+# Allow for functions in the prompt.
+setopt PROMPT_SUBST
+
+# Autoload zsh functions.
+fpath=(~/.zsh/functions $fpath)
+autoload -U ~/.zsh/functions/*(:t)
+
+# Enable auto-execution of functions.
+typeset -ga preexec_functions
+typeset -ga precmd_functions
+typeset -ga chpwd_functions
+
+# Append git functions needed for prompt.
+preexec_functions+='preexec_update_git_vars'
+precmd_functions+='precmd_update_git_vars'
+chpwd_functions+='chpwd_update_git_vars'
+
+# Set the prompt.
+PROMPT=$'%{${fg[cyan]}%}%B%~%b$(prompt_git_info)%{${fg[default]}%} '
+
+
+# .bash_profile runs at login, including over SSH
+
+# "unofficial" bash strict mode
+# See: http://redsymbol.net/articles/unofficial-bash-strict-mode
+# See: https://scriptingosx.com/2017/04/about-bash_profile-and-bashrc-on-macos/
+# set -o errexit # Exit when simple command fails               'set -e'
+#set -o errtrace # Exit on error inside any functions or subshells.
+#set -o nounset  # Trigger error when expanding unset variables 'set -u'
+#set -o pipefail # Do not hide errors within pipes              'set -o pipefail'
+# set -o xtrace # Display expanded command and arguments       'set -x'
+
+# include .bashrc if it exists
+if [ -f ~/.bash_aliases ]; then
+  source ~/.bash_aliases
+fi
+
+# # 1. Check if .env file exists
+# if [ -e ~.env ]; then
+#   # shellcheck source=./.env
+#   source .env
+# fi
+#
+# # 2. Check if .env.local file exists
+# if [ -e .env.local ]; then
+#   # shellcheck source=./.env.local
+#   source .env.local
+# fi
+
+
+# todo: https://www.funtoo.org/Keychain
+
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -68,14 +127,20 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+
 plugins=(history)
-plugins+=(git)
-plugins+=(common-aliases)
-# plugins+=(composer)
-# plugins+=(homestead)
+plugins=(sudo)
+plugins=(brew)
+plugins=(common-aliases)
+plugins=(composer)
 # plugins+=(dotenv)
-# plugins+=(gpg-agent ssh-agent)
-# plugins+=(docker docker-compose)
+plugins+=(git git-flow gitignore github git-auto-fetch)
+plugins+=(gpg-agent ssh-agent)
+plugins+=(docker docker-compose)
+plugins+=(gcloud)
+plugins+=(symfony)
+plugins+=(homestead)
+plugins+=(keychain vault)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -86,19 +151,15 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# Enable Terminal color
-export CLICOLOR=1
-
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='code'
-# else
-#   export EDITOR='mvim'
-# fi
-export EDITOR=code
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='mvim'
+fi
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+export ARCHFLAGS="-arch x86_64"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -109,25 +170,71 @@ export EDITOR=code
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# export ID_NAME='Vladislav Soprun'
-# export ID_USER='develop'
-# export ID_EMAIL='mail@soprun.com'
-# export ID_TO_HASH="$(email_to_hash ${ID_EMAIL})"
+## Add commonly used folders to $PATH
+#export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+#
+## Specify default editor. Possible values: vim, nano, ed etc.
+#export EDITOR=vim
+#
+## File search functions
+#function f() { find . -iname "*$1*" ${@:2} }
+#function r() { grep "$1" ${@:2} -R . }
+#
+## Create a folder and move into it in one command
+##function mkcd() { mkdir -p "$@" && cd "$_"; }
+#
+## Example aliases
+#alias cppcompile='c++ -std=c++11 -stdlib=libc++'
+#alias g='git'
 
-# export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
 
-# include .bashrc if it exists
-if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
-fi
 
 ###############################################################################
-# Autoload
+# Homestead
 ###############################################################################
 
+function homestead() {
+    ( cd ~/Homestead && vagrant $* )
+}
 
-fpath=(~/my-zsh-functions $fpath)
+# Homestead
 
-autoload -Uz fn
+alias homestead-edit='code ~/Homestead/Homestead.yaml'
+alias homestead-update='cd ~/Homestead && vagrant box update && git pull origin master'
 
-fn
+# starts and provisions the vagrant environment
+alias hup='homestead up'
+alias hupp='homestead up --provision --color --parallel'
+
+# restarts vagrant machine, loads new Vagrantfile configuration
+alias hr='homestead reload --provision'
+
+# stops the vagrant machine
+alias hdown='homestead halt'
+
+alias hssh='homestead ssh'
+
+alias hrf='homestead reload && homestead up --provision --color --parallel'
+
+
+
+alias hosts="cat /etc/hosts"
+alias hosts-edit='code /etc/hosts'
+
+alias edit-ssh='sudo code /etc/hosts'
+
+### short
+alias edit-homestead='homestead-edit'
+alias edit-hosts='hosts-edit'
+
+# get-url https://soprun.com
+function get-url() {
+  ( curl -LS --ssl-reqd --url $* )
+}
+
+# get-url-head https://soprun.com
+function get-url-head() {
+  ( get-url $* --head )
+}
+
+# get-url-head http://billing.local
