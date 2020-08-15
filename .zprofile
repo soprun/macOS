@@ -42,6 +42,7 @@ function homestead() {
 
 # Homestead
 alias homestead-edit='code ~/Homestead/Homestead.yaml'
+alias homestead-open='code ~/Homestead/'
 alias homestead-update='cd ~/Homestead && vagrant box update && git pull origin master'
 
 # starts and provisions the vagrant environment
