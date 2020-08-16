@@ -77,3 +77,31 @@ function get-url-head() {
 function gpg-url-import() {
   ( curl -sSL --ssl-reqd --url $* | gpg --import -)
 }
+
+###############################################################################
+# Homestead
+###############################################################################
+
+function homestead() {
+    ( cd ~/Homestead && vagrant $* )
+}
+
+# Homestead
+
+alias homestead-edit='code ~/Homestead/Homestead.yaml'
+alias homestead-update='cd ~/Homestead && vagrant box update && git pull origin master'
+
+# starts and provisions the vagrant environment
+alias hup='homestead up'
+alias hupp='homestead up --provision --color --parallel'
+
+# restarts vagrant machine, loads new Vagrantfile configuration
+alias hr='homestead reload --provision'
+
+# stops the vagrant machine
+alias hdown='homestead halt'
+
+alias hssh='homestead ssh'
+
+alias hrf='homestead reload && homestead up --provision --color --parallel'
+
