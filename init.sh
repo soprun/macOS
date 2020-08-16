@@ -9,42 +9,43 @@ set -o errexit # Exit when simple command fails               'set -e'
 # set -o pipefail # Do not hide errors within pipes              'set -o pipefail'
 # set -o xtrace   # Display expanded command and arguments       'set -x'
 
-readonly zshrc_source="${PWD}/.zshrc"
-readonly zshrc="${HOME}/.zshrc"
+function install_bashrc() {
+  printf "=>\033[0;35m Executed install .bashrc \n\033[0m"
+  ln -sf "${PWD}/.bashrc" ~/.zshrc
+  chmod 700 ~/.zshrc
+}
 
-if [[ -f ${zshrc} ]]; then
-  cp "${zshrc}" "${zshrc}.backup"
-fi
+function install_profile() {
+  printf "=>\033[0;35m Executed install .bash_profile \n\033[0m"
+  ln -sf "${PWD}/.bash_profile" ~/.zprofile
+  chmod 700 ~/.zprofile
+}
 
-ln -sf "${zshrc_source}" "${zshrc}"
-chmod 700 "${zshrc}"
+function install_aliases() {
+  printf "=>\033[0;35m Executed install .bash_aliases \n\033[0m"
+  ln -sf "${PWD}/.bash_aliases" ~/.bash_aliases
+  chmod 700 ~/.bash_aliases
+}
 
-readonly zprofile_source="${PWD}/.zprofile"
-readonly zprofile="${HOME}/.zprofile"
+function install_bash_functions() {
+  printf "=>\033[0;35m Executed install .bash_functions \n\033[0m"
+#  ln -sf "${PWD}/functions" ~/.bash_functions
+#  chmod 700 ~/.bash_functions
 
-if [[ -f ${zprofile} ]]; then
-  cp "${zprofile}" "${zprofile}.backup"
-fi
+#  mkdir -p "${HOME}/bin"
+#  cp "${PWD}/functions/" "${HOME}/bin/"
+}
 
-ln -sf "${zprofile_source}" "${zprofile}"
-chmod 700 "${zprofile}"
+main() {
+  printf "\033[0;35mThe main command is executed. \n\033[0m"
 
-readonly bash_aliases_source="${PWD}/.bash_aliases"
-readonly bash_aliases="${HOME}/.bash_aliases"
+  install_bashrc
+  install_profile
+  install_aliases
+  # install_bash_functions
+}
 
-if [[ -f ${bash_aliases} ]]; then
-  cp "${bash_aliases}" "${bash_aliases}.backup"
-fi
-
-ln -sf "${bash_aliases_source}" "${bash_aliases}"
-chmod 700 "${bash_aliases}"
-
-###############################################################################
-# Functions
-###############################################################################
-
-mkdir -p "${HOME}/.config/zsh/functions"
-ln -sf "${PWD}/functions" "${HOME}/.config/zsh/functions"
+main "$@"
 
 ###############################################################################
 # Git
@@ -73,3 +74,4 @@ fi
 
 ln -sf "${ssh_config_source}" "${ssh_config}"
 chmod 700 "${ssh_config}"
+
