@@ -16,14 +16,64 @@ if [[ -d "${HOME}/bin" ]]; then
 fi
 
 ###############################################################################
-# Autoload functions
+# Configuration identity variables defaults...
 ###############################################################################
 
-export FPATH="${HOME}/.bash_functions:${FPATH}"
+# https://en.gravatar.com/site/implement/hash/
+function email_to_hash {
+    echo -n $1 | tr '[A-Z]' '[a-z]' | md5
+}
 
-# alias autoload='typeset -fu'
+export ID_NAME='Vladislav Soprun'
+export ID_USER='develop'
+export ID_EMAIL='mail@soprun.com'
+export ID_TO_HASH="$(email_to_hash ${ID_EMAIL})"
+
+export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
+# export ID_SSH_KEY="${HOME}/.ssh/${ID_EMAIL}"
+export ID_SSH_KEY="${HOME}/.ssh/id_rsa"
+
+###############################################################################
+# Homestead
+###############################################################################
+
+alias hosts-edit='code /etc/hosts'
+
+###############################################################################
+# edit
+###############################################################################
+
+alias edit-hosts="hosts-edit"
+
+
+
+###############################################################################
+# Autoload functions
+###############################################################################
 
 if [[ -f ~/.bashrc ]]; then
   # shellcheck source=./.bashrc
   . ~/.bashrc
 fi
+
+###############################################################################
+# Autoload functions
+###############################################################################
+
+
+# curl_timeout=10
+
+# get-url https://soprun.com
+function get-url() {
+  ( curl -LS --ssl-reqd --max-time 20 --url $* )
+}
+
+# get-url-head https://soprun.com
+function get-url-head() {
+  ( get-url $* --head )
+}
+
+# get-url-head https://keybase.io/soprun/pgp_keys.asc
+function gpg-url-import() {
+  ( curl -sSL --ssl-reqd --url $* | gpg --import -)
+}

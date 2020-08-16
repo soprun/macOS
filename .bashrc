@@ -8,6 +8,10 @@ if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
+###############################################################################
+# Git
+###############################################################################
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -83,10 +87,12 @@ plugins+=(git)
 # plugins+=(common-aliases)
 # plugins+=(composer)
 plugins+=(homestead)
+plugins+=(vagrant)
 # plugins+=(dotenv)
 plugins+=(gpg-agent ssh-agent)
 plugins+=(docker docker-compose)
 
+# shellcheck source=./oh-my-zsh.sh
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -119,56 +125,3 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-###############################################################################
-# Configuration identity variables defaults...
-###############################################################################
-
-# https://en.gravatar.com/site/implement/hash/
-function email_to_hash {
-    echo -n $1 | tr '[A-Z]' '[a-z]' | md5
-}
-
-# curl_timeout=10
-
-# get-url https://soprun.com
-function get-url() {
-  ( curl -LS --ssl-reqd --max-time 20 --url $* )
-}
-
-# get-url-head https://soprun.com
-function get-url-head() {
-  ( get-url $* --head )
-}
-
-# get-url-head https://keybase.io/soprun/pgp_keys.asc
-function gpg-url-import() {
-  ( curl -sSL --ssl-reqd --url $* | gpg --import -)
-}
-
-export ID_NAME='Vladislav Soprun'
-export ID_USER='develop'
-export ID_EMAIL='mail@soprun.com'
-export ID_TO_HASH="$(email_to_hash ${ID_EMAIL})"
-
-export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
-# export ID_SSH_KEY="${HOME}/.ssh/${ID_EMAIL}"
-export ID_SSH_KEY="${HOME}/.ssh/id_rsa"
-
-# include .bashrc if it exists
-if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
-fi
-
-
-###############################################################################
-# Homestead
-###############################################################################
-
-alias hosts-edit='code /etc/hosts'
-
-###############################################################################
-# edit
-###############################################################################
-
-alias edit-hosts="hosts-edit"
