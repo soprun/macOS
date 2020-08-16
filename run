@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+source .env
+
+echo "VAR1 is $GITHUB_USER"
+echo "VAR2 is $VAR2"

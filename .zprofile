@@ -3,6 +3,9 @@
 # Like bash’s .bashrc, zsh uses a dot file to store user configuration settings, .zshrc
 # Similarly, you can add a .zprofile file to your home directory. .zprofile is a script that will run upon login.
 
+# export log_level=info
+
+
 # include .bashrc if it exists
 if [ -e ~/.zshrc ]; then
     . ~/.zshrc
@@ -21,8 +24,17 @@ fi
 ###############################################################################
 
 if [[ ! -f ${ID_SSH_KEY} ]]; then
+
+  # ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"
+
   ssh-keygen -t rsa -b 4096 -N '' -f "${ID_SSH_KEY}" -C "${ID_EMAIL}"
   chmod 400 "${ID_SSH_KEY}"
+
+  Получив пару ключей, скопируйте открытый ключ на удаленный сервер:
+  ssh-copy-id username@hostname
+  Введите пароль удаленного пользователя, и открытый ключ будет добавлен в authorized_keysфайл удаленного пользователя .
+
+  После загрузки ключа вы можете войти на удаленный сервер без запроса пароля.
 fi
 
 ###############################################################################
@@ -75,3 +87,7 @@ function homestead-reload() {
 #     ## if exists APP_DIR ...
 #     ( homestead ssh -c "sudo su; cd ~/code/" && $* )
 # }
+
+function ssh-open() {
+  ssh -l username $*
+}
