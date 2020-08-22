@@ -105,3 +105,5 @@ alias hssh='homestead ssh'
 
 alias hrf='homestead reload && homestead up --provision --color --parallel'
 
+
+export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
