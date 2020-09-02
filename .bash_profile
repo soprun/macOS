@@ -21,13 +21,16 @@ fi
 
 # https://en.gravatar.com/site/implement/hash/
 function email_to_hash {
-    echo -n $1 | tr '[A-Z]' '[a-z]' | md5
+    # echo -n $1 | tr '[A-Z]' '[a-z]' | md5
+    echo -n "$1" | md5 -r | awk '{ print $1 }'
 }
 
 export ID_NAME='Vladislav Soprun'
-export ID_USER='develop'
+export ID_USER='soprun'
 export ID_EMAIL='mail@soprun.com'
-export ID_TO_HASH="$(email_to_hash ${ID_EMAIL})"
+
+readonly ID_EMAIL_HASH="$(email_to_hash ${ID_EMAIL})"
+export ID_EMAIL_HASH
 
 export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
 # export ID_SSH_KEY="${HOME}/.ssh/${ID_EMAIL}"
@@ -54,6 +57,11 @@ alias edit-hosts="hosts-edit"
 if [[ -f ~/.bashrc ]]; then
   # shellcheck source=./.bashrc
   . ~/.bashrc
+fi
+
+if [[ -f ~/.zshrc ]]; then
+  # shellcheck source=./.bashrc
+  . ~/.zshrc
 fi
 
 ###############################################################################
@@ -106,4 +114,14 @@ alias hssh='homestead ssh'
 alias hrf='homestead reload && homestead up --provision --color --parallel'
 
 
-export PATH="${HOME}/.composer/vendor/bin/:${PATH}"
+export PATH="$PATH:$HOME/.composer/vendor/bin"
+
+
+# brew install bash-completion
+# brew install docker-completion
+# [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+
+# if [ -f $(brew --prefix)/etc/bash_completion ]; then
+#     . $(brew --prefix)/etc/bash_completion
+# fi
+

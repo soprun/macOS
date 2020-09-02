@@ -17,8 +17,8 @@ function install_bashrc() {
 
 function install_profile() {
   printf "=>\033[0;35m Executed install .bash_profile \n\033[0m"
-  ln -sf "${PWD}/.bash_profile" ~/.zprofile
-  chmod 700 ~/.zprofile
+  ln -sf "${PWD}/.bash_profile" ~/.profile
+  chmod 700 ~/.profile
 }
 
 function install_aliases() {
@@ -75,3 +75,15 @@ fi
 ln -sf "${ssh_config_source}" "${ssh_config}"
 chmod 700 "${ssh_config}"
 
+
+# composer global require hirak/prestissimo
+
+# composer global require friendsofphp/php-cs-fixer
+# composer global require nunomaduro/phpinsights
+# composer global require phpmetrics/phpmetrics
+# composer global require phpmd/phpmd
+# composer global require phpunit/phpunit:^9.0 --update-with-dependencies
+
+
+# curl -sS https://get.symfony.com/cli/installer | bash
+# curl https://installer.blackfire.io/ | bash
