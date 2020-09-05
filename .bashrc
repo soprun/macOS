@@ -78,17 +78,21 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(history)
+plugins=(osx)
 plugins+=(git)
+plugins+=(golang)
+plugins+=(docker docker-compose)
+plugins+=(git-flow)
 # plugins+=(common-aliases)
 plugins+=(composer)
-plugins+=(homestead)
-plugins+=(vagrant)
-plugins+=(symfony)
+#plugins+=(homestead)
+#plugins+=(vagrant)
+#plugins+=(symfony)
 # plugins+=(dotenv)
 plugins+=(gpg-agent ssh-agent)
 plugins+=(docker docker-compose)
 
-# shellcheck source=./oh-my-zsh.sh
+# shellcheck disable=SC1090
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -96,10 +100,10 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Enable Terminal color
-# export CLICOLOR=1
+export CLICOLOR=1
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -108,7 +112,7 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
-# export EDITOR='code'
+export EDITOR='code'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"

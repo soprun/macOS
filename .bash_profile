@@ -5,7 +5,7 @@
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
+  export EDITOR='code'
 else
   export EDITOR='vim'
 fi
@@ -20,9 +20,9 @@ fi
 ###############################################################################
 
 # https://en.gravatar.com/site/implement/hash/
-function email_to_hash {
-    # echo -n $1 | tr '[A-Z]' '[a-z]' | md5
-    echo -n "$1" | md5 -r | awk '{ print $1 }'
+function email_to_hash() {
+  # echo -n $1 | tr '[A-Z]' '[a-z]' | md5
+  echo -n "$1" | md5 -r | awk '{ print $1 }'
 }
 
 export ID_NAME='Vladislav Soprun'
@@ -48,8 +48,6 @@ alias hosts-edit='code /etc/hosts'
 
 alias edit-hosts="hosts-edit"
 
-
-
 ###############################################################################
 # Autoload functions
 ###############################################################################
@@ -68,22 +66,21 @@ fi
 # Autoload functions
 ###############################################################################
 
-
 # curl_timeout=10
 
 # get-url https://soprun.com
 function get-url() {
-  ( curl -LS --ssl-reqd --max-time 20 --url $* )
+  (curl -LS --ssl-reqd --max-time 20 --url $*)
 }
 
 # get-url-head https://soprun.com
 function get-url-head() {
-  ( get-url $* --head )
+  (get-url $* --head)
 }
 
 # get-url-head https://keybase.io/soprun/pgp_keys.asc
 function gpg-url-import() {
-  ( curl -sSL --ssl-reqd --url $* | gpg --import -)
+  (curl -sSL --ssl-reqd --url $* | gpg --import -)
 }
 
 ###############################################################################
@@ -91,7 +88,7 @@ function gpg-url-import() {
 ###############################################################################
 
 function homestead() {
-    ( cd ~/Homestead && vagrant $* )
+  (cd ~/Homestead && vagrant $*)
 }
 
 # Homestead
@@ -113,9 +110,7 @@ alias hssh='homestead ssh'
 
 alias hrf='homestead reload && homestead up --provision --color --parallel'
 
-
 export PATH="$PATH:$HOME/.composer/vendor/bin"
-
 
 # brew install bash-completion
 # brew install docker-completion
@@ -125,3 +120,19 @@ export PATH="$PATH:$HOME/.composer/vendor/bin"
 #     . $(brew --prefix)/etc/bash_completion
 # fi
 
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+
+###
+### install go
+### https://medium.com/@jimkang/install-go-on-mac-with-homebrew-5fa421fc55f5
+### mkdir -p $HOME/go/{bin,src,pkg}
+
+export GOPATH=$HOME/go
+export GOROOT="$(brew --prefix golang)/libexec"
+export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+
+# Remove .DS_Store files recursively in a directory, default .
+#function rmdsstore() {
+#  find "${@:-.}" -type f -name .DS_Store -delete
+#}
