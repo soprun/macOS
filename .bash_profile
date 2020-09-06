@@ -136,3 +136,13 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 #function rmdsstore() {
 #  find "${@:-.}" -type f -name .DS_Store -delete
 #}
+
+# vault server -dev
+# export VAULT_ADDR='http://127.0.0.1:8200'
+# vault server -config=/etc/vault/config.hcl
+# vault server -dev -dev-root-token-id="root"
+
+function docker-clean() {
+  docker-compose down &>/dev/null
+  docker system prune --all --volumes --force
+}
