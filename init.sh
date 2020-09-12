@@ -63,6 +63,19 @@ main() {
   rm -rf "${HOME}/bin"
   ln -sf "${SCRIPT_DIR}/bin" "${HOME}/bin"
   chmod 700 "${HOME}/bin"
+
+  ###############################################################################
+  # Git
+  ###############################################################################
+
+  git config --global user.name "${GIT_NAME}"
+  git config --global user.email "${GIT_EMAIL}"
+  git config --global commit.gpgsign ${GIT_GPG_SIGN}
+  git config --global gpg.program "${GIT_GPG_PROGRAM}"
+  git config --global user.signingkey "${GIT_GPG_KEY}"
+  git config --global core.editor "${GIT_EDITOR}"
+
+  git config --global --list
 }
 
 main "$@"
