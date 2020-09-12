@@ -17,6 +17,9 @@ done
 
 SCRIPT_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
 
+source "$(dirname $0)/../scripts/utils.sh"
+SRC_DIR="src"
+
 # 1. Check if .env file exists
 if [ -e "${SCRIPT_DIR}/.env" ]; then
   # set -o allexport
