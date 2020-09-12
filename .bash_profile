@@ -3,16 +3,29 @@
 # Используйте .bash_profile для запуска команд, которые должны выполняться только один раз,
 # например для настройки $PATH переменной среды.
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='code'
-else
-  export EDITOR='vim'
-fi
+error() {
+  printf "=>\033[0;31m error: \033[0m%-6s\n" "$*" >&2
+  logger -p user.error -t "$(basename "${0}")" "$@"
+  exit 1
+}
+
+export LANG="en_US.UTF-8"
+export CLICOLOR="1"
+# $EDITOR - текстовый редактор по умолчанию
+export EDITOR="code"
+# $HOSTNAME - ваш hostname "MacBook-Pro-Vladislav.local"
+
+export PS1="\e[0;31m[\u:\w]\$ \e[m"
 
 # set PATH so it includes user's private bin if it exists
 if [[ -d "${HOME}/bin" ]]; then
   export PATH="${HOME}/bin:${PATH}"
+fi
+
+BASH_PROFILE_PATH="~/.bash"
+
+if [ ! -d $BASH_PROFILE_PATH ]; then
+  error "Directory ${BASH_PROFILE_PATH} DOES NOT exists."
 fi
 
 ###############################################################################
@@ -128,9 +141,9 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 ### https://medium.com/@jimkang/install-go-on-mac-with-homebrew-5fa421fc55f5
 ### mkdir -p $HOME/go/{bin,src,pkg}
 
-export GOPATH=$HOME/go
-export GOROOT="$(brew --prefix golang)/libexec"
-export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+#export GOPATH=$HOME/go
+#export GOROOT="$(brew --prefix golang)/libexec"
+#export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 
 # Remove .DS_Store files recursively in a directory, default .
 #function rmdsstore() {
@@ -144,5 +157,27 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 
 function docker-clean() {
   docker-compose down &>/dev/null
+
+  # Prune volumes
+  # Do not prompt for confirmation
+  # Remove all unused images not just dangling ones
+
   docker system prune --all --volumes --force
 }
+
+# Checking for existing SSH keys
+function ssh-keys-list() {
+  command ls -alG ~/.ssh
+}
+
+
+# override 'ls' command for 'ls -ltr'
+ls() {
+  command ls -atrG
+}
+
+ll() {
+  command ls -latrG
+}
+
+# https://gist.github.com/vratiu/9780109
