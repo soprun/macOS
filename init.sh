@@ -1,13 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# "unofficial" bash strict mode
-# See: http://redsymbol.net/articles/unofficial-bash-strict-mode
-# See: https://scriptingosx.com/2017/04/about-bash_profile-and-bashrc-on-macos/
-set -o errexit  # Exit when simple command fails               'set -e'
-set -o errtrace # Exit on error inside any functions or subshells.
-set -o nounset  # Trigger error when expanding unset variables 'set -u'
-set -o pipefail # Do not hide errors within pipes              'set -o pipefail'
-# set -o xtrace   # Display expanded command and arguments       'set -x'
+set -euo pipefail
 
 # Determine the build script's actual directory, following symlinks
 SOURCE="${BASH_SOURCE[0]}"
@@ -15,70 +8,51 @@ while [ -h "$SOURCE" ]; do
   SOURCE="$(readlink "$SOURCE")"
 done
 
-SCRIPT_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
-
-source "$(dirname $0)/../scripts/utils.sh"
-SRC_DIR="src"
-
-# 1. Check if .env file exists
-if [ -e "${SCRIPT_DIR}/.env" ]; then
-  # set -o allexport
-  # shellcheck source=./.env
-  source "${SCRIPT_DIR}/.env"
-  # set +o allexport
-fi
+SOURCE_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
 
 # shellcheck source=./scripts/colors.sh
-source "${SCRIPT_DIR}/scripts/colors.sh"
+source "${SOURCE_DIR}/scripts/colors.sh"
+
 # shellcheck source=./scripts/logger.sh
-source "${SCRIPT_DIR}/scripts/logger.sh"
+source "${SOURCE_DIR}/scripts/logger.sh"
 
-main() {
-  log_info 'The main command is executed.'
+# shellcheck source=./scripts/utils.sh
+source "${SOURCE_DIR}/scripts/utils.sh"
 
-  declare -a files=(
-    .bash_aliases
-    .bashrc
-    .profile
-    .zprofile
-    .zshrc
-    .env
-  )
+log_info 'Check system required dependencies'
 
-  for file in "${files[@]}"; do
-    local source_file="${SCRIPT_DIR}/${file}"
-    local target_file="${HOME}/${file}"
-
-    if [ ! -f $source_file ]; then
-      log_error "File $source_file is exists."
-    fi
-
-    if [ -f $target_file ]; then
-      rm $target_file
-      log_debug "Remove file: $target_file"
-    fi
-
-    ln -sf $source_file $target_file
-    chmod 700 $target_file
-    log_success "Executed install $file => $source_file"
-  done
-
-  rm -rf "${HOME}/bin"
-  ln -sf "${SCRIPT_DIR}/bin" "${HOME}/bin"
-  chmod 700 "${HOME}/bin"
-
-  ###############################################################################
-  # Git
-  ###############################################################################
-
-  git config --global user.name "${GIT_NAME}"
-  git config --global user.email "${GIT_EMAIL}"
-  git config --global commit.gpgsign ${GIT_GPG_SIGN}
-  git config --global gpg.program "${GIT_GPG_PROGRAM}"
-  git config --global user.signingkey "${GIT_GPG_KEY}"
-  git config --global core.editor "${GIT_EDITOR}"
-
-  git config --global --list
+command_exists() {
+  command -v "$@" >/dev/null 2>&1
 }
 
-main "$@"
+command_exists docker || {
+  log_error "Command 'docker' is not installed."
+}
+
+command_exists docker-compose || {
+  log_error "Command 'docker-compose' is not installed."
+}
+
+command_exists git || {
+  log_error "Command 'git' is not installed."
+}
+
+command_exists make || {
+  log_error "Command 'make' is not installed."
+}
+
+command_exists gpg || {
+  log_error "Command 'gpg' is not installed."
+}
+
+command_exists openssl || {
+  log_error "Command 'openssl' is not installed."
+}
+
+command_exists mkcert || {
+  log_warn "Command 'mkcert' is not installed."
+}
+
+command_exists shellcheck || {
+  log_warn "Command 'shellcheck' is not installed."
+}
