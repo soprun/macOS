@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+function docker-clean() {
+  echo 'Init'
+
+  # List containers
+  # docker container list --all
+
+  docker-compose down &>/dev/null
+  docker system prune --all --volumes --force
+}
+
+docker-clean "$@"

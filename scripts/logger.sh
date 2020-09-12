@@ -5,6 +5,19 @@ if [ -e ./colors.sh ]; then
   source ./colors.sh
 fi
 
+# Colors
+COLOR_RESET='\033[0m' # Text Reset
+
+# Regular Colors
+COLOR_BLACK="\033[0;30m"  # Black
+COLOR_RED="\033[0;31m"    # Red
+COLOR_GREEN="\033[0;32m"  # Green
+COLOR_YELLOW="\033[0;33m" # Yellow
+COLOR_BLUE="\033[0;34m"   # Blue
+COLOR_PURPLE="\033[0;35m" # Purple
+COLOR_CYAN="\033[0;36m"   # Cyan
+COLOR_WHITE="\033[0;37m"  # White
+
 log_debug() {
   logger -p user.debug -t "$(basename "${0}")" "$@"
 }

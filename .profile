@@ -43,15 +43,30 @@ export ID_EMAIL
 export ID_GPG_KEY
 
 ###
+### Git environment variables
+###
+
+export GIT_NAME="${ID_NAME}"
+export GIT_EMAIL="develop@soprun.com"
+export GIT_GPG_KEY="${ID_GPG_KEY}"
+export GIT_GPG_SIGN=true
+export GIT_GPG_PROGRAM=gpg
+export GIT_EDITOR=vim
+
+###
 ### Composer environment variables
 ###
 
-export COMPOSER_HOME
-export COMPOSER_CACHE_DIR
-export COMPOSER_MEMORY_LIMIT
-export COMPOSER_ALLOW_SUPERUSER
+export COMPOSER_HOME="${HOME}/.composer"
+export COMPOSER_CACHE_DIR="${COMPOSER_HOME}/cache"
+export COMPOSER_MEMORY_LIMIT="-1"
+export COMPOSER_ALLOW_SUPERUSER="1"
 export PATH="${PATH}:${COMPOSER_HOME}/vendor/bin"
 
-#if [ -z "${GIT_TAG:-}" ]; then
-#  GIT_TAG="$(git describe --tags --abbrev=0)"
-#fi
+###
+### Docker environment variables
+###
+
+export DOCKER_DEBUG=0
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1

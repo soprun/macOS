@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 # Checking for existing SSH keys
 function ssh-keys-list() {
