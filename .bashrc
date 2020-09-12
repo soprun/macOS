@@ -4,3 +4,8 @@
 #if [ -n "$BASH" ] ;then
 #    lines to ignore by zsh
 #fi
+
+if [ -f "${HOME}/.bash_aliases" ]; then
+  # shellcheck source=./.bash_aliases
+  . "${HOME}/.bash_aliases"
+fi

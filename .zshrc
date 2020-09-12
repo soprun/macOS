@@ -19,8 +19,8 @@ export ZSH="/Users/soprun/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="typewritten"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="af-magic"
+# ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -82,10 +82,15 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
  git
- bundler
-#  dotenv
+ git-flow
+ brew
+ composer
  osx
- rake
+ docker
+ docker-compose
+ docker-machine
+ gpg-agent
+ ssh-agent
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -95,14 +100,14 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='code'
-else
-  export EDITOR='mvim'
-fi
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='code'
+# else
+#   export EDITOR='mvim'
+# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -116,25 +121,13 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
-# antibody bundle reobin/typewritten
-# zgen load reobin/typewritten typewritten
-# zmodule reobin/typewritten --name typewritten
-# zplug reobin/typewritten, as:theme
-
-# curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
-
 # Load bash files to zsh
-# if [[ -f $HOME/.bashrc ]]; then
-#  # shellcheck source=./.bashrc
-#  . $HOME/.bashrc
-# fi
+if [ -f "$HOME/.bashrc" ]; then
+ # shellcheck source=./.bashrc
+ . "$HOME/.bashrc"
+fi
 #
 # if [[ -f $HOME/.bash_aliases ]]; then
 #  # shellcheck source=./.bash_aliases
 #  . $HOME/.bash_aliases
 # fi
-
-# Load bash files to zsh
-# test -f $HOME/.bashrc && . $HOME/.bashrc
-# test -f $HOME/.bash_aliases && . $HOME/.bash_aliases

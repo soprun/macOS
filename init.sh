@@ -19,10 +19,10 @@ SCRIPT_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
 
 # 1. Check if .env file exists
 if [ -e "${SCRIPT_DIR}/.env" ]; then
-  set -o allexport
+  # set -o allexport
   # shellcheck source=./.env
   source "${SCRIPT_DIR}/.env"
-  set +o allexport
+  # set +o allexport
 fi
 
 # shellcheck source=./scripts/colors.sh
@@ -30,55 +30,39 @@ source "${SCRIPT_DIR}/scripts/colors.sh"
 # shellcheck source=./scripts/logger.sh
 source "${SCRIPT_DIR}/scripts/logger.sh"
 
-#printenv | sort | less
-
 main() {
   log_info 'The main command is executed.'
-  FILES="${HOME}/.bash_aliases ${HOME}/.bash_profile ${HOME}/.bashrc ${HOME}/.bashrc ${HOME}/.profile ${HOME}/.zshenv ${HOME}/.zprofile ${HOME}/.zshrc ${HOME}/.bash"
 
-  for FILE in $FILES; do
-    rm -rf $FILE
-    log_info "Remove $FILE"
+  declare -a files=(
+    .bash_aliases
+    .bashrc
+    .profile
+    .zprofile
+    .zshrc
+    .env
+  )
+
+  for file in "${files[@]}"; do
+    local source_file="${SCRIPT_DIR}/${file}"
+    local target_file="${HOME}/${file}"
+
+    if [ ! -f $source_file ]; then
+      log_error "File $source_file is exists."
+    fi
+
+    if [ -f $target_file ]; then
+      rm $target_file
+      log_debug "Remove file: $target_file"
+    fi
+
+    ln -sf $source_file $target_file
+    chmod 700 $target_file
+    log_success "Executed install $file => $source_file"
   done
 
-  if [ -z "${BASH_PROFILE_HOME:-}" ]; then
-    log_error 'Environment variables BASH_PROFILE_HOME is not defined!'
-  fi
-
-  log_info $BASH_PROFILE_HOME
-
-  if [ -z "${BASH_PROFILE_BIN:-}" ]; then
-    log_error 'Environment variables BASH_PROFILE_BIN is not defined!'
-  fi
-
-  log_info $BASH_PROFILE_BIN
-
-  rm -rf $BASH_PROFILE_HOME
-  mkdir -p $BASH_PROFILE_HOME
-
-  ln -sf "${PWD}/.env" "${BASH_PROFILE_HOME}/.env"
-  ln -sf "${PWD}/bin" $BASH_PROFILE_BIN
-  ls -lasG $BASH_PROFILE_HOME
-
-  ln -sf "${PWD}/.profile" ~/.profile
-  chmod 700 ~/.profile
-
-  ln -sf "${PWD}/.bash_aliases" ~/.bash_aliases
-  chmod 700 ~/.bash_aliases
-
-  ln -sf "${PWD}/.bashrc" ~/.bashrc
-  chmod 700 ~/.bashrc
-
-  ln -sf "${PWD}/.zprofile" ~/.zprofile
-  chmod 700 ~/.zprofile
-
-  ln -sf "${PWD}/.zshrc" ~/.zshrc
-  chmod 700 ~/.zshrc
-
-  ln -sf "${PWD}/.zshenv" ~/.zshenv
-  chmod 700 ~/.zshenv
-
-  ls -lasG ${HOME}
+  rm -rf "${HOME}/bin"
+  ln -sf "${SCRIPT_DIR}/bin" "${HOME}/bin"
+  chmod 700 "${HOME}/bin"
 }
 
 main "$@"
