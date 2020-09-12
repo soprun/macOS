@@ -22,22 +22,6 @@ done
 
 SCRIPT_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
 
-#if [ "$1" == '-h' || "$1" == '--help' ]; then
-#  echo "Usage: $(basename $0)"
-#  exit 0
-#fi
-
-#echo "Enter your FirstName LastName.."
-#read firstname lastname
-#echo "Hello $firstname ! Heard that your last name is $lastname."
-
-#read -p "Enter your: BASH_PROFILE_PATH [~/.bash]: " bash_profile_path
-#bash_profile_path=${bash_profile_path:-~/.bash}
-#read -p "Enter your: BASH_PROFILE_BIN [~/.bash/bin]: " bash_profile_bin
-#bash_profile_bin=${bash_profile_bin:-~/.bash/bin}
-#echo $bash_profile_path
-#echo $bash_profile_bin
-
 # 1. Check if .env file exists
 if [ -e "${SCRIPT_DIR}/.env" ]; then
   # shellcheck source=./.env
