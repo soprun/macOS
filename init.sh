@@ -3,87 +3,82 @@
 # "unofficial" bash strict mode
 # See: http://redsymbol.net/articles/unofficial-bash-strict-mode
 # See: https://scriptingosx.com/2017/04/about-bash_profile-and-bashrc-on-macos/
-set -o errexit # Exit when simple command fails               'set -e'
-# set -o errtrace # Exit on error inside any functions or subshells.
-# set -o nounset  # Trigger error when expanding unset variables 'set -u'
-# set -o pipefail # Do not hide errors within pipes              'set -o pipefail'
+set -o errexit  # Exit when simple command fails               'set -e'
+set -o errtrace # Exit on error inside any functions or subshells.
+set -o nounset  # Trigger error when expanding unset variables 'set -u'
+set -o pipefail # Do not hide errors within pipes              'set -o pipefail'
 # set -o xtrace   # Display expanded command and arguments       'set -x'
 
-function install_bashrc() {
-  printf "=>\033[0;35m Executed install .bashrc \n\033[0m"
-  ln -sf "${PWD}/.bashrc" ~/.zshrc
-  chmod 700 ~/.zshrc
-}
+# Determine the build script's actual directory, following symlinks
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  SOURCE="$(readlink "$SOURCE")"
+done
 
-function install_profile() {
-  printf "=>\033[0;35m Executed install .bash_profile \n\033[0m"
-  ln -sf "${PWD}/.bash_profile" ~/.profile
-  chmod 700 ~/.profile
-}
+SCRIPT_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
 
-function install_aliases() {
-  printf "=>\033[0;35m Executed install .bash_aliases \n\033[0m"
-  ln -sf "${PWD}/.bash_aliases" ~/.bash_aliases
-  chmod 700 ~/.bash_aliases
-}
+# 1. Check if .env file exists
+if [ -e "${SCRIPT_DIR}/.env" ]; then
+  set -o allexport
+  # shellcheck source=./.env
+  source "${SCRIPT_DIR}/.env"
+  set +o allexport
+fi
 
-function install_bash_functions() {
-  printf "=>\033[0;35m Executed install .bash_functions \n\033[0m"
-#  ln -sf "${PWD}/functions" ~/.bash_functions
-#  chmod 700 ~/.bash_functions
+# shellcheck source=./scripts/colors.sh
+source "${SCRIPT_DIR}/scripts/colors.sh"
+# shellcheck source=./scripts/logger.sh
+source "${SCRIPT_DIR}/scripts/logger.sh"
 
-#  mkdir -p "${HOME}/bin"
-#  cp "${PWD}/functions/" "${HOME}/bin/"
-}
+#printenv | sort | less
 
 main() {
-  printf "\033[0;35mThe main command is executed. \n\033[0m"
+  log_info 'The main command is executed.'
+  FILES="${HOME}/.bash_aliases ${HOME}/.bash_profile ${HOME}/.bashrc ${HOME}/.bashrc ${HOME}/.profile ${HOME}/.zshenv ${HOME}/.zprofile ${HOME}/.zshrc ${HOME}/.bash"
 
-  install_bashrc
-  install_profile
-  install_aliases
-  # install_bash_functions
+  for FILE in $FILES; do
+    rm -rf $FILE
+    log_info "Remove $FILE"
+  done
+
+  if [ -z "${BASH_PROFILE_HOME:-}" ]; then
+    log_error 'Environment variables BASH_PROFILE_HOME is not defined!'
+  fi
+
+  log_info $BASH_PROFILE_HOME
+
+  if [ -z "${BASH_PROFILE_BIN:-}" ]; then
+    log_error 'Environment variables BASH_PROFILE_BIN is not defined!'
+  fi
+
+  log_info $BASH_PROFILE_BIN
+
+  rm -rf $BASH_PROFILE_HOME
+  mkdir -p $BASH_PROFILE_HOME
+
+  ln -sf "${PWD}/.env" "${BASH_PROFILE_HOME}/.env"
+  ln -sf "${PWD}/bin" $BASH_PROFILE_BIN
+  ls -lasG $BASH_PROFILE_HOME
+
+  ln -sf "${PWD}/.profile" ~/.profile
+  chmod 700 ~/.profile
+
+  ln -sf "${PWD}/.bash_aliases" ~/.bash_aliases
+  chmod 700 ~/.bash_aliases
+
+  ln -sf "${PWD}/.bashrc" ~/.bashrc
+  chmod 700 ~/.bashrc
+
+  ln -sf "${PWD}/.zprofile" ~/.zprofile
+  chmod 700 ~/.zprofile
+
+  ln -sf "${PWD}/.zshrc" ~/.zshrc
+  chmod 700 ~/.zshrc
+
+  ln -sf "${PWD}/.zshenv" ~/.zshenv
+  chmod 700 ~/.zshenv
+
+  ls -lasG ${HOME}
 }
 
 main "$@"
-
-###############################################################################
-# Git
-###############################################################################
-
-git config --global user.name "Vladislav Soprun"
-git config --global user.email "develop@soprun.com"
-git config --global commit.gpgsign true
-git config --global gpg.program "gpg"
-git config --global user.signingkey "8120213055C84C2C3324FB08B7502F96C5DC44C2"
-
-# git config --global --list
-
-###############################################################################
-# SSH configuration
-###############################################################################
-
-mkdir -p "${HOME}/.ssh/"
-
-readonly ssh_config_source="${PWD}/app/ssh/config.conf"
-readonly ssh_config="${HOME}/.ssh/config"
-
-if [[ -f ${ssh_config} ]]; then
-  cp "${ssh_config}" "${ssh_config}.backup"
-fi
-
-ln -sf "${ssh_config_source}" "${ssh_config}"
-chmod 700 "${ssh_config}"
-
-
-# composer global require hirak/prestissimo
-
-# composer global require friendsofphp/php-cs-fixer
-# composer global require nunomaduro/phpinsights
-# composer global require phpmetrics/phpmetrics
-# composer global require phpmd/phpmd
-# composer global require phpunit/phpunit:^9.0 --update-with-dependencies
-
-
-# curl -sS https://get.symfony.com/cli/installer | bash
-# curl https://installer.blackfire.io/ | bash
