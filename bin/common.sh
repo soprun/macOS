@@ -3,9 +3,6 @@
 # Be very strict
 set -euo pipefail
 
-# Shared functions for deploying solutions
-# https://gist.github.com/vratiu/9780109
-
 ###
 ### Colors
 ###
@@ -28,6 +25,7 @@ COLOR_WHITE="\033[0;37m"  # White
 
 log_debug() {
   logger -p user.debug -t "$(basename "${0}")" "$@"
+  sleep .3
 }
 
 log_success() {
@@ -53,11 +51,29 @@ log_error() {
   exit 1
 }
 
+# see: https://apple.stackexchange.com/questions/256769/how-to-use-logger-command-on-sierra
+### Example
+
+#log_debug 'success'
+#log_success 'success'
+#log_info 'info'
+#log_warn 'warn'
+#log_error 'error'
+
 ###
-### logger
+### Shared functions for deploying solutions
+### https://gist.github.com/vratiu/9780109
 ###
 
 # https://en.gravatar.com/site/implement/hash/
 function email_to_hash() {
   echo -n $@ | tr '[A-Z]' '[a-z]' | md5
 }
+
+function command_exists() {
+  command -v "$@" >/dev/null 2>&1
+}
+
+#command_exists docker || {
+#  log_error "Command 'docker' is not installed."
+#}

@@ -1,0 +1,12 @@
+#!/bin/sh
+source "common.sh"
+
+size="${1:-250}"
+email="${2:-${ID_EMAIL}}"
+url="http://www.gravatar.com/avatar/$(email_to_hash $email)?size=$size"
+
+printf $url | pbcopy
+
+log_info "size: $size"
+log_info "email: $email"
+log_success $url
