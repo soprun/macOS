@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-echo 'Init'
+#echo 'Init'
 
 # List containers
 # docker container list --all
