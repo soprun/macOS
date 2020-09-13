@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Be very strict
-set -euo pipefail
+# set -euo pipefail
 
 ###
 ### Colors

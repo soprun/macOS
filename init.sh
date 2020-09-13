@@ -73,9 +73,12 @@ for index in "${files[@]}"; do
   # log_success "File '$source_file' symlink to '$target_file'"
 done
 
-#rm -rf "${HOME}/bin"
+rm -rf "${HOME}/bin"
 ln -sf "${SOURCE_DIR}/bin" "${HOME}/bin"
-chmod 700 "${HOME}/bin"
+
+#chmod -R 755 "${HOME}/bin"
+#chmod -R a+rwx,g-w,o-w "${HOME}/bin"
+# https://chmodcommand.com/chmod-744/
 
 #if [ ! -e "${HOME}/.env.local" ]; then
 #  cp "${HOME}/.env" "${HOME}/.env.local"
