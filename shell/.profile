@@ -54,12 +54,15 @@ export COMPOSER_ALLOW_SUPERUSER="1"
 
 ###
 ### Docker environment variables
-###
+### env | grep DOCKER
 
 export DOCKER_DEBUG=0
 export DOCKER_BUILDKIT=1
+export DOCKER_STACK_ORCHESTRATOR=kubernetes
 export COMPOSE_DOCKER_CLI_BUILD=1
 # export BUILDKIT_PROGRESS=plain
+
+eval $(docker-machine env default)
 
 ###
 ### GNU Privacy Guard
