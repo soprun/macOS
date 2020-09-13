@@ -108,3 +108,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# include .bashrc if it exists
+if [ -e "${HOME}/.bashrc" ]; then
+  # shellcheck source=./.bashrc
+  . "${HOME}/.bashrc"
+fi

@@ -1,7 +1,5 @@
 # Be very strict
-# set -euo pipefail
-# Enable tracing
-# set -ex
+set -euo pipefail
 
 ###
 ### Default environment variables
@@ -24,23 +22,28 @@ fi
 ### Default environment variables
 ###
 
-# If you come from bash you might have to change your $PATH.
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
 export LANG="en_US.UTF-8"
 export CLICOLOR="1"
 export EDITOR="code"
 
-echo "shell: '${SHELL}'"
-echo "version: '${BASH_VERSION}'"
+# set PATH so it includes user's private bin if it exists
+
+if [ -d "${HOME}/bin" ]; then
+  export PATH="${PATH}:${HOME}/bin"
+fi
+
+#echo "shell: '${SHELL}'"
+#echo "version: '${BASH_VERSION}'"
 
 ###
 ### Identity environment variables
 ###
 
-export ID_NAME
-export ID_USER
-export ID_EMAIL
-export ID_GPG_KEY
+export ID_NAME="Vladislav Soprun"
+export ID_USER="soprun"
+export ID_EMAIL="mail@soprun.com"
+export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
 
 ###
 ### Composer environment variables
@@ -62,14 +65,9 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 # export BUILDKIT_PROGRESS=plain
 
 ###
-### set PATH so it includes user's private bin if it exists
+### Include .bashrc if it exists
 ###
 
-if [ -d "${HOME}/bin" ]; then
-  export PATH="${PATH}:${HOME}/bin"
-fi
-
-# include .bashrc if it exists
 if [ -e "${HOME}/.bashrc" ]; then
   # shellcheck source=./.bashrc
   . "${HOME}/.bashrc"

@@ -71,6 +71,10 @@ rm -rf "${HOME}/bin"
 ln -sf "${SOURCE_DIR}/bin" "${HOME}/bin"
 chmod 700 "${HOME}/bin"
 
+if [ ! -e "${HOME}/.env.local" ]; then
+  cp "${HOME}/.env" "${HOME}/.env.local"
+fi
+
 log_success "Macbook setup completed!"
 
 # /usr/local/bin/bash

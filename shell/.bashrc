@@ -2,9 +2,6 @@
 ### Default environment variables
 ###
 
-echo "shell - .bashrc: '${SHELL}'"
-echo "version - .bashrc: '${BASH_VERSION}'"
-
 ###
 ### Set personal aliases
 ###
