@@ -70,19 +70,8 @@ if [ -d "${HOME}/bin" ]; then
   export PATH="${PATH}:${HOME}/bin"
 fi
 
-###
-### Default environment variables
-###
-
-# if running bash
-#if [ -n $BASH_VERSION ]; then
-#fi
-
 # include .bashrc if it exists
 if [ -e "${HOME}/.bashrc" ]; then
   # shellcheck source=./.bashrc
   . "${HOME}/.bashrc"
 fi
-
-#printenv | sort
-#return
