@@ -1,0 +1,8 @@
+#!/bin/sh
+source "common.sh"
+
+###
+### List used ports on Linux and MacOS
+###
+
+netstat -an | grep 'LISTEN\s'

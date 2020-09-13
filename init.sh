@@ -1,27 +1,31 @@
 #!/usr/bin/env bash
 
-# Be very strict
-set -euo pipefail
+###
+### Settings
+###
 
-# Determine the build script's actual directory, following symlinks
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do
-  SOURCE="$(readlink "$SOURCE")"
-done
+# Be strict
+set -e
+set -u
+set -o pipefail
 
-# Get absolute directory of this script
-SOURCE_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
+###
+### Variables
+###
+
+# Current directory
+CWD="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+
+###
+### Source include
+###
 
 # shellcheck source=./bin/common.sh
-source "${SOURCE_DIR}/bin/common.sh"
+. "${CWD}/bin/common.sh"
 
-log_info $SHELL
-log_info $BASH_VERSION
-
-# shellcheck source=./scripts/check-dependence.sh
-# source "${SOURCE_DIR}/scripts/check-dependence.sh"
-
-log_info 'Check system required dependencies'
+###
+### System dependencies
+### log_info 'Check system required dependencies'
 
 declare -a commands=(
   docker
@@ -41,19 +45,23 @@ for command in "${commands[@]}"; do
   fi
 done
 
+###
+### Create symlink
+###
+
 declare -a files=(
-  "${SOURCE_DIR}/shell/.bash_aliases::${HOME}/.bash_aliases"
-  "${SOURCE_DIR}/shell/.bashrc::${HOME}/.bashrc"
-  "${SOURCE_DIR}/shell/.profile::${HOME}/.profile"
-  "${SOURCE_DIR}/shell/.zprofile::${HOME}/.zprofile"
-  "${SOURCE_DIR}/shell/.zshrc::${HOME}/.zshrc"
+  "${CWD}/shell/.bash_aliases::${HOME}/.bash_aliases"
+  "${CWD}/shell/.bashrc::${HOME}/.bashrc"
+  "${CWD}/shell/.profile::${HOME}/.profile"
+  "${CWD}/shell/.zprofile::${HOME}/.zprofile"
+  "${CWD}/shell/.zshrc::${HOME}/.zshrc"
 
-  "${SOURCE_DIR}/config/gpg.conf::${HOME}/.gnupg/gpg.conf"
-  "${SOURCE_DIR}/config/gpg-agent.conf::${HOME}/.gnupg/gpg-agent.conf"
-  "${SOURCE_DIR}/config/ssh.conf::${HOME}/.ssh/config"
+  "${CWD}/config/gpg.conf::${HOME}/.gnupg/gpg.conf"
+  "${CWD}/config/gpg-agent.conf::${HOME}/.gnupg/gpg-agent.conf"
+  "${CWD}/config/ssh.conf::${HOME}/.ssh/config"
 
-  # "${SOURCE_DIR}/.env::${HOME}/.env"
-  # "${SOURCE_DIR}/.env.local::${HOME}/.env.local"
+  # "${CWD}/.env::${HOME}/.env"
+  # "${CWD}/.env.local::${HOME}/.env.local"
 )
 
 for index in "${files[@]}"; do
@@ -74,18 +82,13 @@ for index in "${files[@]}"; do
   # log_success "File '$source_file' symlink to '$target_file'"
 done
 
-rm -rf "${HOME}/bin"
-ln -sf "${SOURCE_DIR}/bin" "${HOME}/bin"
+###
+### Create symlink bin directory
+### https://chmodcommand.com/chmod-744/
 
-#chmod -R 755 "${HOME}/bin"
-#chmod -R a+rwx,g-w,o-w "${HOME}/bin"
-# https://chmodcommand.com/chmod-744/
-
-#if [ ! -e "${HOME}/.env.local" ]; then
-#  cp "${HOME}/.env" "${HOME}/.env.local"
-#fi
-
-log_success "Macbook setup completed!"
+rm "${HOME}/bin"
+ln -sf "${CWD}/bin" "${HOME}/bin"
+chmod -R 755 "${HOME}/bin"
 
 ###############################################################################
 # Git
