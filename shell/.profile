@@ -66,11 +66,11 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 ### https://github.com/drduh/YubiKey-Guide#ssh
 ###
 
-# export GPG_KEY_ID="B7502F96C5DC44C2"
-# export GPG_KEY_EMAIL="mail@soprun.com"
-# export GPG_KEY_FINGERPRINT=""
-# export GPG_KEY_FORMAT="short" # short, 0xshort or long, 0xlong
-# export GPG_KEY_SERVER="keys.openpgp.org"
+# GPG_KEY_ID="B7502F96C5DC44C2"
+# GPG_KEY_EMAIL="mail@soprun.com"
+# GPG_KEY_FINGERPRINT=""
+# GPG_KEY_FORMAT="short" # short, 0xshort or long, 0xlong
+# GPG_KEY_SERVER="keys.openpgp.org"
 
 ###
 ### Include .bashrc if it exists
