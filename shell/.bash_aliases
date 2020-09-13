@@ -43,7 +43,7 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 #alias copy-ip="get-url http://ipecho.net/plain | pbcopy"
 #alias copy-uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy"
 #alias copy-ssh="pbcopy < ${ID_SSH_KEY}.pub"
-#alias copy-ssh-gpg="gpg --armor --export-ssh-key ${ID_GPG_KEY} | pbcopy;"
+#alias copy-ssh="gpg --armor --export-ssh-key ${ID_GPG_KEY} | pbcopy;ok!"
 #alias copy-gpg="gpg --armor --export ${ID_GPG_KEY} | pbcopy;"
 #alias copy-gravatar="echo 'http://www.gravatar.com/avatar/${ID_EMAIL_HASH}?size=250' | pbcopy;"
 

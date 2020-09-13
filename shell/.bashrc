@@ -11,8 +11,6 @@ if [ -f "${HOME}/.bash_aliases" ]; then
   . "${HOME}/.bash_aliases"
 fi
 
-# GNU Privacy Guard
-# export GPG_TTY=$(tty)
 # export GPG_KEY_ID="B7502F96C5DC44C2"
 # export GPG_KEY_EMAIL="mail@soprun.com"
 # export GPG_KEY_FINGERPRINT=""
@@ -25,15 +23,24 @@ fi
 # keys.openpgp.org
 # export GPG_KEY_SERVER="keys.openpgp.org"
 
-## SSH-agent running!
 # pkill ssh-agent;
+# pkill gpg-agent;
+
+
+# brew install gnupg gpg-agent pinentry-mac
+
+# GNU Privacy Guard
+export GPG_TTY=$(tty)
+
+## SSH-agent running!
 #if [[ -z ${SSH_AGENT_PID} ]]; then
-#  eval `ssh-agent -s` /usr/bin/tty > /dev/null
+#  eval $(ssh-agent -s) /usr/bin/tty >/dev/null
 #fi
 
 ## GPG-agent running!
-# pkill gpg-agent;
-#gpg-agent --daemon --enable-ssh-support --sh --options ~/.gnupg/gpg-agent.conf &>/dev/null
+#gpg-agent --daemon --enable-ssh-support --sh --options "${HOME}/.gnupg/gpg-agent.conf" &>/dev/null
 
-# pkill ssh-agent;
-# pkill gpg-agent;
+killall gpg-agent &>/dev/null
+killall ssh-agent &>/dev/null
+# note: eval is used because the produced STDOUT is a bunch of ENV settings
+eval $(gpg-agent --daemon --enable-ssh-support)

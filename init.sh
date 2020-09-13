@@ -89,6 +89,10 @@ log_success "Macbook setup completed!"
 #git config --global user.signingkey "${GIT_GPG_KEY}"
 #git config --global core.editor "${GIT_EDITOR}"
 
+# From https://gist.github.com/danieleggert/b029d44d4a54b328c0bac65d46ba4c65
+# If you want annotated tags to be GPG signed:
+# git config --global tag.forceSignAnnotated true
+
 #git config --global --list
 
 # https://github.com/sindresorhus/pure

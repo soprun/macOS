@@ -1,11 +1,14 @@
 #!/bin/sh
 source "common.sh"
 
-readonly identity="$(email_to_hash ${@:-$ID_EMAIL})"
-readonly file="${HOME}/.ssh/$identity"
+#readonly identity="$(email_to_hash ${@:-$ID_EMAIL})"
+#readonly file="${HOME}/.ssh/$identity"
+#
+#if [ ! -e $file ]; then
+#  log_error "File $file does not exists."
+#fi
+#
+#pbcopy <"${file}.pub"
 
-if [ ! -e $file ]; then
-  log_error "File $file does not exists."
-fi
-
-pbcopy <"${file}.pub"
+gpg --armor --export-ssh-key ${ID_GPG_KEY} | pbcopy
+log_success 'Export ssh key and copy the clipboard.'
