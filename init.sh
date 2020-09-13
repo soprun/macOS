@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Be very strict
 set -euo pipefail
 
 # Determine the build script's actual directory, following symlinks
@@ -8,51 +9,79 @@ while [ -h "$SOURCE" ]; do
   SOURCE="$(readlink "$SOURCE")"
 done
 
+# Get absolute directory of this script
 SOURCE_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
-
-# shellcheck source=./scripts/colors.sh
-source "${SOURCE_DIR}/scripts/colors.sh"
-
-# shellcheck source=./scripts/logger.sh
-source "${SOURCE_DIR}/scripts/logger.sh"
 
 # shellcheck source=./scripts/utils.sh
 source "${SOURCE_DIR}/scripts/utils.sh"
 
+log_info $SHELL
+log_info $BASH_VERSION
+
+# shellcheck source=./scripts/check-dependence.sh
+# source "${SOURCE_DIR}/scripts/check-dependence.sh"
+
 log_info 'Check system required dependencies'
 
-command_exists() {
-  command -v "$@" >/dev/null 2>&1
-}
+declare -a commands=(
+  docker
+  docker-compose
+  git
+  make
+  gpg
+  mkcert
+  openssl
+  shellcheck
+)
 
-command_exists docker || {
-  log_error "Command 'docker' is not installed."
-}
+for command in "${commands[@]}"; do
+  if ! command -v $command >/dev/null 2>/dev/null; then
+    log_warn "${command} is not installed."
+  fi
+done
 
-command_exists docker-compose || {
-  log_error "Command 'docker-compose' is not installed."
-}
+declare -a files=(
+  "${SOURCE_DIR}/shell/.bash_aliases::${HOME}/.bash_aliases"
+  "${SOURCE_DIR}/shell/.bashrc::${HOME}/.bashrc"
+  "${SOURCE_DIR}/shell/.profile::${HOME}/.profile"
+  # "${SOURCE_DIR}/shell/.zprofile::${HOME}/.zprofile"
+  "${SOURCE_DIR}/shell/.zshrc::${HOME}/.zshrc"
+  # "${SOURCE_DIR}/.env::${HOME}/.env"
+)
 
-command_exists git || {
-  log_error "Command 'git' is not installed."
-}
+for index in "${files[@]}"; do
+  source_file="${index%%::*}"
+  target_file="${index##*::}"
 
-command_exists make || {
-  log_error "Command 'make' is not installed."
-}
+  if [ ! -f $source_file ]; then
+    log_error "File $source_file does not exists."
+  fi
 
-command_exists gpg || {
-  log_error "Command 'gpg' is not installed."
-}
+  if [ -f $target_file ]; then
+    log_warn "File $target_file exists and will be overwritten."
+    rm $target_file
+  fi
 
-command_exists openssl || {
-  log_error "Command 'openssl' is not installed."
-}
+  cp $source_file $target_file
+  chmod 700 $target_file
+  # log_success "File '$source_file' symlink to '$target_file'"
+done
 
-command_exists mkcert || {
-  log_warn "Command 'mkcert' is not installed."
-}
+rm -rf "${HOME}/bin"
+ln -sf "${SOURCE_DIR}/bin" "${HOME}/bin"
+chmod 700 "${HOME}/bin"
 
-command_exists shellcheck || {
-  log_warn "Command 'shellcheck' is not installed."
-}
+log_success "Macbook setup completed!"
+
+###############################################################################
+# Git
+###############################################################################
+
+#git config --global user.name "${GIT_NAME}"
+#git config --global user.email "${GIT_EMAIL}"
+#git config --global commit.gpgsign ${GIT_GPG_SIGN}
+#git config --global gpg.program "${GIT_GPG_PROGRAM}"
+#git config --global user.signingkey "${GIT_GPG_KEY}"
+#git config --global core.editor "${GIT_EDITOR}"
+
+#git config --global --list
