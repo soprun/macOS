@@ -1,9 +1,28 @@
-# Поместите в .bashrc файл команды, которые должны запускаться каждый раз при запуске новой оболочки.
-# Сюда входят ваши псевдонимы и функции, пользовательские подсказки, настройки истории и т.д.
+###
+### Default environment variables
+###
 
-#if [ -n "$BASH" ] ;then
-#    lines to ignore by zsh
-#fi
+export LANG="en_US.UTF-8"
+export CLICOLOR="1"
+export EDITOR="code" # $EDITOR - текстовый редактор по умолчанию
+
+export PATH="${PATH}:/usr/local/bin"
+# chsh -s /usr/local/bin/bash
+
+###
+### set PATH so it includes user's private bin if it exists
+###
+
+if [ -d "${HOME}/bin" ]; then
+  export PATH="${PATH}:${HOME}/bin"
+fi
+
+#echo $SHELL
+#echo $BASH_VERSION
+
+###
+### Set personal aliases
+###
 
 if [ -f "${HOME}/.bash_aliases" ]; then
   # shellcheck source=./.bash_aliases

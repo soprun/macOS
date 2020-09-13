@@ -42,10 +42,10 @@ done
 
 declare -a files=(
   "${SOURCE_DIR}/shell/.bash_aliases::${HOME}/.bash_aliases"
+  "${SOURCE_DIR}/shell/.bash_profile::${HOME}/.bash_profile"
   "${SOURCE_DIR}/shell/.bashrc::${HOME}/.bashrc"
-  "${SOURCE_DIR}/shell/.profile::${HOME}/.profile"
   # "${SOURCE_DIR}/shell/.zprofile::${HOME}/.zprofile"
-  "${SOURCE_DIR}/shell/.zshrc::${HOME}/.zshrc"
+  # "${SOURCE_DIR}/shell/.zshrc::${HOME}/.zshrc"
   # "${SOURCE_DIR}/.env::${HOME}/.env"
 )
 
@@ -62,7 +62,7 @@ for index in "${files[@]}"; do
     rm $target_file
   fi
 
-  cp $source_file $target_file
+  ln -sf $source_file $target_file
   chmod 700 $target_file
   # log_success "File '$source_file' symlink to '$target_file'"
 done
@@ -85,3 +85,5 @@ log_success "Macbook setup completed!"
 #git config --global core.editor "${GIT_EDITOR}"
 
 #git config --global --list
+
+# https://github.com/sindresorhus/pure
