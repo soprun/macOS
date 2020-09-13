@@ -69,11 +69,11 @@ for index in "${files[@]}"; do
   fi
 
   ln -sf "$source_file" "$target_file"
-  chmod 700 $target_file
+  # chmod 700 $target_file
   # log_success "File '$source_file' symlink to '$target_file'"
 done
 
-rm -rf "${HOME}/bin"
+#rm -rf "${HOME}/bin"
 ln -sf "${SOURCE_DIR}/bin" "${HOME}/bin"
 chmod 700 "${HOME}/bin"
 
