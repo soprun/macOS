@@ -32,6 +32,7 @@ declare -a commands=(
   mkcert
   openssl
   shellcheck
+  tree
 )
 
 for command in "${commands[@]}"; do
