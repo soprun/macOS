@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# ZSH Terminal In Seven Steps — A Visual Guide
+# https://www.freecodecamp.org/news/jazz-up-your-zsh-terminal-in-seven-steps-a-visual-guide-e81a8fd59a38/
+
 # Be very strict
 set -euo pipefail
 
@@ -77,11 +80,6 @@ fi
 
 log_success "Macbook setup completed!"
 
-# /usr/local/bin/bash
-
-# export PATH="${PATH}:/usr/local/bin"
-# chsh -s /usr/local/bin/bash
-
 ###############################################################################
 # Git
 ###############################################################################
@@ -96,3 +94,9 @@ log_success "Macbook setup completed!"
 #git config --global --list
 
 # https://github.com/sindresorhus/pure
+
+# /usr/local/bin/bash
+# export PATH="${PATH}:/usr/local/bin"
+# chsh -s /usr/local/bin/bash
+#sudo chown -R $USER /usr/local/lib/node_modules
+#chsh -s /usr/local/bin/zsh

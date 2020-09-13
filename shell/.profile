@@ -1,6 +1,3 @@
-# Be very strict
-set -euo pipefail
-
 ###
 ### Default environment variables
 ###
@@ -22,7 +19,7 @@ fi
 ### Default environment variables
 ###
 
-export PATH="$HOME/bin:/usr/local/bin:$PATH"
+export PATH="${PATH}:${HOME}/bin"
 export LANG="en_US.UTF-8"
 export CLICOLOR="1"
 export EDITOR="code"
@@ -53,7 +50,7 @@ export COMPOSER_HOME="${HOME}/.composer"
 export COMPOSER_CACHE_DIR="${COMPOSER_HOME}/cache"
 export COMPOSER_MEMORY_LIMIT="-1"
 export COMPOSER_ALLOW_SUPERUSER="1"
-export PATH="${PATH}:${COMPOSER_HOME}/vendor/bin"
+#export PATH="${PATH}:${COMPOSER_HOME}/vendor/bin"
 
 ###
 ### Docker environment variables
