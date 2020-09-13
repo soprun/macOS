@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# ZSH Terminal In Seven Steps — A Visual Guide
-# https://www.freecodecamp.org/news/jazz-up-your-zsh-terminal-in-seven-steps-a-visual-guide-e81a8fd59a38/
-
 # Be very strict
 set -euo pipefail
 
@@ -49,7 +46,8 @@ declare -a files=(
   "${SOURCE_DIR}/shell/.profile::${HOME}/.profile"
   "${SOURCE_DIR}/shell/.zprofile::${HOME}/.zprofile"
   "${SOURCE_DIR}/shell/.zshrc::${HOME}/.zshrc"
-  "${SOURCE_DIR}/.env::${HOME}/.env"
+  # "${SOURCE_DIR}/.env::${HOME}/.env"
+  # "${SOURCE_DIR}/.env.local::${HOME}/.env.local"
 )
 
 for index in "${files[@]}"; do
@@ -74,9 +72,9 @@ rm -rf "${HOME}/bin"
 ln -sf "${SOURCE_DIR}/bin" "${HOME}/bin"
 chmod 700 "${HOME}/bin"
 
-if [ ! -e "${HOME}/.env.local" ]; then
-  cp "${HOME}/.env" "${HOME}/.env.local"
-fi
+#if [ ! -e "${HOME}/.env.local" ]; then
+#  cp "${HOME}/.env" "${HOME}/.env.local"
+#fi
 
 log_success "Macbook setup completed!"
 

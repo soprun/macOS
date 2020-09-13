@@ -1,6 +1,11 @@
 # macOS
 Collection bash scripts
 
+https://github.com/alebcay/awesome-shell
+
+ZSH Terminal In Seven Steps — A Visual Guide
+https://www.freecodecamp.org/news/jazz-up-your-zsh-terminal-in-seven-steps-a-visual-guide-e81a8fd59a38/
+
 ---
 
 `.bash_profile` выполняется для оболочек входа в систему, а `.bashrc` для интерактивных оболочек без входа в систему.

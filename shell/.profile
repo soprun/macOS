@@ -5,15 +5,15 @@
 # set -o allexport
 # set +o allexport
 
-if [ -e "${HOME}/.env" ]; then
-  # shellcheck source=../.env
-  . "${HOME}/.env"
-fi
-
-if [ -e "${HOME}/.env.local" ]; then
-  # shellcheck source=../.env
-  . "${HOME}/.env.local"
-fi
+#if [ -e "${HOME}/.env" ]; then
+#  # shellcheck source=../.env
+#  . "${HOME}/.env"
+#fi
+#
+#if [ -e "${HOME}/.env.local" ]; then
+#  # shellcheck source=../.env
+#  . "${HOME}/.env.local"
+#fi
 
 ###
 ### Default environment variables
