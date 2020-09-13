@@ -73,6 +73,11 @@ chmod 700 "${HOME}/bin"
 
 log_success "Macbook setup completed!"
 
+# /usr/local/bin/bash
+
+# export PATH="${PATH}:/usr/local/bin"
+# chsh -s /usr/local/bin/bash
+
 ###############################################################################
 # Git
 ###############################################################################

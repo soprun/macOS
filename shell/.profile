@@ -24,15 +24,14 @@ fi
 ### Default environment variables
 ###
 
-echo "shell: '${SHELL}'"
-echo "version: '${BASH_VERSION}'"
-
+# If you come from bash you might have to change your $PATH.
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
 export LANG="en_US.UTF-8"
 export CLICOLOR="1"
 export EDITOR="code"
 
-# export PATH="${PATH}:/usr/local/bin"
-# chsh -s /usr/local/bin/bash
+echo "shell: '${SHELL}'"
+echo "version: '${BASH_VERSION}'"
 
 ###
 ### Identity environment variables

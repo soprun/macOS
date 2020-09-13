@@ -127,10 +127,10 @@ export ARCHFLAGS="-arch x86_64"
 #  . "$HOME/.bashrc"
 # fi
 #
-# if [[ -f $HOME/.bash_aliases ]]; then
-#  # shellcheck source=./.bash_aliases
-#  . $HOME/.bash_aliases
-# fi
+if [ -f "$HOME/.bash_aliases" ]; then
+ # shellcheck source=./.bash_aliases
+ . "$HOME/.bash_aliases"
+fi
 
 # prompt_context() {
 #   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
