@@ -81,6 +81,7 @@ plugins=(
  docker
  docker-compose
  docker-machine
+ keychain
  gpg-agent
  ssh-agent
  node
@@ -124,7 +125,4 @@ if [ -e "${HOME}/.bashrc" ]; then
   . "${HOME}/.bashrc"
 fi
 
-# fpath+=$HOME/.zsh/pure
-#
-# autoload -U promptinit; promptinit
-# prompt pure
+zstyle :omz:plugins:keychain agents gpg,ssh

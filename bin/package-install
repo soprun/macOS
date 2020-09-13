@@ -19,7 +19,8 @@ PACKAGES=(
   docker
   docker-compose
   make
-  gpg
+  # gnupg
+  # pinentry-mac
   openssl
   mkcert
   shellcheck

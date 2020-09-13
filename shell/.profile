@@ -62,6 +62,16 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 # export BUILDKIT_PROGRESS=plain
 
 ###
+### GNU Privacy Guard
+###
+
+# export GPG_KEY_ID="B7502F96C5DC44C2"
+# export GPG_KEY_EMAIL="mail@soprun.com"
+# export GPG_KEY_FINGERPRINT=""
+# export GPG_KEY_FORMAT="short" # short, 0xshort or long, 0xlong
+# export GPG_KEY_SERVER="keys.openpgp.org"
+
+###
 ### Include .bashrc if it exists
 ###
 
