@@ -81,7 +81,6 @@ plugins=(
  docker
  docker-compose
  docker-machine
- keychain
  gpg-agent
  ssh-agent
  node
@@ -124,5 +123,3 @@ if [ -e "${HOME}/.bashrc" ]; then
   # shellcheck source=./.bashrc
   . "${HOME}/.bashrc"
 fi
-
-zstyle :omz:plugins:keychain agents gpg,ssh

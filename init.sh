@@ -46,6 +46,11 @@ declare -a files=(
   "${SOURCE_DIR}/shell/.profile::${HOME}/.profile"
   "${SOURCE_DIR}/shell/.zprofile::${HOME}/.zprofile"
   "${SOURCE_DIR}/shell/.zshrc::${HOME}/.zshrc"
+
+  "${SOURCE_DIR}/config/gpg.conf::${HOME}/.gnupg/gpg.conf"
+  "${SOURCE_DIR}/config/gpg-agent.conf::${HOME}/.gnupg/gpg-agent.conf"
+  "${SOURCE_DIR}/config/ssh.conf::${HOME}/.ssh/config"
+
   # "${SOURCE_DIR}/.env::${HOME}/.env"
   # "${SOURCE_DIR}/.env.local::${HOME}/.env.local"
 )
