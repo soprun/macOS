@@ -1,10 +1,5 @@
 #!/bin/sh
 source "common.sh"
 
-#echo 'Init'
-
-# List containers
-# docker container list --all
-
 docker-compose down &>/dev/null
 docker system prune --all --volumes --force
