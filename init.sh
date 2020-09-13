@@ -35,7 +35,7 @@ declare -a commands=(
 )
 
 for command in "${commands[@]}"; do
-  if ! command -v $command >/dev/null 2>/dev/null; then
+  if ! command -v "$command" >/dev/null 2>/dev/null; then
     log_warn "${command} is not installed."
   fi
 done
@@ -46,23 +46,23 @@ declare -a files=(
   "${SOURCE_DIR}/shell/.bashrc::${HOME}/.bashrc"
   # "${SOURCE_DIR}/shell/.zprofile::${HOME}/.zprofile"
   # "${SOURCE_DIR}/shell/.zshrc::${HOME}/.zshrc"
-  # "${SOURCE_DIR}/.env::${HOME}/.env"
+  "${SOURCE_DIR}/.env::${HOME}/.env"
 )
 
 for index in "${files[@]}"; do
   source_file="${index%%::*}"
   target_file="${index##*::}"
 
-  if [ ! -f $source_file ]; then
+  if [ ! -f "$source_file" ]; then
     log_error "File $source_file does not exists."
   fi
 
-  if [ -f $target_file ]; then
+  if [ -f "$target_file" ]; then
     log_warn "File $target_file exists and will be overwritten."
     rm $target_file
   fi
 
-  ln -sf $source_file $target_file
+  ln -sf "$source_file" "$target_file"
   chmod 700 $target_file
   # log_success "File '$source_file' symlink to '$target_file'"
 done
