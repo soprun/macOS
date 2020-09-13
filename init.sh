@@ -12,8 +12,8 @@ done
 # Get absolute directory of this script
 SOURCE_DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
 
-# shellcheck source=./scripts/utils.sh
-source "${SOURCE_DIR}/scripts/utils.sh"
+# shellcheck source=./bin/common.sh
+source "${SOURCE_DIR}/bin/common.sh"
 
 log_info $SHELL
 log_info $BASH_VERSION

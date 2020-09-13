@@ -1,4 +1,5 @@
 #!/bin/sh
+source "common.sh"
 
 # Copy the current branch name to the clipboard.
 

@@ -1,0 +1,26 @@
+#!/bin/sh
+source "common.sh"
+
+id="${@:-${ID_EMAIL}}"
+file="${HOME}/.ssh/$(email_to_hash ${id})"
+
+log_info $id
+log_info $file
+
+if [ -f "$file" ]; then
+  log_error "File '$file' exists!"
+fi
+
+log_success 'Generating a new SSH key'
+
+# Generate Keypair - Enter and password
+ssh-keygen \
+  -q \
+  -b 4096 \
+  -t "rsa" \
+  -N "" \
+  -C "${id}" \
+  -f "${file}"
+
+chmod 600 "${file}"
+chmod 400 "${file}.pub"

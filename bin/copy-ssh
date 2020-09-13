@@ -1,21 +1,11 @@
 #!/bin/sh
-
-# https://en.gravatar.com/site/implement/hash/
-email_to_hash() {
-  echo -n "$@" | tr '[A-Z]' '[a-z]' | md5
-}
-
-error() {
-  printf "=>\033[0;31m error: \033[0m%-6s\n" "$*" >&2
-  logger -p user.error -t "$(basename "${0}")" "$@"
-  exit 1
-}
+source "common.sh"
 
 readonly identity="$(email_to_hash ${@:-$ID_EMAIL})"
 readonly file="${HOME}/.ssh/$identity"
 
 if [ ! -e $file ]; then
-  error "File $file does not exists."
+  log_error "File $file does not exists."
 fi
 
 pbcopy <"${file}.pub"

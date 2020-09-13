@@ -23,7 +23,6 @@ alias hosts="sudo code /etc/hosts"
 # git config --global commit.gpgsign false
 # git config --global user.signingkey ${GPG_KEY_FINGERPRINT}
 
-
 # cleanupDS: recursively delete .DS_Store files
 # -------------------------------------------------------------------
 alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
@@ -33,9 +32,9 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 #alias git-signing-commit='git commit -a -S -m "signed commit message..."'
 
 # git
-#alias git-log="git log --show-signature -1"
-#alias git-pull="git pull origin --verify-signatures"
-#alias git-verify-master="git verify-commit master"
+# alias git-log="git log --show-signature -1"
+# alias git-pull="git pull origin --verify-signatures"
+# alias git-verify-master="git verify-commit master"
 
 ###############################################################################
 # Aliases: Copy
@@ -48,7 +47,25 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 #alias copy-gpg="gpg --armor --export ${ID_GPG_KEY} | pbcopy;"
 #alias copy-gravatar="echo 'http://www.gravatar.com/avatar/${ID_EMAIL_HASH}?size=250' | pbcopy;"
 
+# GNU Privacy Guard
+# alias gpg="gpg2"
+# alias gpg="gpg --keyserver ${GPG_KEY_SERVER} --keyid-format ${GPG_KEY_FORMAT}"
+# alias gpg="gpg --keyid-format ${GPG_KEY_FORMAT}"
+# alias gibson="gpg --encrypt --sign --armor"
+# alias ungibson="gpg --decrypt"
 
+# get web server headers #
+# alias header='curl -I'
+# find out if remote server supports gzip / mod_deflate or not #
+# alias headerc='curl -I --compress'
+
+#readonly email_hash=$(email_to_hash ${ID_EMAIL})
+#
+#alias copy-gravatar="echo http://www.gravatar.com/avatar/${email_hash}?size=250 | pbcopy"
+#
+## GNU Privacy Guard
+#alias gibson="gpg2 --encrypt --sign --armor"
+#alias ungibson="gpg2 --decrypt"
 
 # sudo -i
 # логин эмулируется.
