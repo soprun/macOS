@@ -121,11 +121,11 @@ export ARCHFLAGS="-arch x86_64"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Load bash files to zsh
-if [ -f "$HOME/.bashrc" ]; then
- # shellcheck source=./.bashrc
- . "$HOME/.bashrc"
-fi
+# # Load bash files to zsh
+# if [ -f "$HOME/.bashrc" ]; then
+#  # shellcheck source=./.bashrc
+#  . "$HOME/.bashrc"
+# fi
 #
 # if [[ -f $HOME/.bash_aliases ]]; then
 #  # shellcheck source=./.bash_aliases
