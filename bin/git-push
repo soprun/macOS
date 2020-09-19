@@ -14,8 +14,8 @@ question="git push$COLOR_PURPLE origin: $COLOR_RED$remote$COLOR_RESET? [y/N]"
 
 read -r -p "$(echo $question)" git_push
 
-if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  if ! git push origin $remote --follow-tags --verify >/dev/null 2>/dev/null; then
+if [[ "$git_push" =~ "^([yY][eE][sS]|[yY])$" ]]; then
+  if ! git push origin "$remote" --follow-tags --verify >/dev/null 2>/dev/null; then
     log_warn "An error occurred when pushing: $remote"
   fi
 fi

@@ -74,7 +74,7 @@ for index in "${files[@]}"; do
 
   if [ -f "$target_file" ]; then
     log_warn "File $target_file exists and will be overwritten."
-    rm $target_file
+    rm "$target_file"
   fi
 
   ln -sf "$source_file" "$target_file"
