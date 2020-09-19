@@ -9,5 +9,5 @@ source "common.sh"
 #  echo "$@" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q | tr -d '\- '
 #}
 
-echo -n $@ | tr '[A-Z]' '[a-z]' | md5
-#echo -n "$@" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q | tr -d '\- '
+#echo -n $@ | tr '[A-Z]' '[a-z]' | md5
+echo -n "$1" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q

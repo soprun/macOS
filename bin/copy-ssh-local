@@ -3,7 +3,16 @@
 # shellcheck source=./common.sh
 source "common.sh"
 
-# pbcopy < "${HOME}/.ssh/$(email-to-hash "$1").pub"
-echo "${HOME}/.ssh/$(email-to-hash "${1:-${ID_EMAIL}}").pub"
+identity="$(email-to-hash $ID_EMAIL)"
+file="$HOME/.ssh/$identity.pub"
+
+# pbcopy < "${HOME}/.ssh/${identity}.pub"
+# echo "${HOME}/.ssh/${identity}.pub"
+
+#if [ ! -f "$file" ]; then
+#  log_error "File '$identity' does not exists!"
+#fi
+
+cat "$file"
 
 log_success 'Export ssh key and copy the clipboard.'
