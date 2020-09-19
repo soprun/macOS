@@ -17,7 +17,7 @@ git tag --sign --local-user ${ID_GPG_KEY} --annotate $tag_name --message $tag_me
 read -r -p "Push tags to the repository? [y/N]" git_push
 
 if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  if ! git push origin --tags >/dev/null 2>/dev/null; then
+  if ! git push origin $tag_name --tags >/dev/null 2>/dev/null; then
     log_warn "An error occurred when pushing tag: $tag_name"
   fi
 fi

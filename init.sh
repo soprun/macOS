@@ -101,6 +101,9 @@ chmod -R 755 "${HOME}/bin"
 #git config --global user.signingkey "${GIT_GPG_KEY}"
 #git config --global core.editor "${GIT_EDITOR}"
 
+# https://stackoverflow.com/questions/5195859/how-do-you-push-a-tag-to-a-remote-repository-using-git
+git config --global push.followTags true
+
 # From https://gist.github.com/danieleggert/b029d44d4a54b328c0bac65d46ba4c65
 # If you want annotated tags to be GPG signed:
 # git config --global tag.forceSignAnnotated true

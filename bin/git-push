@@ -1,0 +1,7 @@
+#!/bin/sh
+source "common.sh"
+
+# Pushes your local commits to the remote repository
+# GitHub does support GPG signed commits.
+
+git push origin --all --follow-tags --verify
