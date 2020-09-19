@@ -26,9 +26,9 @@ ssh-keygen \
   -f "${file}"
 
 chmod 600 "${file}"
-chmod 400 "${file}.pub"
+chmod 644 "${file}.pub"
 
-ll "${HOME}/.ssh"
+ls -la "${HOME}/.ssh"
 
 #Host *
 #  AddKeysToAgent yes

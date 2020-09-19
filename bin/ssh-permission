@@ -1,0 +1,32 @@
+#!/bin/sh
+source "common.sh"
+
+SSH_DIR="$HOME/.ssh"
+
+if [ ! -d $SSH_DIR ]; then
+  log_warn "directory '$HOME/.ssh' does not exists!"
+  mkdir -p "$HOME/.ssh"
+fi
+
+chmod 700 "$SSH_DIR"
+
+cd $SSH_DIR
+
+find * -type d ! -perm 755 -exec chmod 755 {} \;
+find * -type f ! -perm 644 -exec chmod 644 {} \;
+
+ls -lahG "$SSH_DIR"
+
+
+#find . -iname '*.doc' -exec echo "File is {}" \;
+
+#for filename in *; do
+#
+#  if [[ -f $filename ]]; then
+#    echo "file: $filename"
+#  fi
+#
+#  if [[ -d $filename ]]; then
+#    echo "dir: $filename"
+#  fi
+#done

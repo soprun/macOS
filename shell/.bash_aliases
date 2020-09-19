@@ -1,9 +1,15 @@
-alias ll="ls -lasG"
-alias ls="ls -asG"
+alias ll="ls -lashG"
+alias ls="ls -ashG"
+
+#ls -lead
 
 alias ..="cd .."
 alias ...="cd ../.."
 alias cd..="cd .."
+
+alias to-home="cd ${HOME};"
+alias to-ssh="cd ${HOME}/.ssh;"
+alias to-dev="cd ${HOME}/dev;"
 
 alias hosts="sudo code /etc/hosts"
 
