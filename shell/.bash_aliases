@@ -32,9 +32,12 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 #alias git-signing-commit='git commit -a -S -m "signed commit message..."'
 
 # git
-# alias git-log="git log --show-signature -1"
-# alias git-pull="git pull origin --verify-signatures"
-# alias git-verify-master="git verify-commit master"
+alias git-log="git log --show-signature -1"
+alias git-pull="git pull origin --verify-signatures"
+alias git-verify-master="git verify-commit master"
+
+#alias git-tag-last="git-tag-current"
+#alias git-branch-name="git-branch-current"
 
 ###############################################################################
 # Aliases: Copy

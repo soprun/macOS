@@ -1,0 +1,6 @@
+#!/bin/sh
+source "common.sh"
+
+# Record changes to the repository
+
+git commit --all --gpg-sign="${ID_GPG_KEY}" --message "signed commit message..."

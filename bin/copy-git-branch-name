@@ -3,9 +3,8 @@ source "common.sh"
 
 # Copy the current branch name to the clipboard.
 
-branch=$(git rev-parse --abbrev-ref HEAD)
+branch=$(git-branch-name)
 
-echo $branch
+log_info "Current branch: $branch"
+
 echo $branch | tr -d '\n' | tr -d ' ' | pbcopy
-
-#dump-env
