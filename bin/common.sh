@@ -31,24 +31,24 @@ log_debug() {
 }
 
 log_success() {
-  printf "=>$COLOR_GREEN log:$COLOR_RESET $*\n$COLOR_RESET"
+  printf "=>$COLOR_GREEN log:$COLOR_RESET %s\n$COLOR_RESET" "$*"
   logger -p user.info -t "$(basename "${0}")" "$@"
   sleep .3
 }
 
 log_info() {
-  printf "=>$COLOR_BLUE log:$COLOR_RESET $*\n$COLOR_RESET"
+  printf "=>$COLOR_BLUE log:$COLOR_RESET %s\n$COLOR_RESET" "$*"
   logger -p user.info -t "$(basename "${0}")" "$@"
   sleep .3
 }
 
 log_warn() {
-  printf "=>$COLOR_YELLOW warn:$COLOR_RESET $*\n$COLOR_RESET"
+  printf "=>$COLOR_YELLOW log:$COLOR_RESET %s\n$COLOR_RESET" "$*"
   logger -p user.warn -t "$(basename "${0}")" "$@"
 }
 
 log_error() {
-  printf "=>$COLOR_RED error:$COLOR_RESET $*\n$COLOR_RESET" >&2
+  printf "=>$COLOR_RED log:$COLOR_RESET %s\n$COLOR_RESET" "$*" >&2
   logger -p user.error -t "$(basename "${0}")" "$@"
   exit 1
 }
@@ -66,11 +66,6 @@ log_error() {
 ### Shared functions for deploying solutions
 ### https://gist.github.com/vratiu/9780109
 ###
-
-# https://en.gravatar.com/site/implement/hash/
-email_to_hash() {
-  echo -n $@ | tr '[A-Z]' '[a-z]' | md5
-}
 
 #command_exists() {
 #  command -v "$@" >/dev/null 2>&1

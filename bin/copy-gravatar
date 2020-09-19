@@ -1,12 +1,14 @@
 #!/bin/sh
 source "common.sh"
 
-size="${1:-250}"
-email="${2:-${ID_EMAIL}}"
-url="http://www.gravatar.com/avatar/$(email_to_hash $email)?size=$size"
+size="${2:-250}"
+email="${1:-${ID_EMAIL}}"
+hash="$(email-to-hash $email)"
+url="https://gravatar.com/avatar/$hash?size=$size"
 
-echo "$url" | pbcopy
+echo $url | pbcopy
 
 log_info "size: $size"
 log_info "email: $email"
+log_info "hash: $hash"
 log_success "$url"

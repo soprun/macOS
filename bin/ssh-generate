@@ -5,7 +5,7 @@ source "common.sh"
 # https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
 id="${@:-${ID_EMAIL}}"
-file="${HOME}/.ssh/$(email_to_hash ${id})"
+file="${HOME}/.ssh/$(email-to-hash ${id})"
 
 log_info $id
 log_info $file

@@ -1,0 +1,8 @@
+#!/bin/sh
+source "common.sh"
+
+if tty -s; then
+  echo 'This is interactive shell.'
+else
+  echo 'This is non-interactive shell.'
+fi

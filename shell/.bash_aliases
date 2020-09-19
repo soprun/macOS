@@ -7,6 +7,9 @@ alias cd..="cd .."
 
 alias hosts="sudo code /etc/hosts"
 
+# alias edit="atom --wait"
+# alias editor="vim"
+
 # Creates a signed commit
 # alias git-commit='git commit -a -S -m "commit message..."'
 # alias git-signing-commit='git commit -a -S -m "signed commit message..."'
@@ -62,7 +65,7 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 # find out if remote server supports gzip / mod_deflate or not #
 # alias headerc='curl -I --compress'
 
-#readonly email_hash=$(email_to_hash ${ID_EMAIL})
+#readonly email_hash=$(email-to-hash ${ID_EMAIL})
 #
 #
 ## GNU Privacy Guard

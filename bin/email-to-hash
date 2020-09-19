@@ -1,0 +1,10 @@
+#!/bin/sh
+source "common.sh"
+
+# https://en.gravatar.com/site/implement/hash/
+#email_to_hash() {
+#  echo -n $@ | tr '[A-Z]' '[a-z]' | md5
+#  echo "$@" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q | tr -d '\- '
+#}
+
+echo "$@" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q | tr -d '\- '
