@@ -3,6 +3,8 @@
 # Be very strict
 # set -euo pipefail
 
+tput sgr0
+
 ###
 ### Colors
 ###

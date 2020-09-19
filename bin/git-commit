@@ -3,7 +3,21 @@ source "common.sh"
 
 # Record changes to the repository
 
-git commit --all --gpg-sign="${ID_GPG_KEY}" --message "${1:-signed commit message...}"
+message="$1"
+
+if [ ! "$message" ]; then
+  log_warn "Message empty!"
+  # message="$(basename $PWD)-$(date "+%Y.%m.%d-%H:%M:%S"): signed commit..."
+  message="signed commit..."
+fi
+
+git commit --all --gpg-sign="${ID_GPG_KEY}" --message "$message"
+
+#if ! git commit --all --gpg-sign="${ID_GPG_KEY}" --message $message >/dev/null 2>/dev/null; then
+#  log_warn "An error occurred when record changes"
+#fi
+
+log_success $message
 
 read -r -p "Push to the repository? [y/N]" git_push
 
