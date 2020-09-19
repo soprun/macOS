@@ -7,4 +7,4 @@ tag=$(git-tag-name)
 
 log_info "Current tag: $tag"
 
-echo $tag | tr -d '\n' | tr -d ' ' | pbcopy
+echo "$tag" | tr -d '\n' | tr -d ' ' | pbcopy

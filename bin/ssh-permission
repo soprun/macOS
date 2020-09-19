@@ -18,7 +18,6 @@ find *.pub -type f ! -perm 644 -exec chmod 644 {} \;
 
 ls -lahG "$SSH_DIR"
 
-
 #find . -iname '*.doc' -exec echo "File is {}" \;
 
 #for filename in *; do
