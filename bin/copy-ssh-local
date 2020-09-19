@@ -3,16 +3,14 @@
 # shellcheck source=./common.sh
 source "common.sh"
 
-identity="$(email-to-hash $ID_EMAIL)"
-file="$HOME/.ssh/$identity.pub"
+identity="${1:-$ID_EMAIL}"
+name="$(echo $identity | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q)"
+file="$HOME/.ssh/$name.pub"
 
-# pbcopy < "${HOME}/.ssh/${identity}.pub"
-# echo "${HOME}/.ssh/${identity}.pub"
+if [ ! -f "$file" ]; then
+  log_error "File '$identity' does not exists!"
+fi
 
-#if [ ! -f "$file" ]; then
-#  log_error "File '$identity' does not exists!"
-#fi
-
-cat "$file"
+pbcopy <"$file"
 
 log_success 'Export ssh key and copy the clipboard.'
