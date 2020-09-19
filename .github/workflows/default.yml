@@ -23,5 +23,5 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           ignore: shell
-          severity: error
+          severity: info
           check_together: 'yes'

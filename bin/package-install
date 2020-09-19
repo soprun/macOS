@@ -27,7 +27,7 @@ PACKAGES=(
 )
 
 echo "Installing packages..."
-brew install ${PACKAGES[@]}
+brew install "${PACKAGES[@]}"
 
 echo "Cleaning up..."
 brew cleanup
