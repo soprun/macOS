@@ -22,7 +22,8 @@ jobs:
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
         env:
-          SHELLCHECK_OPTS: -e SC2039
+          SHELLCHECK_OPTS: -e SC2039 -e SC1091
         with:
           ignore: shell
+          severity: info
           check_together: 'yes'

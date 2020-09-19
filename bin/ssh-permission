@@ -12,7 +12,7 @@ fi
 
 chmod 700 "$SSH_DIR"
 
-cd $SSH_DIR
+cd "$SSH_DIR"
 
 find * -type d ! -perm 755 -exec chmod 755 {} \;
 find * -type f ! -perm 600 -exec chmod 600 {} \;
