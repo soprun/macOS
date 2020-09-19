@@ -13,7 +13,8 @@ chmod 700 "$SSH_DIR"
 cd $SSH_DIR
 
 find * -type d ! -perm 755 -exec chmod 755 {} \;
-find * -type f ! -perm 644 -exec chmod 644 {} \;
+find * -type f ! -perm 600 -exec chmod 600 {} \;
+find *.pub -type f ! -perm 644 -exec chmod 644 {} \;
 
 ls -lahG "$SSH_DIR"
 

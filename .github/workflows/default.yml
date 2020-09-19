@@ -28,5 +28,4 @@ jobs:
           SHELLCHECK_OPTS: -e SC2039
         with:
           ignore: shell
-          severity: info
           check_together: 'yes'

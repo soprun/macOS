@@ -1,0 +1,8 @@
+#!/bin/sh
+source "common.sh"
+
+ip=$(curl --silent http://ipecho.net/plain)
+
+echo "$ip" | tr -d '\n ' | pbcopy
+
+log_info "$ip"
