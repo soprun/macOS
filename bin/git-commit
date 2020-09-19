@@ -14,7 +14,7 @@ fi
 if ! git commit --all --gpg-sign="${ID_GPG_KEY}" --message "$message" >/dev/null 2>/dev/null; then
   log_error "An error occurred when record changes"
 else
-  log_success "Commit success!"
+  log_success "Commit ID $(git-commit-id) success!"
 fi
 
 read -r -p "Push to the repository? [y/N]" git_push
