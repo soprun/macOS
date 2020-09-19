@@ -6,7 +6,7 @@ source "common.sh"
 message="$1"
 
 if [ ! "$message" ]; then
-  message="signed commit..."
+  message="Signed commit..."
   # message="$(basename $PWD)-$(date "+%Y.%m.%d-%H:%M:%S"): signed commit..."
   log_warn "Default message: '$message'"
 fi
@@ -14,7 +14,7 @@ fi
 if ! git commit --all --gpg-sign="${ID_GPG_KEY}" --message "$message" >/dev/null 2>/dev/null; then
   log_error "An error occurred when record changes"
 else
-  log_success "$message"
+  log_success "Commit success!"
 fi
 
 read -r -p "Push to the repository? [y/N]" git_push
