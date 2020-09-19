@@ -55,7 +55,7 @@ done
 if [ ! -f "$CWD/.env.local" ]; then
   log_warn "$CWD/.env.local is not installed."
 
-  touch "$CWD/.env.local"
+  echo "BASH_PROFILE_DEBUG=true" > "$CWD/.env.local"
 fi
 
 ###

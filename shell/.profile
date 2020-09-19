@@ -20,9 +20,9 @@ fi
 ###
 
 export PATH="${PATH}:${HOME}/bin"
-export LANG="en_US.UTF-8"
-export CLICOLOR="1"
-export EDITOR="code"
+export LANG
+export CLICOLOR
+export EDITOR
 
 # set PATH so it includes user's private bin if it exists
 
@@ -37,10 +37,10 @@ fi
 ### Identity environment variables
 ###
 
-export ID_NAME="Vladislav Soprun"
-export ID_USER="soprun"
-export ID_EMAIL="mail@soprun.com"
-export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
+export ID_NAME
+export ID_USER
+export ID_EMAIL
+export ID_GPG_KEY
 
 ###
 ### Git environment variables
@@ -52,6 +52,13 @@ export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
 #GIT_GPG_SIGN=true
 #GIT_GPG_PROGRAM=gpg
 #GIT_EDITOR=vim
+
+###
+### GitHub environment variables
+###
+
+export GITHUB_USER
+export GITHUB_TOKEN
 
 ###
 ### Composer environment variables
