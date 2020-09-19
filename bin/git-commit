@@ -17,10 +17,12 @@ else
   log_success "Commit id $COLOR_BLUE'$(git rev-parse --short HEAD)'"
 fi
 
-read -r -p "Push to the repository? [y/N]" git_push
+git-push
 
-if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
-    log_warn "An error occurred when pushing tag: $tag_name"
-  fi
-fi
+#read -r -p "Push to the repository? [y/N]" git_push
+#
+#if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+#  if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
+#    log_warn "An error occurred when pushing tag: $tag_name"
+#  fi
+#fi
