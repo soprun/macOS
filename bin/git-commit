@@ -12,7 +12,7 @@ if [ ! "$message" ]; then
 fi
 
 if ! git commit --all --gpg-sign="${ID_GPG_KEY}" --message "$message" >/dev/null 2>/dev/null; then
-  log_warn "An error occurred when record changes"
+  log_error "An error occurred when record changes"
 else
   log_success "$message"
 fi
