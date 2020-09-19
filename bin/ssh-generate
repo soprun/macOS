@@ -6,17 +6,23 @@ source "common.sh"
 # Generating a new SSH key
 # https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
-id="${1:-$ID_EMAIL}"
-file="${HOME}/.ssh/$(email-to-hash "${id}")"
+identity="$1"
+name="$(echo $identity | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q)"
+file="$HOME/.ssh/$name"
 
-log_info "$id"
-log_info "$file"
+if [ ! "$identity" ]; then
+  log_error "Identity empty!"
+fi
 
 if [ -f "$file" ]; then
-  log_error "File '$file' exists!"
+  log_error "File '$name' exists!"
 fi
 
 log_success 'Generating a new SSH key'
+
+log_info "id: $identity"
+log_info "name: $name"
+log_info "file: $file"
 
 # Generate Keypair - Enter and password
 ssh-keygen \
@@ -24,15 +30,9 @@ ssh-keygen \
   -b 4096 \
   -t "rsa" \
   -N "" \
-  -C "${id}" \
-  -f "${file}"
+  -C "$identity" \
+  -f "$file"
 
-chmod 600 "${file}"
-chmod 644 "${file}.pub"
-
-ls -la "${HOME}/.ssh"
-
-#Host *
-#  AddKeysToAgent yes
-#  UseKeychain yes
-#  IdentityFile ~/.ssh/id_rsa
+chmod 600 "$file"
+chmod 644 "$file.pub"
+# ssh -vT git@github.com

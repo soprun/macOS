@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# shellcheck source=./common.sh
+source "common.sh"
+
+# pbcopy < "${HOME}/.ssh/$(email-to-hash "$1").pub"
+echo "${HOME}/.ssh/$(email-to-hash "${1:-${ID_EMAIL}}").pub"
+
+log_success 'Export ssh key and copy the clipboard.'

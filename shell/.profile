@@ -15,10 +15,6 @@ if [ -e "${HOME}/.env.local" ]; then
   . "${HOME}/.env.local"
 fi
 
-###
-### Default environment variables
-###
-
 export PATH="${PATH}:${HOME}/bin"
 export LANG
 export CLICOLOR
@@ -29,9 +25,6 @@ export EDITOR
 if [ -d "${HOME}/bin" ]; then
   export PATH="${PATH}:${HOME}/bin"
 fi
-
-#echo "shell: '${SHELL}'"
-#echo "version: '${BASH_VERSION}'"
 
 ###
 ### Identity environment variables
@@ -51,7 +44,7 @@ export ID_GPG_KEY
 #GIT_GPG_KEY="${ID_GPG_KEY}"
 #GIT_GPG_SIGN=true
 #GIT_GPG_PROGRAM=gpg
-#GIT_EDITOR=vim
+export GIT_EDITOR
 
 ###
 ### GitHub environment variables
@@ -64,21 +57,21 @@ export GITHUB_TOKEN
 ### Composer environment variables
 ###
 
-export COMPOSER_HOME="${HOME}/.composer"
-export COMPOSER_CACHE_DIR="${COMPOSER_HOME}/cache"
-export COMPOSER_MEMORY_LIMIT="-1"
-export COMPOSER_ALLOW_SUPERUSER="1"
+export COMPOSER_HOME
+export COMPOSER_CACHE_DIR
+export COMPOSER_MEMORY_LIMIT
+export COMPOSER_ALLOW_SUPERUSER
 #export PATH="${PATH}:${COMPOSER_HOME}/vendor/bin"
 
 ###
 ### Docker environment variables
 ### env | grep DOCKER
 
-export DOCKER_DEBUG=0
-export DOCKER_BUILDKIT=1
-export DOCKER_STACK_ORCHESTRATOR=kubernetes
-export COMPOSE_DOCKER_CLI_BUILD=1
-#export BUILDKIT_PROGRESS=plain
+export DOCKER_DEBUG
+export DOCKER_BUILDKIT
+export DOCKER_STACK_ORCHESTRATOR
+export COMPOSE_DOCKER_CLI_BUILD
+#export BUILDKIT_PROGRESS
 
 eval $(docker-machine env default)
 

@@ -1,20 +1,22 @@
 #!/bin/bash
 
 ###
-### Settings
+### Default environment variables
 ###
+
+if [ -e "${HOME}/.env" ]; then
+  # shellcheck source=./.env
+  . "${HOME}/.env"
+fi
+
+if [ -e "${HOME}/.env.local" ]; then
+  # shellcheck source=./.env.local
+  . "${HOME}/.env.local"
+fi
 
 # Be strict
-#set -e
-#set -u
-#set -o pipefail
-
 set -e
 [ -n "$BASH_PROFILE_DEBUG" ] && set -x
-
-###
-### Variables
-###
 
 # Current directory
 CWD="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
@@ -49,7 +51,7 @@ for command in "${commands[@]}"; do
 done
 
 ###
-### Environment variables fiel
+### Environment variables
 ###
 
 if [ ! -f "$CWD/.env.local" ]; then
@@ -103,16 +105,16 @@ rm "${HOME}/bin"
 ln -sf "${CWD}/bin" "${HOME}/bin"
 chmod -R 755 "${HOME}/bin"
 
-###############################################################################
-# Git
-###############################################################################
+###
+### Git config
+###
 
-#git config --global user.name "${GIT_NAME}"
-#git config --global user.email "${GIT_EMAIL}"
-#git config --global commit.gpgsign ${GIT_GPG_SIGN}
-#git config --global gpg.program "${GIT_GPG_PROGRAM}"
-#git config --global user.signingkey "${GIT_GPG_KEY}"
-#git config --global core.editor "${GIT_EDITOR}"
+git config --global user.name "$GIT_NAME"
+git config --global user.email "$GIT_EMAIL"
+git config --global commit.gpgsign "$GIT_GPG_SIGN"
+git config --global gpg.program "$GIT_GPG_PROGRAM"
+git config --global user.signingkey "$GIT_GPG_KEY"
+git config --global core.editor "$GIT_EDITOR"
 
 # https://stackoverflow.com/questions/5195859/how-do-you-push-a-tag-to-a-remote-repository-using-git
 #git config --global push.followTags true
@@ -123,24 +125,9 @@ chmod -R 755 "${HOME}/bin"
 
 #git config --global --list
 
-# https://github.com/sindresorhus/pure
+###
+### SSH config
+###
 
-# /usr/local/bin/bash
-# export PATH="${PATH}:/usr/local/bin"
-# chsh -s /usr/local/bin/bash
-#sudo chown -R $USER /usr/local/lib/node_modules
-#chsh -s /usr/local/bin/zsh
-
-#echo "export PATH="$PATH:$HOME/MyPrograms"" > "$HOME/.env"
-
-#echo "export PATH="$PATH:$HOME/MyPrograms"" > "$HOME/.env"
-
-#read -r -p "github_token: " input_push
-#
-#echo $input_push;
-
-#if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-#  if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
-#    log_warn "An error occurred when pushing tag: $tag_name"
-#  fi
-#fi
+exec ssh-permission
+exec ssh-generate "$ID_EMAIL"
