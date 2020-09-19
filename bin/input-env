@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# shellcheck source=./common.sh
+source "common.sh"
+
+declare name="$1"
+declare value=""
+declare default_value="$(printenv "$1")"
+
+log_debug "name: $name"
+log_debug "default: $default_value"
+
+read -p "$(printf "env: %s $COLOR_CYAN[%s]$COLOR_RESET: " "$name" "$default_value")" value
+
+value="${value:-$default_value}"
+
+echo "${name}="${value}"" > "$HOME/.env.local"
+
+log_info "value: $value"

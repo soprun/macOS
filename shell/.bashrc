@@ -36,31 +36,5 @@ fi
 # Import various environment variables from the agent.
 if [ -f "$HOME/.gnupg/env" ]; then
   # shellcheck source=
-  source "$HOME/.gnupg/env"
+  . "$HOME/.gnupg/env"
 fi
-
-# https://github.com/scop/bash-completion
-
-# Use bash-completion, if available
-#[[ -f /usr/share/bash-completion/bash_completion ]] &&
-#  . /usr/share/bash-completion/bash_completion
-
-#[[ -f /usr/local/etc/bash_completion ]] &&
-#  . /usr/local/etc/bash_completion
-
-#Bash completion has been installed to:
-#  /usr/local/etc/bash_completion.d
-
-#zsh completions have been installed to:
-#  /usr/local/share/zsh/site-functions
-
-#if [ -f /sw/etc/bash_completion ]; then
-#  . /sw/etc/bash_completion
-#fi
-
-#if type brew &>/dev/null; then
-#  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-#
-#  autoload -Uz compinit
-#  compinit
-#fi

@@ -1,13 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 ###
 ### Settings
 ###
 
 # Be strict
+#set -e
+#set -u
+#set -o pipefail
+
 set -e
-set -u
-set -o pipefail
+[ -n "$BASH_PROFILE_DEBUG" ] && set -x
 
 ###
 ### Variables
@@ -46,6 +49,16 @@ for command in "${commands[@]}"; do
 done
 
 ###
+### Environment variables fiel
+###
+
+if [ ! -f "$CWD/.env.local" ]; then
+  log_warn "$CWD/.env.local is not installed."
+
+  touch "$CWD/.env.local"
+fi
+
+###
 ### Create symlink
 ###
 
@@ -60,8 +73,8 @@ declare -a files=(
   "${CWD}/config/gpg-agent.conf::${HOME}/.gnupg/gpg-agent.conf"
   "${CWD}/config/ssh.conf::${HOME}/.ssh/config"
 
-  # "${CWD}/.env::${HOME}/.env"
-  # "${CWD}/.env.local::${HOME}/.env.local"
+  "${CWD}/.env::${HOME}/.env"
+  "${CWD}/.env.local::${HOME}/.env.local"
 )
 
 for index in "${files[@]}"; do
@@ -102,7 +115,7 @@ chmod -R 755 "${HOME}/bin"
 #git config --global core.editor "${GIT_EDITOR}"
 
 # https://stackoverflow.com/questions/5195859/how-do-you-push-a-tag-to-a-remote-repository-using-git
-git config --global push.followTags true
+#git config --global push.followTags true
 
 # From https://gist.github.com/danieleggert/b029d44d4a54b328c0bac65d46ba4c65
 # If you want annotated tags to be GPG signed:
@@ -117,3 +130,17 @@ git config --global push.followTags true
 # chsh -s /usr/local/bin/bash
 #sudo chown -R $USER /usr/local/lib/node_modules
 #chsh -s /usr/local/bin/zsh
+
+#echo "export PATH="$PATH:$HOME/MyPrograms"" > "$HOME/.env"
+
+#echo "export PATH="$PATH:$HOME/MyPrograms"" > "$HOME/.env"
+
+#read -r -p "github_token: " input_push
+#
+#echo $input_push;
+
+#if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+#  if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
+#    log_warn "An error occurred when pushing tag: $tag_name"
+#  fi
+#fi

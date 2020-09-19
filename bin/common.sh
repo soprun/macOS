@@ -5,6 +5,9 @@
 
 tput sgr0
 
+set -e
+[ -n "$BASH_PROFILE_DEBUG" ] && set -x
+
 ###
 ### Colors
 ###
@@ -12,14 +15,14 @@ tput sgr0
 COLOR_RESET='\033[0m' # Text Reset
 
 # Regular Colors
-#COLOR_BLACK="\033[0;30m"  # Black
+COLOR_BLACK="\033[0;30m"  # Black
 COLOR_RED="\033[0;31m"    # Red
 COLOR_GREEN="\033[0;32m"  # Green
 COLOR_YELLOW="\033[0;33m" # Yellow
 COLOR_BLUE="\033[0;34m"   # Blue
-#COLOR_PURPLE="\033[0;35m" # Purple
-#COLOR_CYAN="\033[0;36m"   # Cyan
-#COLOR_WHITE="\033[0;37m"  # White
+COLOR_PURPLE="\033[0;35m" # Purple
+COLOR_CYAN="\033[0;36m"   # Cyan
+COLOR_WHITE="\033[0;37m"  # White
 
 ###
 ### logger
@@ -73,4 +76,9 @@ log_error() {
 
 #command_exists docker || {
 #  log_error "Command 'docker' is not installed."
+#}
+
+
+#printc() {
+#  echo "$1"
 #}

@@ -5,15 +5,15 @@
 # set -o allexport
 # set +o allexport
 
-#if [ -e "${HOME}/.env" ]; then
-#  # shellcheck source=../.env
-#  . "${HOME}/.env"
-#fi
-#
-#if [ -e "${HOME}/.env.local" ]; then
-#  # shellcheck source=../.env
-#  . "${HOME}/.env.local"
-#fi
+if [ -e "${HOME}/.env" ]; then
+  # shellcheck source=../.env
+  . "${HOME}/.env"
+fi
+
+if [ -e "${HOME}/.env.local" ]; then
+  # shellcheck source=../.env.local
+  . "${HOME}/.env.local"
+fi
 
 ###
 ### Default environment variables
@@ -43,6 +43,17 @@ export ID_EMAIL="mail@soprun.com"
 export ID_GPG_KEY="8120213055C84C2C3324FB08B7502F96C5DC44C2"
 
 ###
+### Git environment variables
+###
+
+#GIT_NAME="${ID_NAME}"
+#GIT_EMAIL="develop@soprun.com"
+#GIT_GPG_KEY="${ID_GPG_KEY}"
+#GIT_GPG_SIGN=true
+#GIT_GPG_PROGRAM=gpg
+#GIT_EDITOR=vim
+
+###
 ### Composer environment variables
 ###
 
@@ -60,7 +71,7 @@ export DOCKER_DEBUG=0
 export DOCKER_BUILDKIT=1
 export DOCKER_STACK_ORCHESTRATOR=kubernetes
 export COMPOSE_DOCKER_CLI_BUILD=1
-# export BUILDKIT_PROGRESS=plain
+#export BUILDKIT_PROGRESS=plain
 
 eval $(docker-machine env default)
 
