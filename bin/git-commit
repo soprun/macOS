@@ -6,9 +6,9 @@ source "common.sh"
 message="$1"
 
 if [ ! "$message" ]; then
-  # message="$(basename $PWD)-$(date "+%Y.%m.%d-%H:%M:%S"): signed commit..."
   message="signed commit..."
-  log_warn "Default message: $message"
+  message="$(basename $PWD)-$(date "+%Y.%m.%d-%H:%M:%S"): signed commit..."
+  log_warn "Default message: '$message'"
 fi
 
 if ! git commit --all --gpg-sign="${ID_GPG_KEY}" --message "$message" >/dev/null 2>/dev/null; then
