@@ -35,6 +35,7 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 alias git-log="git log --show-signature -1"
 alias git-pull="git pull origin --verify-signatures"
 alias git-verify-master="git verify-commit master"
+alias git-pull-verify="git pull --verify-signatures"
 
 #alias git-tag-last="git-tag-current"
 #alias git-branch-name="git-branch-current"

@@ -3,4 +3,12 @@ source "common.sh"
 
 # Record changes to the repository
 
-git commit --all --gpg-sign="${ID_GPG_KEY}" --message "signed commit message..."
+git commit --all --gpg-sign="${ID_GPG_KEY}" --message "${1:-signed commit message...}"
+
+read -r -p "Push to the repository? [y/N]" git_push
+
+if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
+    log_warn "An error occurred when pushing tag: $tag_name"
+  fi
+fi
