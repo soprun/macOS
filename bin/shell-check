@@ -1,5 +1,7 @@
 #!/bin/sh
-#source "common.sh"
+
+# shellcheck source=./common.sh
+source "common.sh"
 
 echo "shell: '${SHELL}'"
 echo "bash_version: '${BASH_VERSION}'"

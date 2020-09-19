@@ -1,4 +1,6 @@
 #!/bin/sh
+
+# shellcheck source=./common.sh
 source "common.sh"
 
 # Generating a new SSH key

@@ -1,4 +1,6 @@
 #!/bin/sh
+
+# shellcheck source=./common.sh
 source "common.sh"
 
 log_info "Down docker... 🚛"
