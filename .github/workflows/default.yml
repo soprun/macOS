@@ -22,7 +22,6 @@ jobs:
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
         with:
-          ignore:
-            - shell
+          ignore: ignore
           severity: error
           check_together: 'yes'
