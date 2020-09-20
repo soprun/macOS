@@ -3,5 +3,13 @@
 # shellcheck source=./common.sh
 source "common.sh"
 
+log_warn "WARNING! This will remove:"
+log_warn "all stopped containers"
+log_warn "all networks not used by at least one container"
+log_warn "all dangling images"
+log_warn "all dangling build cache"
+
 docker-compose down &>/dev/null
-docker system prune --all --volumes --force
+
+docker system prune --volumes --force
+#docker system prune --all --volumes --force

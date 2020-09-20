@@ -69,7 +69,7 @@ export DOCKER_STACK_ORCHESTRATOR
 export COMPOSE_DOCKER_CLI_BUILD
 #export BUILDKIT_PROGRESS
 
-#eval $(docker-machine env default)
+eval $(docker-machine env default)
 
 ###
 ### GNU Privacy Guard

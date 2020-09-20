@@ -95,6 +95,7 @@ plugins=(
  z
  zsh-syntax-highlighting
  zsh-autosuggestions
+ gcloud
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -125,3 +126,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/soprun/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/soprun/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/soprun/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/soprun/google-cloud-sdk/completion.zsh.inc'; fi
