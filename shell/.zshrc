@@ -1,3 +1,9 @@
+# include .bashrc if it exists
+if [ -e "${HOME}/.bash_profile" ]; then
+  # shellcheck source=./.bashrc
+  . "${HOME}/.bash_profile"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -119,8 +125,3 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# include .bashrc if it exists
-if [ -e "${HOME}/.bash_profile" ]; then
-  # shellcheck source=./.bashrc
-  . "${HOME}/.bash_profile"
-fi

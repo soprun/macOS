@@ -10,20 +10,9 @@ for file in ~/.{env,env.local,aliases}; do
 done
 unset file
 
-# Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob
-
-# Append to the Bash history file, rather than overwriting it
-shopt -s histappend
-
-# Autocorrect typos in path names when using `cd`
-shopt -s cdspell
-
-tput sgr0
-
 # Be very strict
-set -eo pipefail
-[ "$BASH_PROFILE_DEBUG" = true ] && set -x
+#set -e
+#[ "$BASH_PROFILE_DEBUG" = true ] && set -x
 
 ###
 ### Default environment variables
