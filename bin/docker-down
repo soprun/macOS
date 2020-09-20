@@ -3,47 +3,31 @@
 # shellcheck source=./common.sh
 source "common.sh"
 
-log_info "Down docker... 🚛"
-log_info "=> Stop all containers ✅"
-log_info "=> Remove all containers ✅"
-log_info "=> Remove all unused networks ✅"
-log_info "Remove docker... 🚒"
-log_info "=> Remove all containers and volumes 🚒"
-log_info "=> Remove all networks 🚒"
-log_info "=> Remove all images 🚒"
+log_warn "Down docker! 🚛"
 
-#printf '\n\e[1;32m%-6s\e[m\n'
+#log_info "=> Remove all containers ✅"
+#log_info "=> Remove all unused networks ✅"
+#log_info "Remove docker... 🚒"
+#log_info "=> Remove all containers and volumes 🚒"
+#log_info "=> Remove all networks 🚒"
+#log_info "=> Remove all images 🚒"
 
-#docker-down:
-#	@
-#	@
-#	@
-#
-#	@echo "=> Stop all containers ✅"
-#	@ - docker stop $(shell $(container_all)) &> /dev/null
-#	@sleep .5s
-#
-#	@echo "=> Remove all containers ✅"
-#	@ - docker rm $(shell $(container_all)) &> /dev/null
-#	@sleep .5
-#
-#	@echo "=> Remove all unused networks ✅"
-#	@ - docker network prune --force &> /dev/null
-#	@sleep .5
-#
-#docker-remove: docker-down
-#	@printf '\n\e[1;31m%-6s\e[m\n' "Remove docker... 🚒"
-#	@echo "########################################"
-#	@sleep .5
-#
-#	@echo "=> Remove all containers and volumes 🚒"
-#	@ - docker rm $(shell $(container_all)) --link --volumes &> /dev/null
-#	@sleep .5s
-#
-#	@echo "=> Remove all networks 🚒"
-#	@ - docker network rm $(shell $(container_all)) &> /dev/null
-#	@sleep .5
-#
-#	@echo "=> Remove all images 🚒"
-#	@ - docker rmi $(shell docker images --all --quiet) &> /dev/null
-#	@sleep .5
+# declare an array
+declare -a ids=($(docker container list --all --quiet))
+log_info "Containers: ${#ids[@]}"
+
+if docker container stop "$ids" &>/dev/null; then
+  log_success "=> Stop all containers ✅"
+fi
+
+if docker container prune --force &>/dev/null; then
+  log_success "=> Remove all stopped containers 🚒"
+fi
+
+if docker network prune --force &>/dev/null; then
+  log_success "=> Remove all unused networks 🖥"
+fi
+
+#if docker rmi --force $(docker images --all --quiet) &>/dev/null; then
+#  log_success "=> Remove all images 🖼"
+#fi
