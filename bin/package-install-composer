@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+## Install composer plugin
+composer global require hirak/prestissimo nunomaduro/phpinsights \
+  --prefer-dist \
+  --prefer-stable \
+  --no-progress \
+  --no-scripts \
+  --no-interaction \
+  --ignore-platform-reqs \
+  --ansi \
+  --profile

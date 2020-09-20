@@ -24,6 +24,7 @@ PACKAGES=(
   openssl
   mkcert
   shellcheck
+  composer
 )
 
 echo "Installing packages..."
