@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## Install composer plugin
-composer global require hirak/prestissimo nunomaduro/phpinsights \
+composer global require hirak/prestissimo nunomaduro/phpinsights phpstan/phpstan phpmetrics/phpmetrics \
   --prefer-dist \
   --prefer-stable \
   --no-progress \
