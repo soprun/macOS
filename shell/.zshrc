@@ -120,7 +120,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # include .bashrc if it exists
-if [ -e "${HOME}/.bashrc" ]; then
+if [ -e "${HOME}/.bash_profile" ]; then
   # shellcheck source=./.bashrc
-  . "${HOME}/.bashrc"
+  . "${HOME}/.bash_profile"
 fi

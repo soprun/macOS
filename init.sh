@@ -14,9 +14,9 @@ if [ -e "${HOME}/.env.local" ]; then
   . "${HOME}/.env.local"
 fi
 
-# Be strict
-set -e
-[ -n "$BASH_PROFILE_DEBUG" ] && set -x
+# Be very strict
+set -euo pipefail
+[ "$BASH_PROFILE_DEBUG" = true ] && set -x
 
 # Current directory
 CWD="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
@@ -65,10 +65,9 @@ fi
 ###
 
 declare -a files=(
-  "${CWD}/shell/.bash_aliases::${HOME}/.bash_aliases"
+  "${CWD}/shell/.aliases::${HOME}/.aliases"
   "${CWD}/shell/.bashrc::${HOME}/.bashrc"
-  "${CWD}/shell/.profile::${HOME}/.profile"
-  "${CWD}/shell/.zprofile::${HOME}/.zprofile"
+  "${CWD}/shell/.bash_profile::${HOME}/.bash_profile"
   "${CWD}/shell/.zshrc::${HOME}/.zshrc"
 
   "${CWD}/config/gpg.conf::${HOME}/.gnupg/gpg.conf"
@@ -101,7 +100,7 @@ done
 ### Create symlink bin directory
 ### https://chmodcommand.com/chmod-744/
 
-rm "${HOME}/bin"
+rm -f "${HOME}/bin"
 ln -sf "${CWD}/bin" "${HOME}/bin"
 chmod -R 755 "${HOME}/bin"
 
@@ -124,10 +123,3 @@ git config --global core.editor "$GIT_EDITOR"
 # git config --global tag.forceSignAnnotated true
 
 #git config --global --list
-
-###
-### SSH config
-###
-
-exec ssh-permission
-exec ssh-generate "$ID_EMAIL"
