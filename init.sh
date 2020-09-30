@@ -42,6 +42,8 @@ declare -a commands=(
   openssl
   shellcheck
   tree
+  dotenv-linter
+  hadolint
 )
 
 for command in "${commands[@]}"; do

@@ -31,3 +31,5 @@ if [ -f "$HOME/.gnupg/env" ]; then
   # shellcheck source=
   . "$HOME/.gnupg/env"
 fi
+
+eval $(docker-machine env default) &>/dev/null

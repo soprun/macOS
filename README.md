@@ -5,7 +5,7 @@ Collection bash scripts
 - https://github.com/alebcay/awesome-shell
 - https://github.com/drduh/YubiKey-Guide
 - https://www.freecodecamp.org/news/jazz-up-your-zsh-terminal-in-seven-steps-a-visual-guide-e81a8fd59a38/
-
+- https://www.mgrachev.com/2016/11/17/manage-dependecies-through-homebrew/
 
 - https://github.com/rbenv/rbenv-installer/blob/master/bin/rbenv-doctor
 

@@ -25,6 +25,8 @@ PACKAGES=(
   mkcert
   shellcheck
   composer
+  dotenv-linter
+  hadolint
 )
 
 echo "Installing packages..."

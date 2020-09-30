@@ -27,3 +27,5 @@ if [[ "$prune_volumes" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 fi
 
 $(echo "docker system prune${images}${volumes} --force")
+
+# docker system prune --all --volumes --force
