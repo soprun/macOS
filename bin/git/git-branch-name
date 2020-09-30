@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# shellcheck source=./../common.sh
+source "${CWD}/../common.sh"
+
+# Return git current branch
+
+git rev-parse --abbrev-ref HEAD

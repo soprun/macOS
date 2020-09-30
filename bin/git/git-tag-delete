@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# shellcheck source=./../common.sh
+source "${CWD}/../common.sh"
+
+tag_name="$1"
+
+if [ ! "$tag_name" ]; then
+  log_error "Tag name empty!"
+fi
+
+git fetch
+
+read -r -p "Delete local tag: $tag_name? [y/N] " git_local
+
+if [[ "$git_local" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  log_info "Delete local tag: $tag_name"
+
+  if ! git tag --delete "$tag_name" >/dev/null 2>/dev/null; then
+    log_warn "An error occurred while deleting the tag: $tag_name"
+  fi
+fi
+
+read -r -p "Delete remote tag: $tag_name? [y/N] " git_remote
+
+if [[ "$git_remote" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  log_info "Delete remote tag: $tag_name"
+
+  if ! git push origin --delete "$tag_name" >/dev/null 2>/dev/null; then
+    log_warn "An error occurred while deleting the tag: $tag_name"
+  fi
+fi

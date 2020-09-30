@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Be very strict
+set -euo pipefail
+
+set -e
+
+[ -n "$BASH_PROFILE_DEBUG" ] && set -x

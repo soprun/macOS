@@ -1,8 +1,0 @@
-#!/bin/sh
-
-# shellcheck source=./common.sh
-source "common.sh"
-
-# Return git current tag
-
-git describe --tags --abbrev=0

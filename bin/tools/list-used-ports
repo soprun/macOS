@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# shellcheck source=./../common.sh
+source "${CWD}/../common.sh"
+
+###
+### List used ports on Linux and MacOS
+###
+
+netstat -an | grep 'LISTEN\s'

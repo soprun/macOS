@@ -1,8 +1,0 @@
-#!/bin/sh
-
-# shellcheck source=./common.sh
-source "common.sh"
-
-# Return git current branch
-
-git rev-parse --abbrev-ref HEAD
