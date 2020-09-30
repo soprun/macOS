@@ -12,7 +12,7 @@ if [ ! "$remote" ]; then
   log_error "Remote name empty!"
 fi
 
-question="git push$COLOR_PURPLE origin: $COLOR_RED$remote$COLOR_RESET? [y/N]"
+question="git push$COLOR_PURPLE origin: $COLOR_RED$remote$COLOR_RESET? [y/N] "
 
 read -r -p "$(echo "$question")" git_push
 

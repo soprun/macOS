@@ -4,19 +4,16 @@
 source "common.sh"
 
 # Record changes to the repository
-
-message="$1"
+readonly message="$1"
 
 if [ ! "$message" ]; then
-  message="Signed commit..."
-  # message="$(basename $PWD)-$(date "+%Y.%m.%d-%H:%M:%S"): signed commit..."
-  log_warn "Default message: '$message'"
+  log_error "Commit message empty!"
 fi
 
-if ! git commit --all --gpg-sign="${ID_GPG_KEY}" --message "$message" >/dev/null 2>/dev/null; then
+if ! git commit --all --message "$message" >/dev/null 2>/dev/null; then
   log_error "An error occurred when record changes"
 else
-  log_success "Commit id $COLOR_BLUE'$(git rev-parse --short HEAD)'"
+  log_success "Commit id: $(git rev-parse --short HEAD)"
 fi
 
 git-push
