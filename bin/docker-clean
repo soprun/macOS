@@ -1,29 +1,6 @@
 #!/bin/sh
 
 # shellcheck source=./common.sh
-source "common.sh"
-
-log_warn "WARNING! This will remove:"
-log_warn "all stopped containers"
-log_warn "all networks not used by at least one container"
-
-images=""
-volumes=""
-
-read -r -p "Remove all unused images? [y/N] " prune_images
-
-if [[ "$prune_images" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  log_warn "all dangling images"
-  images=" --all"
-fi
-
-read -r -p "Prune volumes? [y/N] " prune_volumes
-
-if [[ "$prune_volumes" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  log_warn "all dangling build cache"
-  volumes=" --volumes"
-fi
-
-# $(echo "docker system prune${images}${volumes} --force")
+# source "common.sh"
 
 docker system prune --all --volumes --force

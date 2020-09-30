@@ -17,10 +17,14 @@ declare -a container_ids=($(docker container list --all --quiet))
 declare -a image_ids=($(docker images --all --quiet))
 
 log_info "Containers all: ${#container_ids[@]}"
-log_info "Images all: ${#image_ids[@]}"
+#log_info "Images all: ${#image_ids[@]}"
 
-if docker container stop "$container_ids" &>/dev/null; then
-  log_success "=> Stop all containers ✅"
+read -r -p "Stop all containers? [y/N] " prune_images
+
+if [[ "$prune_images" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  if docker container stop "$container_ids" &>/dev/null; then
+    log_success "=> Stop all containers ✅"
+  fi
 fi
 
 if docker container prune --force &>/dev/null; then
@@ -29,6 +33,10 @@ fi
 
 if docker network prune --force &>/dev/null; then
   log_success "=> Remove all unused networks 🖥"
+fi
+
+if docker volume prune --force &>/dev/null; then
+  log_success "=> Remove all unused local volumes"
 fi
 
 #if docker rmi --force $(docker images --all --quiet) &>/dev/null; then
