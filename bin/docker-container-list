@@ -9,3 +9,24 @@
 # docker container list --all --format 'table {{.ID}}\t{{.Image}}\t{{.Size}}'
 
 docker container list --all --size
+
+
+# Print the container ID for the result app:
+# docker container ls -f name='k8s_result*' --format '{{.ID}}'
+
+# docker container rm -f $(docker container ls -f name='k8s_result*' --format '{{.ID}}')
+
+
+#docker container list --all --size
+
+#Names
+
+#--filter "status=running"
+#--filter "status=exited"
+
+# docker container list --all --format '{{.ID.Labels}}'
+
+# list all running containers with their labels in a table format you can use:
+# docker container list --format "table {{.ID}}\t{{.Names}}\t{{.Labels}}"
+# docker container list --format "table {{.ID}}\t{{.Names}}\t{{.Size}}"
+

@@ -13,10 +13,13 @@ log_warn "Down docker! 🚛"
 #log_info "=> Remove all images 🚒"
 
 # declare an array
-declare -a ids=($(docker container list --all --quiet))
-log_info "Containers: ${#ids[@]}"
+declare -a container_ids=($(docker container list --all --quiet))
+declare -a image_ids=($(docker images --all --quiet))
 
-if docker container stop "$ids" &>/dev/null; then
+log_info "Containers all: ${#container_ids[@]}"
+log_info "Images all: ${#image_ids[@]}"
+
+if docker container stop "$container_ids" &>/dev/null; then
   log_success "=> Stop all containers ✅"
 fi
 
