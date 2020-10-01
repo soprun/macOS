@@ -2,5 +2,5 @@
 
 # login shell: √
 # interactive shell: √
-# scripts: √√
+# scripts: √
 # Terminal.app: √

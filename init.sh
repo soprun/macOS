@@ -4,6 +4,26 @@
 ### Default environment variables
 ###
 
+# Be very strict
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Current directory
+CWD="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+
+
 if [ -e "${HOME}/.env" ]; then
   # shellcheck source=./.env
   . "${HOME}/.env"
@@ -14,19 +34,23 @@ if [ -e "${HOME}/.env.local" ]; then
   . "${HOME}/.env.local"
 fi
 
-# Be very strict
-set -euo pipefail
-[ "$BASH_PROFILE_DEBUG" = true ] && set -x
 
-# Current directory
-CWD="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+### Create symlink bin directory
+### https://chmodcommand.com/chmod-744/
 
-###
+rm -f "${HOME}/bin"
+ln -sf "${CWD}/bin" "${HOME}/bin"
+chmod -R 755 "${HOME}/bin"
+
+if [ -z ${BASH_PROFILE_BIN} ]; then
+  # shellcheck source=./.env.local
+  . "${HOME}/.env.local"
+fi
+
 ### Source include
-###
+# shellcheck source=./bin/tools/common
+source "${CWD}/bin/tools/common"
 
-# shellcheck source=./bin/common.sh
-. "${CWD}/bin/common.sh"
 
 ###
 ### System dependencies
@@ -67,10 +91,11 @@ fi
 ###
 
 declare -a files=(
-  "${CWD}/shell/.aliases::${HOME}/.aliases"
-  "${CWD}/shell/.bashrc::${HOME}/.bashrc"
-  "${CWD}/shell/.bash_profile::${HOME}/.bash_profile"
-  "${CWD}/shell/.zshrc::${HOME}/.zshrc"
+  "${CWD}/profile-zsh/.zshrc::${HOME}/.zshrc"
+  "${CWD}/profile-zsh/.zprofile::${HOME}/.zprofile"
+  "${CWD}/profile-zsh/.zshenv::${HOME}/.zshenv"
+  "${CWD}/profile-zsh/.zshrc::${HOME}/.zshrc"
+  .
 
   "${CWD}/config/gpg.conf::${HOME}/.gnupg/gpg.conf"
   "${CWD}/config/gpg-agent.conf::${HOME}/.gnupg/gpg-agent.conf"
@@ -106,6 +131,9 @@ rm -f "${HOME}/bin"
 ln -sf "${CWD}/bin" "${HOME}/bin"
 chmod -R 755 "${HOME}/bin"
 
+exist 1
+
+
 ###
 ### Git config
 ###
@@ -116,6 +144,8 @@ git config --global commit.gpgsign "$GIT_GPG_SIGN"
 git config --global gpg.program "$GIT_GPG_PROGRAM"
 git config --global user.signingkey "$GIT_GPG_KEY"
 git config --global core.editor "$GIT_EDITOR"
+git config --global credential.helper osxkeychain
+git config --global credential.github.com.useHttpPath true
 
 # https://stackoverflow.com/questions/5195859/how-do-you-push-a-tag-to-a-remote-repository-using-git
 #git config --global push.followTags true
@@ -123,5 +153,3 @@ git config --global core.editor "$GIT_EDITOR"
 # From https://gist.github.com/danieleggert/b029d44d4a54b328c0bac65d46ba4c65
 # If you want annotated tags to be GPG signed:
 # git config --global tag.forceSignAnnotated true
-
-#git config --global --list

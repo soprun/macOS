@@ -1,31 +1,56 @@
-#!/bin/sh
+#!/bin/zsh
 
 # Be very strict
-# set -euo pipefail
+set -euo pipefail
 
-tput sgr0
+SHELL_DEBUG=0
+SHELL_BIN="${HOME}/bin"
+SHELL_DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
 
-set -e
-[ -n "$BASH_PROFILE_DEBUG" ] && set -x
+echo "SHELL_DIR: $SHELL_DIR"
+echo "SHELL_BIN: $SHELL_BIN"
+
+# Load the shell dotfiles, and then some:
+# * ~/.path can be used to extend `$PATH`.
+# * ~/.extra can be used for other settings you don’t want to commit.
+for file in ~/.{env,env.local,aliases}; do
+  # shellcheck source=./.aliases
+  [ -r "$file" ] && [ -f "$file" ] && source "$file"
+done
+unset file
+
+exit 1
+
+for file in $HOME/bin/*; do
+  # shellcheck source=./.aliases
+  [ -r "$file" ] && [ -f "$file" ] && source "$file"
+done
+unset file
+
+# Add `~/bin` to the `$PATH` so it includes user's private bin
+# export PATH="$HOME/bin/*:$PATH"
+
 
 ###
-### Colors
-###
+### System dependencies
+### log_info 'Check system required dependencies'
 
-COLOR_RESET='\033[0m' # Text Reset
+declare -a commands=(
+  docker
+  docker-compose
+  git
+  make
+  gpg
+  mkcert
+  openssl
+  shellcheck
+  tree
+  dotenv-linter
+  hadolint
+)
 
-# Regular Colors
-COLOR_BLACK="\033[0;30m"  # Black
-COLOR_RED="\033[0;31m"    # Red
-COLOR_GREEN="\033[0;32m"  # Green
-COLOR_YELLOW="\033[0;33m" # Yellow
-COLOR_BLUE="\033[0;34m"   # Blue
-COLOR_PURPLE="\033[0;35m" # Purple
-COLOR_CYAN="\033[0;36m"   # Cyan
-COLOR_WHITE="\033[0;37m"  # White
-
-
-
-#printc() {
-#  echo "$1"
-#}
+for command in "${commands[@]}"; do
+  if ! command -v "$command" >/dev/null 2>/dev/null; then
+    log_warn "${command} is not installed."
+  fi
+done
