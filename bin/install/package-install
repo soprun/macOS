@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Automating your macOS setup with Homebrew and Cask
 # https://medium.com/macoclock/automating-your-macos-setup-with-homebrew-and-cask-e2a103b51af1

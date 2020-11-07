@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin-other/bash
 
 ###
 ### Default environment variables
@@ -35,7 +35,7 @@ if [ -e "${HOME}/.env.local" ]; then
 fi
 
 
-### Create symlink bin directory
+### Create symlink bin-other directory
 ### https://chmodcommand.com/chmod-744/
 
 rm -f "${HOME}/bin"
@@ -48,7 +48,7 @@ if [ -z ${BASH_PROFILE_BIN} ]; then
 fi
 
 ### Source include
-# shellcheck source=./bin/tools/common
+# shellcheck source=./bin-other/tools/common
 source "${CWD}/bin/tools/common"
 
 
@@ -124,7 +124,7 @@ for index in "${files[@]}"; do
 done
 
 ###
-### Create symlink bin directory
+### Create symlink bin-other directory
 ### https://chmodcommand.com/chmod-744/
 
 rm -f "${HOME}/bin"

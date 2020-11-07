@@ -1,0 +1,65 @@
+#!/bin/sh
+
+set -euo pipefail
+
+# Fail fast with concise message when cwd does not exist
+if ! [[ -d "$PWD" ]]; then
+  echo "Error: The current working directory doesn't exist, cannot proceed." >&2
+  exit 1
+fi
+
+log_info() {
+  printf "\033[0;34m[info]\033[0m: %s\\n" "$1"
+}
+
+log_success() {
+  printf "\033[0;32m[success]\033[0m: %s\\n" "$1"
+}
+
+log_warn() {
+  printf "\033[0;33m[warn]\033[0m: %s\\n" "$1"
+}
+
+log_error() {
+  printf "\033[0;31m[error]\033[0m: %s\\n" "$1"
+}
+
+log_title() {
+  printf "\n\033[0;30m->> \033[0;32m%s\033[0m\\n" "$1"
+}
+
+error_exit() {
+  log_error "$1" >&2
+  exit 1
+}
+
+#log_info 'Info!..'
+#log_success 'Success!..'
+#log_warn 'Warn!..'
+#log_error 'Error!..'
+
+#for file in $HOME/bin/*; do
+#  # [ -r "$file" ] && [ -f "$file" ] && source "$file"
+#  [ -r "$file" ] && [ -f "$file" ] && echo "$file"
+#done
+#unset file
+
+# SHELL_DEBUG="0"
+# SHELL_BIN="${HOME}/bin"
+# SHELL_DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+
+# log_info "SHELL_DIR: $SHELL_DIR"
+# log_info "SHELL_BIN: $SHELL_BIN"
+
+# Current working directory
+# CWD="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+
+command_exists() {
+  command -v "$@" >/dev/null 2>&1
+}
+
+# Example
+
+#command_exists docker || {
+#  log_error "Command 'docker' is not installed."
+#}

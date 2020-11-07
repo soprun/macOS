@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin-other/bash
 
 ###
 ### Default environment variables
@@ -25,7 +25,7 @@ CWD="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
 ### Source include
 ###
 
-# shellcheck source=./bin/common.sh
+# shellcheck source=./bin-other/common.sh
 . "${CWD}/bin/common.sh"
 
 ###
@@ -99,7 +99,7 @@ for index in "${files[@]}"; do
 done
 
 ###
-### Create symlink bin directory
+### Create symlink bin-other directory
 ### https://chmodcommand.com/chmod-744/
 
 rm -f "${HOME}/bin"

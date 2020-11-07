@@ -21,7 +21,7 @@ unset file
 
 exit 1
 
-for file in $HOME/bin/*; do
+for file in $HOME/bin-other/*; do
   # shellcheck source=./.aliases
   [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
