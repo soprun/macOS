@@ -63,3 +63,8 @@ command_exists() {
 #command_exists docker || {
 #  log_error "Command 'docker' is not installed."
 #}
+
+#for file in $HOME/bin/*/*; do
+#  [ -r "$file" ] && [ -f "$file" ] && echo "$file"
+#done
+#unset file
