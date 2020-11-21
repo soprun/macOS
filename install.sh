@@ -4,24 +4,26 @@
 set -e
 
 # Current working directory
-CWD="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+# readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+readonly DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+#export $SHELL_DIR
 
-# shellcheck source=./bin/common.sh
-source "${CWD}/bin/common.sh"
+# shellcheck source=./bin/shell-common
+source "${DIR}/bin/shell-common"
 
 if [ -e "${HOME}/.env" ]; then
   # shellcheck source=./.env
-  . "${HOME}/.env"
+  source "${HOME}/.env"
 fi
 
 if [ -e "${HOME}/.env.local" ]; then
   # shellcheck source=./.env
-  . "${HOME}/.env.local"
+  source "${HOME}/.env.local"
 fi
 
-log_title "Starting installation script!"
+log_info "Starting installation script!"
 
-local source_dir="${CWD}/bin"
+local source_dir="${DIR}/bin"
 local target_dir="${HOME}/bin"
 
 if [ -L "${target_dir}" ]; then
@@ -29,13 +31,13 @@ if [ -L "${target_dir}" ]; then
 fi
 
 # see: https://vds-admin.ru/unix-commands/ln-link
-ln -sFh "${source_dir}" "${target_dir}"
+#ln -sFh "${source_dir}" "${target_dir}"
 
-log_title "Create symbolic link:"
+log_info "Create symbolic link:"
 log_info "=> source_dir: ${source_dir}"
 log_info "=> target_dir: ${target_dir}"
 
-log_title "Check system dependencies!"
+log_info "Check system dependencies!"
 
 #declare -a packages=(
 #  git
@@ -62,9 +64,15 @@ log_title "Check system dependencies!"
 # brew cleanup
 
 files=(
-  "${CWD}/.env::${HOME}/.env"
-  "${CWD}/.env.local::${HOME}/.env.local"
-  "${CWD}/shell.log::${HOME}/shell.log"
+  "${DIR}/.env::${HOME}/.env"
+  "${DIR}/.env.local::${HOME}/.env.local"
+
+  # "${DIR}/shell.log::${HOME}/shell.log"
+
+  "${DIR}/profile-bash/.bash_aliases::${HOME}/.bash_aliases"
+  "${DIR}/profile-bash/.bash_profile::${HOME}/.bash_profile"
+
+  "${DIR}/profile-zsh/.zshrc::${HOME}/.zshrc"
 )
 
 for index in "${files[@]}"; do
@@ -76,7 +84,7 @@ for index in "${files[@]}"; do
   fi
 
   if [ -f "$target_file" ]; then
-    log_warn "File $target_file exists and will be overwritten."
+    log_error "File $target_file exists and will be overwritten."
     rm "$target_file"
   fi
 
@@ -84,7 +92,6 @@ for index in "${files[@]}"; do
   chmod 700 $target_file
   log_success "File '$source_file' symlink to '$target_file'"
 done
-
 
 # chmod 700 ~/.bash_profile
 # chmod 700 ~/.bashrc

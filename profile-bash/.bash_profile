@@ -10,12 +10,12 @@ export PATH="$HOME/bin:$PATH"
 ###
 
 # You may need to manually set your language environment
-export LC_ALL=ru_RU.UTF-8
-export LANG=ru_RU.UTF-8
+#export LC_ALL=ru_RU.UTF-8
+#export LANG=ru_RU.UTF-8
 
 # Preferred editor for local and remote sessions
-export EDITOR='code'
-export CLICOLOR="1"
+#export EDITOR='code'
+#export CLICOLOR="1"
 
 #######################################################################
 # Load environment variables
@@ -24,8 +24,8 @@ export CLICOLOR="1"
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ${HOME}/.{env,env.local,aliases}; do
-  # shellcheck source=./.env
+for file in ${HOME}/.{env,env.local,.bash_aliases}; do
+  # shellcheck source=./../.env
   # shellcheck source=./.bash_aliases
   [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done

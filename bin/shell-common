@@ -7,14 +7,26 @@ set -euo pipefail
 # Default configuration
 #######################################################################
 
-readonly date_time=$(date +"%Y/%m/%d %H:%M:%S")
-readonly utc_date_time=$(date -u +"%Y/%m/%dT%H:%M:%SZ")
+#readonly date_time=$(date +"%Y/%m/%d %H:%M:%S")
+#readonly utc_date_time=$(date -u +"%Y/%m/%dT%H:%M:%SZ")
+
+# Shell working directory
+#readonly SHELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+#export $SHELL_DIR
+
+# Current working directory
+readonly SHELL_DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+
+if [ ! -d $SHELL_DIR ]; then
+  printf "\033[0;31m[error]\033[0m: %s\\n" "Error: The current working directory doesn't exist, cannot proceed."
+  exit 1
+fi
 
 # shellcheck source=./shell-colors
-source "shell-colors"
+source "${SHELL_DIR}/shell-colors"
 
 # shellcheck source=./shell-logger
-source "shell-logger"
+source "${SHELL_DIR}/shell-logger"
 
 #######################################################################
 # Load environment variables
@@ -22,7 +34,7 @@ source "shell-logger"
 
 for file in ${HOME}/.{env,env.local}; do
   # shellcheck source=../.env
-  # shellcheck source=../.bash_aliases
+  # shellcheck source=../profile-bash/.bash_aliases
   [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file
@@ -35,14 +47,6 @@ if [ -z $SHELL_BIN ]; then
   error_exit "An error occurred, the value of the variable SHELL_BIN was not loaded!"
 fi
 
-# Shell working directory
-readonly SHELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-#export $SHELL_DIR
-
-if [ ! -d $SHELL_DIR ]; then
-  error_exit "Error: The current working directory doesn't exist, cannot proceed."
-fi
-
 #######################################################################
 # Initialization
 #######################################################################
@@ -53,7 +57,7 @@ fi
 # Load all tools
 #######################################################################
 
-for file in $SHELL_BIN/*/*; do
-  [ -r "$file" ] && [ -f "$file" ] && echo "$file"
-done
-unset file
+#for file in $SHELL_BIN/*/*; do
+#  [ -r "$file" ] && [ -f "$file" ] && echo "$file"
+#done
+#unset file
