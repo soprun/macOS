@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# shellcheck source=./../common.sh
+source "${CWD}/../common.sh"
+
+# Copy the current tag name to the clipboard.
+
+tag=$(git-tag-name)
+
+log_info "Current tag: $tag"
+
+echo "$tag" | tr -d '\n' | tr -d ' ' | pbcopy

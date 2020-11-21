@@ -103,3 +103,28 @@ fi
 #  [ -r "$file" ] && [ -f "$file" ] && echo "$file"
 #done
 #unset file
+
+
+###
+### System dependencies
+### log_info 'Check system required dependencies'
+
+declare -a commands=(
+  docker
+  docker-compose
+  git
+  make
+  gpg
+  mkcert
+  openssl
+  shellcheck
+  tree
+  dotenv-linter
+  hadolint
+)
+
+for command in "${commands[@]}"; do
+  if ! command -v "$command" >/dev/null 2>/dev/null; then
+    log_warn "${command} is not installed."
+  fi
+done

@@ -71,19 +71,19 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    common-aliases
-    osx
-    extract
+  common-aliases
+  osx
+  extract
 
-    git
-    git-flow
-    docker
-    docker-compose
-    docker-machine
-    brew
-    composer
-    # zsh-syntax-highlighting
-    # zsh-autosuggestions
+  git
+  git-flow
+  docker
+  docker-compose
+  docker-machine
+  brew
+  composer
+  # zsh-syntax-highlighting
+  # zsh-autosuggestions
 )
 
 # shellcheck source=./oh-my-zsh.sh
@@ -121,7 +121,7 @@ if [ -e "${HOME}/.bash_profile" ]; then
   source "${HOME}/.bash_profile"
 fi
 
-eval $(docker-machine env default) >&2
+eval $(docker-machine env default) &>/dev/null
 
 source <(kubectl completion zsh)
 

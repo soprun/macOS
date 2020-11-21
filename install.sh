@@ -96,3 +96,31 @@ done
 
 # chmod 700 ~/.bash_profile
 # chmod 700 ~/.bashrc
+
+###
+### Create symlink bin-other directory
+### https://chmodcommand.com/chmod-744/
+
+#rm -f "${HOME}/bin"
+#ln -sf "${CWD}/bin" "${HOME}/bin"
+#chmod -R 755 "${HOME}/bin"
+
+#######################################################################
+# Git config
+#######################################################################
+
+#git config --global user.name "$GIT_NAME"
+#git config --global user.email "$GIT_EMAIL"
+#git config --global commit.gpgsign "$GIT_GPG_SIGN"
+#git config --global gpg.program "$GIT_GPG_PROGRAM"
+#git config --global user.signingkey "$GIT_GPG_KEY"
+#git config --global core.editor "$GIT_EDITOR"
+
+# https://stackoverflow.com/questions/5195859/how-do-you-push-a-tag-to-a-remote-repository-using-git
+#git config --global push.followTags true
+
+# From https://gist.github.com/danieleggert/b029d44d4a54b328c0bac65d46ba4c65
+# If you want annotated tags to be GPG signed:
+# git config --global tag.forceSignAnnotated true
+
+#git config --global --list
