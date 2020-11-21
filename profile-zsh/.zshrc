@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+#export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/soprun/.oh-my-zsh"
@@ -86,6 +86,7 @@ plugins=(
     # zsh-autosuggestions
 )
 
+# shellcheck source=./oh-my-zsh.sh
 source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
@@ -93,17 +94,17 @@ source "$ZSH/oh-my-zsh.sh"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+#export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='mvim'
-fi
+#if [[ -n $SSH_CONNECTION ]]; then
+#  export EDITOR='vim'
+#else
+#  export EDITOR='mvim'
+#fi
 
 # Compilation flags
-export ARCHFLAGS="-arch x86_64"
+#export ARCHFLAGS="-arch x86_64"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -113,13 +114,6 @@ export ARCHFLAGS="-arch x86_64"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# export DOCKER_DEBUG=0
-
-#export DOCKER_BUILDKIT=1
-#export DOCKER_CLI_EXPERIMENTAL=enabled
-#export DOCKER_STACK_ORCHESTRATOR=kubernetes
-#export COMPOSE_DOCKER_CLI_BUILD=1
 
 # include .bashrc if it exists
 if [ -e "${HOME}/.bash_profile" ]; then
@@ -134,5 +128,3 @@ source <(kubectl completion zsh)
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
 source ~/.iterm2_shell_integration.zsh
-
-# $PATH="${PATH}:/usr/local/bin"
