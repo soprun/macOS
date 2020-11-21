@@ -1,9 +1,0 @@
-#!/bin/sh
-
-#command_exists() {
-#  command -v "$@" >/dev/null 2>&1
-#}
-
-#command_exists docker || {
-#  log_error "Command 'docker' is not installed."
-#}

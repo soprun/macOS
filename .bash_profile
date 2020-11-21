@@ -5,11 +5,17 @@
 # Add `~/bin` to the `$PATH` so it includes user's private bin
 export PATH="$HOME/bin:$PATH"
 
+###
+### System default environment variables.
+###
+
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+export LC_ALL=ru_RU.UTF-8
+export LANG=ru_RU.UTF-8
 
 # Preferred editor for local and remote sessions
-export EDITOR='vim'
+export EDITOR='code'
+export CLICOLOR="1"
 
 #######################################################################
 # Load environment variables

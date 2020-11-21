@@ -1,4 +1,0 @@
-#!/bin/sh
-
-docker container list --filter "publish=80-443" --format "table {{.ID}}\t{{.Names}}"
-

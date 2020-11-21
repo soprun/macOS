@@ -84,3 +84,7 @@ for index in "${files[@]}"; do
   chmod 700 $target_file
   log_success "File '$source_file' symlink to '$target_file'"
 done
+
+
+# chmod 700 ~/.bash_profile
+# chmod 700 ~/.bashrc

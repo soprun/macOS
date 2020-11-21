@@ -1,4 +1,0 @@
-#!/bin/sh
-
-docker container list --format "table {{.ID}}\t{{.Names}}\t{{.Size}}"
-

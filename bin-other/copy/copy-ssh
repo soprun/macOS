@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# shellcheck source=./../common.sh
-source "${CWD}/../common.sh"
-
-gpg --armor --export-ssh-key "$ID_GPG_KEY" | pbcopy
-log_success 'Export ssh key and copy the clipboard.'

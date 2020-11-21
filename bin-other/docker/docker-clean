@@ -1,6 +1,0 @@
-#!/bin/sh
-
-# shellcheck source=./common.sh
-# source "common.sh"
-
-docker system prune --all --volumes --force
