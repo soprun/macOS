@@ -39,7 +39,12 @@ unset file
 ### Identity environment variables
 ###
 
-#export ID_NAME
-#export ID_USER
-#export ID_EMAIL
-#export ID_GPG_KEY
+export ID_NAME
+export ID_USER
+export ID_EMAIL
+export ID_GPG_KEY
+
+export COMPOSER_HOME
+export COMPOSER_CACHE_DIR
+export COMPOSER_MEMORY_LIMIT
+export COMPOSER_ALLOW_SUPERUSER
