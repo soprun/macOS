@@ -1,7 +1,11 @@
 #!/bin/sh
 
+
+# DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# echo $SHELL_DIR;
+
 # shellcheck source=./../common.sh
-source "${CWD}/../common.sh"
+source "../../common.sh"
 
 # https://en.gravatar.com/site/implement/hash/
 #email_to_hash() {
@@ -9,5 +13,12 @@ source "${CWD}/../common.sh"
 #  echo "$@" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q | tr -d '\- '
 #}
 
-#echo -n $@ | tr '[A-Z]' '[a-z]' | md5
+echo $1;
+
+
+# cat "${PWD}/command.sh"
+exit 0
+
+
+# echo -n $@ | tr '[A-Z]' '[a-z]' | md5
 echo -n "$1" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q

@@ -1,4 +1,7 @@
 .idea
-.DS_Store
+.backup
 
+# files
+.DS_Store
 .env.local
+shell.log

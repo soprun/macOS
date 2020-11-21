@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
 # shellcheck source=./../common.sh
-source "${CWD}/../common.sh"
+# source "${CWD}/../common.sh"
 
 ssh -T git@github.com

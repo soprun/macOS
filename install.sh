@@ -64,6 +64,7 @@ log_title "Check system dependencies!"
 files=(
   "${CWD}/.env::${HOME}/.env"
   "${CWD}/.env.local::${HOME}/.env.local"
+  "${CWD}/shell.log::${HOME}/shell.log"
 )
 
 for index in "${files[@]}"; do

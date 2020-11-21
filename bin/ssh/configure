@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# https://coolestguidesontheplanet.com/connecting-ssh-with-no-passwords-from-local-to-live-domain/
+# https://gist.github.com/Vadorequest/b2caf72df68bb05aee942cc660bb4846
+
+# mkdir "${HOME}/.ssh"
+
+# source "/../common.sh"
+
+# SSH_HOME="${HOME}/.ssh"
+
+if test -z "$SSH_HOME"; then
+    log_error "An error occurred, the ssh_home environment variable is empty!"
+fi
+
+if [ ! -d "$SSH_HOME" ]; then
+    log_error "An error occurred, directory SSH_HOME does not exist!"
+fi
+
+echo $SSH_HOME
+
+# function configure_ssh() {
+# }
