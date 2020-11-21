@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-# shellcheck source=./../common.sh
-source "${CWD}/../common.sh"
+# shellcheck source=../shell-common
+source "${SHELL_BIN}/shell-common"
 
 identity="${1:-$ID_EMAIL}"
 name="$(echo $identity | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q)"

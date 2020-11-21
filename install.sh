@@ -1,73 +1,112 @@
 #!/bin/bash
-# /usr/local/bin
 
 set -e
 
+#######################################################################
 # Current working directory
-# readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-readonly DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+#######################################################################
+
+readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+#readonly DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
 #export $SHELL_DIR
 
 # If local file does not exist, it creates an empty one.
-for file in ${DIR}/{.env.local,shell-profile.log}; do
+for file in ${DIR}/{.env.local,shell.log}; do
   [ ! -f "$file" ] && touch "$file"
 done
 unset file
-
-# shellcheck source=./bin/shell-common
-source "${DIR}/bin/shell-common"
 
 #######################################################################
 # Load environment variables
 #######################################################################
 
-log_info "Starting installation script!"
+for file in ${DIR}/.{env,env.local}; do
+  # shellcheck source=./.env
+  [ -r "$file" ] && [ -f "$file" ] && source "$file"
+done
+unset file
+
+#######################################################################
+# Create symlink bin directory
+#######################################################################
 
 local source_dir="${DIR}/bin"
-local target_dir="${SHELL_PROFILE_BIN}"
+local target_dir="${SHELL_BIN}"
 
-if [ -L "${target_dir}" ]; then
-  log_warn "Directory ${target_dir} already exists, abort installation."
-fi
+#if [ -L "${target_dir}" ]; then
+#  log_warn "Directory ${target_dir} already exists, abort installation."
+#fi
+
+rm -f "${target_dir}"
 
 # see: https://vds-admin.ru/unix-commands/ln-link
 #ln -sFh "${source_dir}" "${target_dir}"
+ln -sf "${source_dir}" "${target_dir}"
+
+chmod -R 755 "${target_dir}"
+
+#######################################################################
+# Source include
+#######################################################################
+
+# shellcheck source=./bin/shell-common
+source "${SHELL_BIN}/shell-common"
 
 log_info "Create symbolic link:"
-log_info "=> source_dir: ${source_dir}"
-log_info "=> target_dir: ${target_dir}"
+log_success "=> source_dir: ${source_dir}"
+log_success "=> target_dir: ${target_dir}"
 
-log_info "Check system dependencies!"
+#######################################################################
+# Check system required dependencies
+#######################################################################
 
-#declare -a packages=(
-#  git
-#  docker
-#  docker-compose
-#  make
-#  gpg
-#  openssl
-#  shellcheck
-#  dotenv-linter
-#  hadolint
-#)
-#
-#for command in "${packages[@]}"; do
-#  if ! command_exists "$command"; then
-#    log_warn "${command} is not installed."
-#  fi
-#done
+log_info "Check system required dependencies"
 
-# log_info "Brew: Installing packages..."
+declare -a commands=()
+
+commands=(
+  docker
+  docker-compose
+  git
+  make
+  gpg
+  mkcert
+  openssl
+  shellcheck
+  tree
+  dotenv-linter
+  hadolint
+)
+
+for command in "${commands[@]}"; do
+  if ! command -v "$command" >/dev/null 2>/dev/null; then
+    log_warn "${command} is not installed."
+  fi
+done
+
+#######################################################################
+# Brew: Installing packages...
+#######################################################################
+
+log_info "Brew: Installing packages..."
 # brew install "${packages[@]}"
 
-# log_info "Brew: Cleaning up..."
+#######################################################################
+# Brew: Cleaning up...
+#######################################################################
+
+log_info "Brew: Cleaning up..."
 # brew cleanup
+
+#######################################################################
+# Create symlink .bash_profile & .env files
+#######################################################################
 
 files=(
   "${DIR}/.env::${HOME}/.env"
   "${DIR}/.env.local::${HOME}/.env.local"
 
-  "${DIR}/shell-profile.log::${SHELL_PROFILE_LOG}"
+  "${DIR}/shell.log::${HOME}/shell.log"
 
   "${DIR}/profile-bash/.bash_aliases::${HOME}/.bash_aliases"
   "${DIR}/profile-bash/.bash_profile::${HOME}/.bash_profile"
@@ -93,17 +132,6 @@ for index in "${files[@]}"; do
   chmod 700 $target_file
   log_success "File '$source_file' symlink to '$target_file'"
 done
-
-# chmod 700 ~/.bash_profile
-# chmod 700 ~/.bashrc
-
-###
-### Create symlink bin-other directory
-### https://chmodcommand.com/chmod-744/
-
-#rm -f "${HOME}/bin"
-#ln -sf "${CWD}/bin" "${HOME}/bin"
-#chmod -R 755 "${HOME}/bin"
 
 #######################################################################
 # Git config

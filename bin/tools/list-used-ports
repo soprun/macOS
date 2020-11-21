@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck source=../shell-common
+source "${SHELL_BIN}/shell-common"
+
 ### List used ports on Linux and MacOS
 
 netstat -an | grep 'LISTEN\s'

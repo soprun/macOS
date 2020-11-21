@@ -4,4 +4,4 @@
 # files
 .DS_Store
 .env.local
-shell-profile.log
+shell.log

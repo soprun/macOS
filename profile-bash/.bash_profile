@@ -46,6 +46,13 @@ unset dir
 # Export environment variables
 #######################################################################
 
+### Shell environment variables
+
+export SHELL_PROFILE_BIN
+export SHELL_PROFILE_SOURCE
+#export SHELL_PROFILE_DEBUG
+#export SHELL_PROFILE_LOG
+
 ### Identity environment variables
 
 export ID_NAME

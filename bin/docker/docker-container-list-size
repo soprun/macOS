@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+
+# shellcheck source=../shell-common
+source "${SHELL_BIN}/shell-common"
 
 docker container list --format "table {{.ID}}\t{{.Names}}\t{{.Size}}"
 

@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-# shellcheck source=./common.sh
-# source "common.sh"
+# shellcheck source=../shell-common
+source "${SHELL_BIN}/shell-common"
 
 docker system prune --all --volumes --force
