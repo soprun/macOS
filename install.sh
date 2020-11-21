@@ -143,6 +143,8 @@ done
 #git config --global gpg.program "$GIT_GPG_PROGRAM"
 #git config --global user.signingkey "$GIT_GPG_KEY"
 #git config --global core.editor "$GIT_EDITOR"
+#git config --global credential.helper osxkeychain
+#git config --global credential.github.com.useHttpPath true
 
 # https://stackoverflow.com/questions/5195859/how-do-you-push-a-tag-to-a-remote-repository-using-git
 #git config --global push.followTags true
