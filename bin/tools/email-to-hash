@@ -1,24 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
-
-# DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-# echo $SHELL_DIR;
-
-# shellcheck source=./../common.sh
-source "../../common.sh"
+# shellcheck source=./../shell-common
+source "shell-common"
 
 # https://en.gravatar.com/site/implement/hash/
 #email_to_hash() {
 #  echo -n $@ | tr '[A-Z]' '[a-z]' | md5
 #  echo "$@" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q | tr -d '\- '
 #}
-
-echo $1;
-
-
-# cat "${PWD}/command.sh"
-exit 0
-
 
 # echo -n $@ | tr '[A-Z]' '[a-z]' | md5
 echo -n "$1" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q

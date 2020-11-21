@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck source=./shell-common
+#source "shell-common"
+
 COLOR_RESET='\033[0m' # Text Reset
 
 # Regular Colors
