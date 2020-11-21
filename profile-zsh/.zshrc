@@ -115,7 +115,7 @@ source "$ZSH/oh-my-zsh.sh"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# include .bashrc if it exists
+# include .bash_profile if it exists
 if [ -e "${HOME}/.bash_profile" ]; then
   # shellcheck source=./../profile-bash/.bash_profile
   source "${HOME}/.bash_profile"

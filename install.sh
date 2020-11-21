@@ -71,6 +71,7 @@ files=(
 
   "${DIR}/profile-bash/.bash_aliases::${HOME}/.bash_aliases"
   "${DIR}/profile-bash/.bash_profile::${HOME}/.bash_profile"
+  "${DIR}/profile-bash/.bashrc::${HOME}/.bashrc"
 
   "${DIR}/profile-zsh/.zshrc::${HOME}/.zshrc"
 )

@@ -3,7 +3,7 @@
 #######################################################################
 
 # Add `~/bin` to the `$PATH` so it includes user's private bin
-export PATH="$HOME/bin:$PATH"
+#export PATH="$HOME/bin:$PATH"
 
 ###
 ### System default environment variables.
@@ -21,15 +21,19 @@ export PATH="$HOME/bin:$PATH"
 # Load environment variables
 #######################################################################
 
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in ${HOME}/.{env,env.local,.bash_aliases}; do
+for file in ${HOME}/.{env,env.local,bash_aliases}; do
   # shellcheck source=./../.env
   # shellcheck source=./.bash_aliases
   [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file
+
+if [ -z $SHELL_BIN ]; then
+  printf "\033[0;31m[error]\033[0m: %s\\n" "An error occurred, the value of the variable SHELL_BIN was not loaded!"
+  exit 1
+fi
+
+export PATH="$SHELL_BIN:$PATH"
 
 #######################################################################
 # Export environment variables
@@ -44,7 +48,7 @@ export ID_USER
 export ID_EMAIL
 export ID_GPG_KEY
 
-export COMPOSER_HOME
-export COMPOSER_CACHE_DIR
-export COMPOSER_MEMORY_LIMIT
-export COMPOSER_ALLOW_SUPERUSER
+#export COMPOSER_HOME
+#export COMPOSER_CACHE_DIR
+#export COMPOSER_MEMORY_LIMIT
+#export COMPOSER_ALLOW_SUPERUSER
