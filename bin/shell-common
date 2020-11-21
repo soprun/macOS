@@ -1,7 +1,8 @@
 #!/bin/zsh
 
 # Be very strict
-set -euo pipefail
+#set -euo pipefail
+set -e
 
 #######################################################################
 # Default configuration
@@ -23,10 +24,52 @@ if [ ! -d $SHELL_DIR ]; then
 fi
 
 # shellcheck source=./shell-colors
-source "${SHELL_DIR}/shell-colors"
+#source "${SHELL_DIR}/shell-colors"
 
 # shellcheck source=./shell-logger
-source "${SHELL_DIR}/shell-logger"
+#source "${SHELL_DIR}/shell-logger"
+
+#######################################################################
+# logger
+#######################################################################
+
+## https://apple.stackexchange.com/questions/256769/how-to-use-logger-command-on-sierra
+
+log_info()
+{
+  printf "\033[0;34m[info]\033[0m: %s\\n" "$1"
+  # logger -p user.info -t "$(basename $0)" "$@"
+}
+
+log_success()
+{
+  printf "\033[0;32m[success]\033[0m: %s\\n" "$1"
+  # logger -p user.notice -t "$(basename $0)" "$@"
+}
+
+log_warn()
+{
+  printf "\033[0;33m[warn]\033[0m: %s\\n" "$1"
+  # logger -p user.warn -t "$(basename $0)" "$@"
+}
+
+log_alert()
+{
+  printf "\033[0;33m[alert]\033[0m: %s\\n" "$1"
+  # logger -p user.alert -t "$(basename $0)" "$@"
+}
+
+log_error()
+{
+  printf "\033[0;31m[error]\033[0m: %s\\n" "$1"
+  # logger -p user.error -t "$(basename $0)" "$@"
+}
+
+error_exit()
+{
+  log_error "$1" >&2
+  exit 1
+}
 
 #######################################################################
 # Load environment variables
@@ -34,17 +77,16 @@ source "${SHELL_DIR}/shell-logger"
 
 for file in ${HOME}/.{env,env.local}; do
   # shellcheck source=../.env
-  # shellcheck source=../profile-bash/.bash_aliases
   [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file
 
-if [ -z $SHELL_DEBUG ]; then
-  error_exit "An error occurred, the value of the variable SHELL_DEBUG was not loaded!"
+if [ -z $SHELL_PROFILE_DEBUG ]; then
+  error_exit "An error occurred, the value of the variable SHELL_PROFILE_DEBUG was not loaded!"
 fi
 
-if [ -z $SHELL_BIN ]; then
-  error_exit "An error occurred, the value of the variable SHELL_BIN was not loaded!"
+if [ -z $SHELL_PROFILE_BIN ]; then
+  error_exit "An error occurred, the value of the variable SHELL_PROFILE_BIN was not loaded!"
 fi
 
 #######################################################################
@@ -57,7 +99,7 @@ fi
 # Load all tools
 #######################################################################
 
-#for file in $SHELL_BIN/*/*; do
+#for file in $SHELL_PROFILE_BIN/*/*; do
 #  [ -r "$file" ] && [ -f "$file" ] && echo "$file"
 #done
 #unset file

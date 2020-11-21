@@ -33,31 +33,31 @@
 log_info()
 {
   printf "\033[0;34m[info]\033[0m: %s\\n" "$1"
-  logger -p user.info -t "$(basename $0)" "$@"
+  # logger -p user.info -t "$(basename $0)" "$@"
 }
 
 log_success()
 {
   printf "\033[0;32m[success]\033[0m: %s\\n" "$1"
-  logger -p user.notice -t "$(basename $0)" "$@"
+  # logger -p user.notice -t "$(basename $0)" "$@"
 }
 
 log_warn()
 {
   printf "\033[0;33m[warn]\033[0m: %s\\n" "$1"
-  logger -p user.warn -t "$(basename $0)" "$@"
+  # logger -p user.warn -t "$(basename $0)" "$@"
 }
 
 log_alert()
 {
   printf "\033[0;33m[alert]\033[0m: %s\\n" "$1"
-  logger -p user.alert -t "$(basename $0)" "$@"
+  # logger -p user.alert -t "$(basename $0)" "$@"
 }
 
 log_error()
 {
   printf "\033[0;31m[error]\033[0m: %s\\n" "$1"
-  logger -p user.error -t "$(basename $0)" "$@"
+  # logger -p user.error -t "$(basename $0)" "$@"
 }
 
 error_exit()

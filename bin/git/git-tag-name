@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# shellcheck source=./../common.sh
-# source "${CWD}/../common.sh"
+# shellcheck source=./../shell-common
+source "shell-common"
 
 # Return git current tag
-
-git describe --tags --abbrev=0
+log_info $(git describe --tags --abbrev=0)

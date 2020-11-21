@@ -28,27 +28,49 @@ for file in ${HOME}/.{env,env.local,bash_aliases}; do
 done
 unset file
 
-if [ -z $SHELL_BIN ]; then
-  printf "\033[0;31m[error]\033[0m: %s\\n" "An error occurred, the value of the variable SHELL_BIN was not loaded!"
+if [ -z $SHELL_PROFILE_BIN ]; then
+  printf "\033[0;31m[error]\033[0m: %s\\n" "An error occurred, the value of the variable SHELL_PROFILE_BIN was not loaded!"
   exit 1
 fi
 
-export PATH="$SHELL_BIN:$PATH"
+PATH="$SHELL_PROFILE_BIN:$PATH"
+
+for dir in $SHELL_PROFILE_BIN/*; do
+  if [ -d "$dir" ]; then
+    PATH="$dir:$PATH"
+  fi
+done
+unset dir
 
 #######################################################################
 # Export environment variables
 #######################################################################
 
-###
 ### Identity environment variables
-###
 
 export ID_NAME
 export ID_USER
 export ID_EMAIL
 export ID_GPG_KEY
 
-#export COMPOSER_HOME
-#export COMPOSER_CACHE_DIR
-#export COMPOSER_MEMORY_LIMIT
-#export COMPOSER_ALLOW_SUPERUSER
+### Git credentials
+
+export GIT_NAME
+export GIT_EMAIL
+export GIT_GPG_KEY
+export GIT_GPG_SIGN
+export GIT_GPG_PROGRAM
+export GIT_EDITOR
+
+### Composer environment variables
+
+export COMPOSER_HOME
+export COMPOSER_CACHE_DIR
+export COMPOSER_MEMORY_LIMIT
+export COMPOSER_ALLOW_SUPERUSER
+
+### Docker environment variables
+
+export DOCKER_BUILDKIT
+export DOCKER_CLI_EXPERIMENTAL
+export COMPOSE_DOCKER_CLI_BUILD

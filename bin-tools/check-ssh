@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shellcheck source=./../shell-common
+# shellcheck source=./../bin/shell-common
 source "shell-common"
 
 ssh -T git@github.com

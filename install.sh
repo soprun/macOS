@@ -8,23 +8,23 @@ set -e
 readonly DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
 #export $SHELL_DIR
 
+# If local file does not exist, it creates an empty one.
+for file in ${DIR}/{.env.local,shell-profile.log}; do
+  [ ! -f "$file" ] && touch "$file"
+done
+unset file
+
 # shellcheck source=./bin/shell-common
 source "${DIR}/bin/shell-common"
 
-if [ -e "${HOME}/.env" ]; then
-  # shellcheck source=./.env
-  source "${HOME}/.env"
-fi
-
-if [ -e "${HOME}/.env.local" ]; then
-  # shellcheck source=./.env
-  source "${HOME}/.env.local"
-fi
+#######################################################################
+# Load environment variables
+#######################################################################
 
 log_info "Starting installation script!"
 
 local source_dir="${DIR}/bin"
-local target_dir="${HOME}/bin"
+local target_dir="${SHELL_PROFILE_BIN}"
 
 if [ -L "${target_dir}" ]; then
   log_warn "Directory ${target_dir} already exists, abort installation."
@@ -67,7 +67,7 @@ files=(
   "${DIR}/.env::${HOME}/.env"
   "${DIR}/.env.local::${HOME}/.env.local"
 
-  # "${DIR}/shell.log::${HOME}/shell.log"
+  "${DIR}/shell-profile.log::${SHELL_PROFILE_LOG}"
 
   "${DIR}/profile-bash/.bash_aliases::${HOME}/.bash_aliases"
   "${DIR}/profile-bash/.bash_profile::${HOME}/.bash_profile"
@@ -81,11 +81,11 @@ for index in "${files[@]}"; do
   target_file="${index##*::}"
 
   if [ ! -f "$source_file" ]; then
-    log_error "File $source_file does not exists."
+    error_exit "File $source_file does not exists."
   fi
 
   if [ -f "$target_file" ]; then
-    log_error "File $target_file exists and will be overwritten."
+    log_warn "File $target_file exists and will be overwritten."
     rm "$target_file"
   fi
 

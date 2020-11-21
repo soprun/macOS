@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shellcheck source=./../common.sh
-# source "${CWD}/../common.sh"
+# shellcheck source=./../shell-common
+source "shell-common"
 
-git rev-parse --short HEAD
+log_info $(git rev-parse --short HEAD)
