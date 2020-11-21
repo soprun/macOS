@@ -27,17 +27,13 @@ for file in ${HOME}/.{env,env.local,aliases}; do
 done
 unset file
 
-if [ -z $SHELL_LOG ]; then
-  readonly SHELL_LOG="${HOME}/shell.log"
-fi
+#if [ -z $SHELL_LOG ]; then
+#  readonly SHELL_LOG="${HOME}/shell.log"
+#fi
 
 #if [ ! -f $SHELL_LOG ]; then
 #  touch "$SHELL_LOG"
 #fi
-
-if [ -z SHELL_NAME ]; then
-  readonly SHELL_NAME="$(basename $0)"
-fi
 
 # Shell working directory
 readonly SHELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
@@ -49,39 +45,36 @@ readonly SHELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd
 
 ## https://apple.stackexchange.com/questions/256769/how-to-use-logger-command-on-sierra
 
+readonly SCRIPT_NAME="$(basename $0)"
+
 log_info()
 {
   printf "\033[0;34m[info]\033[0m: %s\\n" "$1"
-  logger -p user.info -t $SHELL_NAME "$@"
+  logger -p user.info -t "$SCRIPT_NAME" "$@"
 }
 
 log_success()
 {
   printf "\033[0;32m[success]\033[0m: %s\\n" "$1"
-  logger -p user.notice -t $SHELL_NAME "$@"
+  logger -p user.notice -t "$SCRIPT_NAME" "$@"
 }
 
 log_warn()
 {
   printf "\033[0;33m[warn]\033[0m: %s\\n" "$1"
-  logger -p user.warn -t $SHELL_NAME "$@"
+  logger -p user.warn -t "$SCRIPT_NAME" "$@"
 }
 
 log_alert()
 {
   printf "\033[0;33m[alert]\033[0m: %s\\n" "$1"
-  logger -p user.alert -t $SHELL_NAME "$@"
+  logger -p user.alert -t "$SCRIPT_NAME" "$@"
 }
 
 log_error()
 {
   printf "\033[0;31m[error]\033[0m: %s\\n" "$1"
-  logger -p user.error -t $SHELL_NAME "$@"
-}
-
-log_title()
-{
-  printf "\n\033[0;30m->> \033[0;32m%s\033[0m\\n" "$1"
+  logger -p user.error -t "$SCRIPT_NAME" "$@"
 }
 
 error_exit()
@@ -110,7 +103,7 @@ if [ "${SHELL_DEBUG}" == 1 ]; then
   log_info "SHELL_BIN: $SHELL_BIN"
   log_info "SHELL_LOG: $SHELL_LOG"
   log_info "SHELL_DIR: $SHELL_DIR"
-  log_info "SHELL_NAME: $SHELL_NAME"
+  log_info "SCRIPT_NAME: "$SCRIPT_NAME""
   log_info "SHELL_DEBUG: $SHELL_DEBUG"
 fi
 
@@ -137,7 +130,7 @@ fi
 # /usr/local/bin
 
 # if [ "${SHELL_DEBUG}" == 1 ]; then
-#   log_info "source: $SHELL_NAME"
+#   log_info "source: "$SCRIPT_NAME""
 #   log_info "shell bin: $SHELL_BIN"
 #   log_info "shell dir: $SHELL_DIR"
 # fi
