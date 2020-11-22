@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# https://gist.github.com/rponte/fdc0724dd984088606b0
+
+# shellcheck source=../shell-common
+source "${SHELL_BIN}/shell-common"
+
+# if git fetch --tags; then
+#   log_success "=> Get tags from remote ✅"
+# fi
+
+# Get latest tag name
+readonly latest_tag="$(git describe --tags $(git rev-list --tags --max-count=1))"
+readonly latest_version="$(echo $latest_tag | sed -e 's/^v//')"
+
+readonly release_title="Release title"
+readonly release_describe="
+- $(date +"%Y/%m/%d %H:%M:%S")
+- $(git config --get user.name)
+- $(git config --get user.email)
+"
+
+printf $COLOR_CYAN"Latest tag: $COLOR_BLUE%s\n"$COLOR_RESET "$latest_tag"
+printf $COLOR_CYAN"Latest version: $COLOR_BLUE%s\n"$COLOR_RESET "$latest_version"
+
+printf $COLOR_GREEN"Release tag: $COLOR_YELLOW%s\n"$COLOR_RESET "$latest_tag"
+printf $COLOR_GREEN"Release version: $COLOR_YELLOW%s\n"$COLOR_RESET "$latest_version"
+
+printf $COLOR_GREEN"Release title:$COLOR_RESET %s\n" "$release_title"
+printf $COLOR_GREEN"Release describe:$COLOR_RESET %s\n" "$release_describe"
+
+exit 1
+current_version=$(git describe --tags --abbrev=0 | sed -e 's/^v//')
+
+log_info "Current local version: ${current_version}"
+
+exit 0
+
+# Checkout latest tag
+# git checkout $latestTag
+
+# https://git-scm.com/docs/git-ls-remote
+# Отображает ссылки, доступные в удаленном репозитории, вместе с соответствующими идентификаторами фиксации.
+# git ls-remote --tags --refs ./refs/tags/
+
+# Most recent by date
+# git tag --sort=committerdate | tail -1
+
+# Largest version number (assuming ALL your tags are numbered... see below)
+# git tag | sort -V
+
+# echo $(git tag --sort=committerdate --list '[0-9]*')
+
+# git tag --sort=v:refname | tail -1
+
+# git describe --tags $(git rev-list --tags --max-count=1)
+
+
+# todo: botton  Publish release ??

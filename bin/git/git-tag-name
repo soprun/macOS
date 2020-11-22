@@ -3,5 +3,8 @@
 # shellcheck source=../shell-common
 source "${SHELL_BIN}/shell-common"
 
-# Return git current tag
-log_info $(git describe --tags --abbrev=0)
+# Gets tag from current branch
+# log_info $(git describe --tags --abbrev=0)
+
+# # gets tags across all branches, not just the current branch
+log_info $(git describe --tags `git rev-list --tags --max-count=1`)
