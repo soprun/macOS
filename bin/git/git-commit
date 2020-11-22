@@ -16,9 +16,8 @@ else
   log_success "Commit id: $(git rev-parse --short HEAD)"
 fi
 
-git-push
-
-#git-push $(git-branch-name)
+# git-push
+# git-push $(git-branch-name)
 
 #read -r -p "Push to the repository? [y/N]" git_push
 #

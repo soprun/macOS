@@ -3,27 +3,27 @@
 # shellcheck source=../shell-common
 source "${SHELL_BIN}/shell-common"
 
+function estimate() {
+  declare -a container_ids=($(docker container list --all --quiet))
+  declare -i container_count="${#container_ids[@]}"
+
+  declare -a container_running_ids=($(docker container list --all --filter "status=running" --quiet))
+  declare -i container_running_count="${#container_running_ids[@]}"
+
+  declare -a image_ids=($(docker images --all --quiet))
+  declare -i image_count="${#image_ids[@]}"
+
+  log_info "Containers all: ${container_count}"
+  log_info "Containers running: ${container_running_count}"
+  log_info "Images all: ${image_count}"
+}
+
+estimate
 log_warn "Down docker! 🚛"
 
-#log_info "=> Remove all containers ✅"
-#log_info "=> Remove all unused networks ✅"
-#log_info "Remove docker... 🚒"
-#log_info "=> Remove all containers and volumes 🚒"
-#log_info "=> Remove all networks 🚒"
-#log_info "=> Remove all images 🚒"
-
-# declare an array
-declare -a container_ids=($(docker container list --all --quiet))
-declare -a image_ids=($(docker images --all --quiet))
-
-log_info "Containers all: ${#container_ids[@]}"
-#log_info "Images all: ${#image_ids[@]}"
-
-read -r -p "Stop all containers? [y/N] " prune_images
-
-if [[ "$prune_images" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  if docker container stop "$container_ids" &>/dev/null; then
-    log_success "=> Stop all containers ✅"
+if (("${container_running_count:-0}" > 0)); then
+  if docker container stop "${container_running_ids}"; then
+    log_success "=> Stop ${container_running_count} containers ✅"
   fi
 fi
 
@@ -36,9 +36,15 @@ if docker network prune --force &>/dev/null; then
 fi
 
 if docker volume prune --force &>/dev/null; then
-  log_success "=> Remove all unused local volumes"
+  log_success "=> Remove all unused local volumes ✅"
+fi
+
+if docker image prune --all --force &>/dev/null; then
+  log_success "=> Remove all unused local images 🚒"
 fi
 
 #if docker rmi --force $(docker images --all --quiet) &>/dev/null; then
 #  log_success "=> Remove all images 🖼"
 #fi
+
+estimate
