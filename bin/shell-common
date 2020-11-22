@@ -1,10 +1,11 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 #######################################################################
 # Shell very strict mode
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
 #######################################################################
 
-set -euo pipefail
+set -e
 
 #######################################################################
 # Load environment variables

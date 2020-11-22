@@ -5,43 +5,107 @@
 # shellcheck source=../shell-common
 source "${SHELL_BIN}/shell-common"
 
-log_info "=> Fetching tags... "
-
-git fetch --tags
-
-latest_tag="$(git describe --tags $(git rev-list --tags --max-count=1))"
-
-log_success "\eTag: $COLOR_BLUE${latest_tag} ✅"
-
-# log_info "=> Finding last tag..."
-
-exit 0
-
-# Get latest tag name
-readonly latest_version="$(echo $latest_tag | sed -e 's/^v//')"
-
-readonly release_title="Release title"
-readonly release_describe="
-- $(date +"%Y/%m/%d %H:%M:%S")
-- $(git config --get user.name)
-- $(git config --get user.email)
+USAGE='USAGE: git-release LEVEL [-p] [-h]'
+HELP="$USAGE
+Increment git tag using given increment level.
+Positional arguments:
+    LEVEL       : 'M' for major, 'm' for minor or 'b' for bug.
+Flags:
+    -h --help   : Show help and exit.
+    -p --preview: Dry run to show new tag label and not actually create it.
 "
 
-printf $COLOR_CYAN"Latest tag: $COLOR_BLUE%s\n"$COLOR_RESET "$latest_tag"
-printf $COLOR_CYAN"Latest version: $COLOR_BLUE%s\n"$COLOR_RESET "$latest_version"
+if [[ "$#" -eq 0 ]] || [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
+    echo "$HELP"
+    exit 1
+fi
 
-printf $COLOR_GREEN"Release tag: $COLOR_YELLOW%s\n"$COLOR_RESET "$latest_tag"
-printf $COLOR_GREEN"Release version: $COLOR_YELLOW%s\n"$COLOR_RESET "$latest_version"
+LEVEL_CHOICE=$1
 
-printf $COLOR_GREEN"Release title:$COLOR_RESET %s\n" "$release_title"
-printf $COLOR_GREEN"Release describe:$COLOR_RESET %s\n" "$release_describe"
+if [[ "$2" ]]; then
+    if [[ "$2" == '-p' ]] || [[ "$2" == '--preview' ]]; then
+        PREVIEW=true
+    else
+        log_error "Invalid arguments: \"$*\""
+        log_warn "$USAGE"
+        exit 1
+    fi
+else
+    PREVIEW=false
+fi
 
-exit 1
-current_version=$(git describe --tags --abbrev=0 | sed -e 's/^v//')
+log_info "=> Fetching tags... "
 
-log_info "Current local version: ${current_version}"
+if ! git fetch --tags >/dev/null 2>/dev/null; then
+    error_exit "An error occurred while fetching the last tag!"
+fi
 
-exit 0
+# Get latest tag name
+last_tag="$(git describe --tags $(git rev-list --tags --max-count=1))"
+last_tag="${last_tag/v/}"
+
+log_info "$(printf "Current tag:$COLOR_BLUE v%s$COLOR_RESET" "$last_tag")"
+
+# Replace dot with space then split into array.
+last_tag_arr=(${last_tag//./ })
+
+major=${last_tag_arr[0]}
+minor=${last_tag_arr[1]}
+bug=${last_tag_arr[2]}
+
+case "$LEVEL_CHOICE" in
+"major")
+    ((major += 1))
+    minor=0
+    bug=0
+    ;;
+"m")
+    ((minor += 1))
+    bug=0
+    ;;
+"b")
+    ((bug += 1))
+    ;;
+*)
+    log_error "Invalid arguments: \"$*\""
+    log_warn "$USAGE"
+    exit 1
+    ;;
+esac
+
+release_tag="v$major.$minor.$bug"
+
+log_success "$(printf "Release tag:$COLOR_GREEN %s$COLOR_RESET ✅" "$release_tag")"
+
+# printf "Release title:\t%s\n" "Release title ...$(date +"%Y/%m/%d %H:%M:%S")"
+# printf "Release date:\t%s\n" "$(date +"%Y/%m/%d %H:%M:%S")"
+# printf "Release author:\t%s\n" "$(git config --get user.name)"
+# printf "Release email:\t%s\n" "$(git config --get user.email)"
+
+if [[ "$PREVIEW" == true ]]; then
+    log_info 'Skipping tag creation'
+else
+    git tag --sign --annotate "$release_tag" --message "$release_tag"
+    log_success "Create annotated tag..."
+
+    if ! git verify-tag "$release_tag" >/dev/null 2>/dev/null; then
+        log_warn "An error occurred while verify tags"
+    fi
+fi
+
+read -r -p "Push all tags: $tag_name? [y/N] " git_push
+
+if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    log_info "Push tag: $release_tag"
+    
+    if ! git push origin --tags >/dev/null 2>/dev/null; then
+        log_warn "An error occurred while pushing tags"
+    fi
+fi
+
+# if ! git fetch --tags >/dev/null 2>/dev/null; then
+#     error_exit "An error occurred while fetching the last tag!"
+# fi
 
 # Checkout latest tag
 # git checkout $latestTag
@@ -61,6 +125,5 @@ exit 0
 # git tag --sort=v:refname | tail -1
 
 # git describe --tags $(git rev-list --tags --max-count=1)
-
 
 # todo: botton  Publish release ??
