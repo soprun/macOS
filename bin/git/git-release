@@ -5,12 +5,19 @@
 # shellcheck source=../shell-common
 source "${SHELL_BIN}/shell-common"
 
-if git fetch --tags; then
-  log_success "=> Get tags from remote ✅"
-fi
+log_info "=> Fetching tags... "
+
+git fetch --tags
+
+latest_tag="$(git describe --tags $(git rev-list --tags --max-count=1))"
+
+log_success "\eTag: $COLOR_BLUE${latest_tag} ✅"
+
+# log_info "=> Finding last tag..."
+
+exit 0
 
 # Get latest tag name
-readonly latest_tag="$(git describe --tags $(git rev-list --tags --max-count=1))"
 readonly latest_version="$(echo $latest_tag | sed -e 's/^v//')"
 
 readonly release_title="Release title"

@@ -1,7 +1,10 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 
-# Be very strict
-set -e
+#######################################################################
+# Shell very strict mode
+#######################################################################
+
+set -euo pipefail
 
 #######################################################################
 # Load environment variables
@@ -60,11 +63,11 @@ commands=(
   hadolint
 )
 
-#for command in "${commands[@]}"; do
+# for command in "${commands[@]}"; do
 #  if ! command -v "$command" >/dev/null 2>/dev/null; then
 #    log_warn "${command} is not installed."
 #  fi
-#done
+# done
 
 #######################################################################
 # Private functions

@@ -10,12 +10,12 @@
 ###
 
 # You may need to manually set your language environment
-#export LC_ALL=ru_RU.UTF-8
-#export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+export LANG=ru_RU.UTF-8
 
 # Preferred editor for local and remote sessions
-#export EDITOR='code'
-#export CLICOLOR="1"
+export EDITOR='code'
+export CLICOLOR="1"
 
 #######################################################################
 # Load environment variables
