@@ -6,15 +6,7 @@ set -e
 # Current working directory
 #######################################################################
 
-readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-#readonly DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
-#export $SHELL_DIR
-
-# If local file does not exist, it creates an empty one.
-for file in ${DIR}/{.env.local,shell.log}; do
-  [ ! -f "$file" ] && touch "$file"
-done
-unset file
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 #######################################################################
 # Load environment variables
@@ -30,8 +22,8 @@ unset file
 # Create symlink bin directory
 #######################################################################
 
-local source_dir="${DIR}/bin"
-local target_dir="${SHELL_BIN}"
+source_dir="${DIR}/bin"
+target_dir="${SHELL_BIN}"
 
 #if [ -L "${target_dir}" ]; then
 #  log_warn "Directory ${target_dir} already exists, abort installation."
@@ -105,8 +97,6 @@ log_info "Brew: Cleaning up..."
 files=(
   "${DIR}/.env::${HOME}/.env"
   "${DIR}/.env.local::${HOME}/.env.local"
-
-  "${DIR}/shell.log::${HOME}/shell.log"
 
   "${DIR}/profile-bash/.bash_aliases::${HOME}/.bash_aliases"
   "${DIR}/profile-bash/.bash_profile::${HOME}/.bash_profile"
