@@ -28,14 +28,14 @@ for file in ${HOME}/.{env,env.local,bash_aliases}; do
 done
 unset file
 
-if [ -z $SHELL_PROFILE_BIN ]; then
-  printf "\033[0;31m[error]\033[0m: %s\\n" "An error occurred, the value of the variable SHELL_PROFILE_BIN was not loaded!"
+if [ -z $SHELL_BIN ]; then
+  printf "\033[0;31m[error]\033[0m: %s\\n" "An error occurred, the value of the variable SHELL_BIN was not loaded!"
   exit 1
 fi
 
-PATH="$SHELL_PROFILE_BIN:$PATH"
+PATH="$SHELL_BIN:$PATH"
 
-for dir in $SHELL_PROFILE_BIN/*; do
+for dir in $SHELL_BIN/*; do
   if [ -d "$dir" ]; then
     PATH="$dir:$PATH"
   fi
@@ -48,7 +48,7 @@ unset dir
 
 ### Shell environment variables
 
-export SHELL_PROFILE_BIN
+export SHELL_BIN
 export SHELL_PROFILE_SOURCE
 #export SHELL_PROFILE_DEBUG
 #export SHELL_PROFILE_LOG
