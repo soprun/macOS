@@ -35,3 +35,8 @@ error_exit() {
   log_error "$1" >&2
   exit 1
 }
+
+success_exit() {
+  log_success "$1" >&2
+  exit 0
+}

@@ -21,3 +21,16 @@ Collection bash scripts
 
 В OS X Terminal по умолчанию запускает оболочку входа в систему каждый раз, так что это немного отличается от
 большинства других систем, но вы можете настроить это в настройках.
+
+
+---
+
+# BASH Debugger
+
+The Bash Debugger Project is a source-code debugger for bash that follows the gdb command syntax.
+
+http://bashdb.sourceforge.net
+https://github.com/rocky/zshdb/tree/master/
+
+https://zshdb.readthedocs.io/en/latest/install.html
+https://marketplace.visualstudio.com/items?itemName=rogalmic.zsh-debug

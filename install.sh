@@ -48,6 +48,9 @@ log_info "Create symbolic link:"
 log_success "=> source_dir: ${source_dir}"
 log_success "=> target_dir: ${target_dir}"
 
+unset source_dir
+unset source_file
+
 #######################################################################
 # Check system required dependencies
 #######################################################################
@@ -75,6 +78,8 @@ for command in "${commands[@]}"; do
     log_warn "${command} is not installed."
   fi
 done
+
+unset commands
 
 #######################################################################
 # Brew: Installing packages...
@@ -121,7 +126,12 @@ for index in "${files[@]}"; do
   ln -sf "$source_file" "$target_file"
   chmod 700 $target_file
   log_success "File '$source_file' symlink to '$target_file'"
+
+  unset source_file
+  unset target_file
 done
+
+unset files
 
 #######################################################################
 # Git config
