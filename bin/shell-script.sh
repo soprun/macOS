@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+# set -e
 
 # shellcheck source=../shell-common
 source "${SHELL_BIN}/shell-common"
