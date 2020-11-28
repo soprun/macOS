@@ -26,22 +26,22 @@ CASE_SENSITIVE="true"
 HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
@@ -65,25 +65,74 @@ COMPLETION_WAITING_DOTS="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# plugins: git-auto-fetch
+# see: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git-auto-fetch
+
+GIT_AUTO_FETCH_INTERVAL=1200 # in seconds
+
+# plugins: git-prompt
+# url: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git-prompt
+
+ZSH_THEME_GIT_PROMPT_CACHE="true"
+
+# plugins: zsh-command-time
+# url: https://github.com/popstas/zsh-command-time
+
+export ZSH_COMMAND_TIME="true"
+
+# If command execution time above min. time, plugins will not output time.
+ZSH_COMMAND_TIME_MIN_SECONDS=3
+
+# Message to display (set to "" for disable).
+ZSH_COMMAND_TIME_MSG="Execution time: %s sec"
+
+# Message color.
+# ZSH_COMMAND_TIME_COLOR="cyan"
+
+# Exclude some commands
+# ZSH_COMMAND_TIME_EXCLUDE=(vim mcedit)
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+# see: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 plugins=(
   common-aliases
   osx
   extract
 
+  safe-paste
+  colorize
+  command-not-found
+
   git
   git-flow
+  git-auto-fetch
+
   docker
   docker-compose
   docker-machine
+  kubectl
   brew
   composer
-  # zsh-syntax-highlighting
-  # zsh-autosuggestions
+  history
+  iterm2
+  
+  keychain
+  ssh-agent
+  gpg-agent
+
+  npm
+  node
+  yarn
+  
+  zsh-completions
+  zsh-syntax-highlighting
+  zsh-autosuggestions
+  command-time
+  history-substring-search
 )
 
 # shellcheck source=./oh-my-zsh.sh
@@ -121,10 +170,29 @@ if [ -e "${HOME}/.bash_profile" ]; then
   source "${HOME}/.bash_profile"
 fi
 
-eval $(docker-machine env default) &>/dev/null
-
-source <(kubectl completion zsh)
+# eval $(docker-machine env default) &>/dev/null
+# source <(kubectl completion zsh)
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
 source ~/.iterm2_shell_integration.zsh
+
+autoload -U compinit && compinit
+
+# an example prompt
+# PROMPT='%B%m%~%b$(git_super_status) %# '
+# PROMPT='\h:\W \u\$'
+
+# поддержка ~… и file completion после = в аргументах
+# setopt MAGIC_EQUAL_SUBST
+# не обрабатывать escape sequence в echo без -e
+# setopt BSD_ECHO
+# поддержка комментариев в командной строке
+# setopt INTERACTIVE_COMMENTS
+# поддержка $(cmd) в $PS1 etc.
+# setopt PROMPT_SUBST
+
+# fpath=(~/my-zsh-functions $fpath)
+# autoload -Uz fn
+# fn
+

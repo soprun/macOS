@@ -34,3 +34,13 @@ https://github.com/rocky/zshdb/tree/master/
 
 https://zshdb.readthedocs.io/en/latest/install.html
 https://marketplace.visualstudio.com/items?itemName=rogalmic.zsh-debug
+
+
+---
+
+http://antigen.sharats.me/
+
+---
+
+https://macvim-dev.github.io/macvim/
+

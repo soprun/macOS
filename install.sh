@@ -36,6 +36,7 @@ rm -f "${target_dir}"
 ln -sf "${source_dir}" "${target_dir}"
 
 chmod -R 755 "${target_dir}"
+chmod +x "${target_dir}"
 
 #######################################################################
 # Source include
@@ -154,3 +155,11 @@ git config --global core.editor "$GIT_EDITOR"
 # git config --global tag.forceSignAnnotated true
 
 #git config --global --list
+
+
+#######################################################################
+# Git config
+#######################################################################
+
+# 4. Change your default shell
+# chsh -s $(which zsh)

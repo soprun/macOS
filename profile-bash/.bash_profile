@@ -14,8 +14,8 @@ export LC_ALL=ru_RU.UTF-8
 export LANG=ru_RU.UTF-8
 
 # Preferred editor for local and remote sessions
-export EDITOR='code'
-export CLICOLOR="1"
+export EDITOR=code
+export CLICOLOR=1
 
 #######################################################################
 # Load environment variables
@@ -33,6 +33,10 @@ if [ -z $SHELL_BIN ]; then
   exit 1
 fi
 
+#######################################################################
+# Autoloading bin
+#######################################################################
+
 PATH="$SHELL_BIN:$PATH"
 
 for dir in $SHELL_BIN/*; do
@@ -41,6 +45,19 @@ for dir in $SHELL_BIN/*; do
   fi
 done
 unset dir
+
+#######################################################################
+# Autoloading functions
+#######################################################################
+
+# PATH="$SHELL_BIN:$PATH"
+
+# for dir in $SHELL_BIN/*; do
+#   if [ -d "$dir" ]; then
+#     PATH="$dir:$PATH"
+#   fi
+# done
+# unset dir
 
 #######################################################################
 # Export environment variables

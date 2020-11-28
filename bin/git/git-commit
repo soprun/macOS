@@ -4,13 +4,13 @@
 source "${SHELL_BIN}/shell-common"
 
 # Record changes to the repository
-message="${1:-commit...}"
+COMMIT_MESSAGE="${1:-latest $(date +%Y-%m-%dT%H:%M:%S)}"
 
-if [ ! "$message" ]; then
+if [ ! "$COMMIT_MESSAGE" ]; then
   log_error "Commit message empty!"
 fi
 
-if ! git commit --all --message "$message" >/dev/null 2>/dev/null; then
+if ! git commit --all --message "$COMMIT_MESSAGE" >/dev/null 2>/dev/null; then
   log_error "An error occurred when record changes"
 else
   log_success "Commit id: $(git rev-parse --short HEAD)"
