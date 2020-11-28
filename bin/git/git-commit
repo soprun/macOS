@@ -32,6 +32,7 @@ if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; the
   log_error "An error occurred when record changes"
 else
   log_success "Commit id: $(git rev-parse --short HEAD)"
+  log_success "Commit sha: $(git rev-parse HEAD)"
 fi
 
 # Pushes your local commits to the remote repository
