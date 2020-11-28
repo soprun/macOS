@@ -170,7 +170,8 @@ if [ -e "${HOME}/.bash_profile" ]; then
   source "${HOME}/.bash_profile"
 fi
 
-# eval $(docker-machine env default) &>/dev/null
+eval $(docker-machine env default) &>/dev/null
+
 # source <(kubectl completion zsh)
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true

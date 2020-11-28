@@ -16,17 +16,39 @@ if [ "$(git config --global --get commit.gpgsign)" != "$GIT_GPG_SIGN" ]; then
 fi
 
 # Record changes to the repository
-commit_message_default="Signing commit $(date +%Y-%m-%dT%H:%M:%S%z)"
-commit_message=${1:-$commit_message_default}
+commit_message="Signing commit $(date +%Y-%m-%dT%H:%M:%S%z)"
+commit_push="false"
+
+# Getops does not support long option names
+while [[ $# -gt 0 ]]; do
+case $1 in
+    -m=*|--message=*)
+        commit_message="${1#*=}"
+        shift # past value
+        ;;
+    -p|--push)
+        commit_push="true"
+        shift # past value
+        ;;
+    *)
+        log_error "Unknown option $1" "error"
+        log_error "Usage: ${0} [-m|--message=\"commit...\" --push]"
+        exit 1
+        ;;
+esac
+done
+
+if [ -z "$commit_message" ]; then
+  log_error "Commit message empty!"
+fi
+
+# echo $commit_message
+# echo $commit_push
 
 log_info "$(printf "name: $COLOR_BLUE%s$COLOR_RESET" "$GIT_NAME")"
 log_info "$(printf "email: $COLOR_BLUE%s$COLOR_RESET" "$GIT_EMAIL")"
 log_info "$(printf "GPG key: $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")"
 log_info "$(printf "commit: $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")"
-
-if [ -z "$commit_message" ]; then
-  log_error "Commit message empty!"
-fi
 
 if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
   log_error "An error occurred when record changes"
@@ -36,6 +58,13 @@ else
 fi
 
 # Pushes your local commits to the remote repository
+
+if [ "$commit_push" = "true" ]; then
+  if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
+    log_warn "An error occurred when pushing tag: $tag_name"
+  fi
+  exit 0
+fi
 
 read -r -p "Push to the repository? [y/N]" git_push
 

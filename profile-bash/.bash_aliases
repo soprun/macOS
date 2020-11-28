@@ -25,7 +25,7 @@ alias lsd="ls -lFG | grep --color=never '^d'"
 alias ls="command ls -G"
 
 # Edition hosts file
-alias hosts="sudo code /etc/hosts"
+alias hosts="code /etc/hosts"
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
