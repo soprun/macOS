@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # shellcheck source=../shell-common
 source "${SHELL_BIN}/shell-common"
 
@@ -16,7 +18,8 @@ if [ "$(git config --global --get commit.gpgsign)" != "$GIT_GPG_SIGN" ]; then
 fi
 
 # Record changes to the repository
-commit_message="Signing commit $(date +%Y-%m-%dT%H:%M:%S%z)"
+# commit_message="Signing commit $(date +%Y-%m-%dT%H:%M:%S%z)"
+commit_message="Signing commit $(date +%Y-%m-%d)"
 commit_push="false"
 
 # Getops does not support long option names
