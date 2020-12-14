@@ -46,7 +46,7 @@ chmod +x "${target_dir}"
 #######################################################################
 
 # shellcheck source=./bin/shell-common
-source "${SHELL_BIN}/shell-common"
+#source "./bin/shell-common"
 
 log_info "Create symbolic link:"
 log_success "=> source_dir: ${source_dir}"
