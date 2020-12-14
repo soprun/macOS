@@ -2,7 +2,7 @@
 
 set -e
 
-# shellcheck source=../shell-common
+# shellcheck source=./shell-common
 source "${SHELL_BIN}/shell-common"
 
 # https://www.vankuik.nl/2019-04-23_ISO_date_on_macOS

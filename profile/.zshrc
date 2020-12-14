@@ -1,3 +1,5 @@
+# shellcheck shell=zsh
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -86,7 +88,8 @@ plugins=(
   history-substring-search
 )
 
-source $ZSH/oh-my-zsh.sh
+# shellcheck source=./oh-my-zsh.sh
+source "${ZSH}/oh-my-zsh.sh"
 
 # User configuration
 
@@ -124,4 +127,11 @@ ZSH_COMMAND_TIME_COLOR="cyan"
 
 autoload -U compinit && compinit
 
+# shellcheck source=./.iterm2_shell_integration.zsh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# include .bash_profile if it exists
+if [ -e "${HOME}/.bash_profile" ]; then
+  # shellcheck source=./../profile-bash/.bash_profile
+  source "${HOME}/.bash_profile"
+fi

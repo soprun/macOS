@@ -48,27 +48,27 @@ fi
 # Check system required dependencies
 #######################################################################
 
-declare -a commands=()
+#declare -a commands=()
+#
+#commands=(
+#  docker
+#  docker-compose
+#  git
+#  make
+#  gpg
+#  mkcert
+#  openssl
+#  shellcheck
+#  tree
+#  dotenv-linter
+#  hadolint
+#)
 
-commands=(
-  docker
-  docker-compose
-  git
-  make
-  gpg
-  mkcert
-  openssl
-  shellcheck
-  tree
-  dotenv-linter
-  hadolint
-)
-
-# for command in "${commands[@]}"; do
+#for command in "${commands[@]}"; do
 #  if ! command -v "$command" >/dev/null 2>/dev/null; then
 #    log_warn "${command} is not installed."
 #  fi
-# done
+#done
 
 #######################################################################
 # Private functions
