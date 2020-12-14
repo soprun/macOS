@@ -2,15 +2,9 @@
 
 set -e
 
-#######################################################################
 # Current working directory
-#######################################################################
-
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-ln -sf "${DIR}/profile/.zshrc" "${HOME}/.zshrc"
-
-exit 1
 #######################################################################
 # Load environment variables
 #######################################################################
@@ -21,151 +15,49 @@ for file in ${DIR}/.{env,env.local}; do
 done
 unset file
 
-#######################################################################
-# Create symlink bin directory
-#######################################################################
+if [ -f "$DIR/bin/shell-common" ]; then
+  # shellcheck disable=SC1094
+  # shellcheck source=./bin/shell-common
+  source "$DIR/bin/shell-common"
+else
+  echo "shell-common - File does not exist."
+  exit 1
+fi
 
-source_dir="${DIR}/bin"
-target_dir="${SHELL_BIN}"
+# symlink
+declare -a files
 
-#if [ -L "${target_dir}" ]; then
-#  log_warn "Directory ${target_dir} already exists, abort installation."
-#fi
-
-rm -f "${target_dir}"
-
-# see: https://vds-admin.ru/unix-commands/ln-link
-#ln -sFh "${source_dir}" "${target_dir}"
-ln -sf "${source_dir}" "${target_dir}"
-
-chmod -R 755 "${target_dir}"
-chmod +x "${target_dir}"
-
-#######################################################################
-# Source include
-#######################################################################
-
-# shellcheck source=./bin/shell-common
-#source "./bin/shell-common"
-
-log_info "Create symbolic link:"
-log_success "=> source_dir: ${source_dir}"
-log_success "=> target_dir: ${target_dir}"
-
-unset source_dir
-unset source_file
-
-#######################################################################
-# Check system required dependencies
-#######################################################################
-
-log_info "Check system required dependencies"
-
-declare -a commands=()
-
-commands=(
-  docker
-  docker-compose
-  git
-  make
-  gpg
-  mkcert
-  openssl
-  shellcheck
-  tree
-  dotenv-linter
-  hadolint
-)
-
-for command in "${commands[@]}"; do
-  if ! command -v "$command" >/dev/null 2>/dev/null; then
-    log_warn "${command} is not installed."
-  fi
-done
-
-unset commands
-
-#######################################################################
-# Brew: Installing packages...
-#######################################################################
-
-log_info "Brew: Installing packages..."
-# brew install "${packages[@]}"
-
-#######################################################################
-# Brew: Cleaning up...
-#######################################################################
-
-log_info "Brew: Cleaning up..."
-# brew cleanup
-
-#######################################################################
-# Create symlink .bash_profile & .env files
-#######################################################################
-
-files=(
-  "${DIR}/.env::${HOME}/.env"
-  "${DIR}/.env.local::${HOME}/.env.local"
-
-  "${DIR}/profile-bash/.bash_aliases::${HOME}/.bash_aliases"
-  "${DIR}/profile-bash/.bash_profile::${HOME}/.bash_profile"
-  "${DIR}/profile-bash/.bashrc::${HOME}/.bashrc"
-
-  "${DIR}/profile-zsh/.zshrc::${HOME}/.zshrc"
+files+=(
+  "$DIR/.env::$HOME/.env"
+  "$DIR/profile/.zshrc::$HOME/.zshrc"
+  "$DIR/profile/.bash_profile::$HOME/.bash_profile"
+  "$DIR/profile/.bash_aliases::$HOME/.bash_aliases"
+  "$DIR/config/.gitconfig::$HOME/.gitconfig"
+  "$DIR/config/.gitignore::$HOME/.gitignore"
 )
 
 for index in "${files[@]}"; do
   source_file="${index%%::*}"
   target_file="${index##*::}"
 
-  if [ ! -f "$source_file" ]; then
-    error_exit "File $source_file does not exists."
+  if [ -L "$target_file" ]; then
+    log_info "$target_file symbolic exists."
+  else
+    if [ ! -f "$source_file" ]; then
+      error_exit "File $source_file does not exists."
+    fi
+
+    if [ -f "$target_file" ]; then
+      error_exit "File $target_file is exists."
+    fi
+
+    ln -sf "$source_file" "$target_file"
+    chmod 700 "$target_file"
+    log_success "File '$source_file' symlink to '$target_file'"
   fi
 
-  if [ -f "$target_file" ]; then
-    log_warn "File $target_file exists and will be overwritten."
-    rm "$target_file"
-  fi
-
-  ln -sf "$source_file" "$target_file"
-  chmod 700 "$target_file"
-  log_success "File '$source_file' symlink to '$target_file'"
-
+  # rm -f "$target_file"
   unset source_file
   unset target_file
 done
-
 unset files
-
-#######################################################################
-# Git config
-#######################################################################
-
-git config --global user.name "$GIT_NAME"
-git config --global user.email "$GIT_EMAIL"
-git config --global commit.gpgsign "$GIT_GPG_SIGN"
-git config --global gpg.program "$GIT_GPG_PROGRAM"
-git config --global user.signingkey "$GIT_GPG_KEY"
-git config --global core.editor "$GIT_EDITOR"
-#git config --global core.excludesfile ~/.gitignore
-#echo '.idea/' >> ~/.gitignore
-
-# git config --global credential.helper osxkeychain
-#git config --global credential.github.com.useHttpPath true
-
-# https://stackoverflow.com/questions/5195859/how-do-you-push-a-tag-to-a-remote-repository-using-git
-#git config --global push.followTags true
-
-# From https://gist.github.com/danieleggert/b029d44d4a54b328c0bac65d46ba4c65
-# If you want annotated tags to be GPG signed:
-# git config --global tag.forceSignAnnotated true
-
-#git config --global --list
-
-
-#######################################################################
-# Git config
-#######################################################################
-
-# 4. Change your default shell
-# chsh -s $(which zsh)
