@@ -1,0 +1,7 @@
+[user]
+	name = Vladislav Soprun
+	email = develop@soprun.com
+[commit]
+	gpgsign = true
+[core]
+	excludesfile = /Users/soprun/.gitignore

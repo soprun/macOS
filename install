@@ -8,6 +8,9 @@ set -e
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
+ln -sf "${DIR}/profile/.zshrc" "${HOME}/.zshrc"
+
+exit 1
 #######################################################################
 # Load environment variables
 #######################################################################
@@ -125,7 +128,7 @@ for index in "${files[@]}"; do
   fi
 
   ln -sf "$source_file" "$target_file"
-  chmod 700 $target_file
+  chmod 700 "$target_file"
   log_success "File '$source_file' symlink to '$target_file'"
 
   unset source_file
@@ -144,6 +147,9 @@ git config --global commit.gpgsign "$GIT_GPG_SIGN"
 git config --global gpg.program "$GIT_GPG_PROGRAM"
 git config --global user.signingkey "$GIT_GPG_KEY"
 git config --global core.editor "$GIT_EDITOR"
+#git config --global core.excludesfile ~/.gitignore
+#echo '.idea/' >> ~/.gitignore
+
 # git config --global credential.helper osxkeychain
 #git config --global credential.github.com.useHttpPath true
 
