@@ -41,7 +41,7 @@ for index in "${files[@]}"; do
   target_file="${index##*::}"
 
   if [ -L "$target_file" ]; then
-    log_info "$target_file symbolic exists."
+    output "$target_file symbolic exists." 'info'
   else
     if [ ! -f "$source_file" ]; then
       error_exit "File $source_file does not exists."
@@ -53,7 +53,7 @@ for index in "${files[@]}"; do
 
     ln -sf "$source_file" "$target_file"
     chmod 700 "$target_file"
-    log_success "File '$source_file' symlink to '$target_file'"
+    output "File '$source_file' symlink to '$target_file'" 'success'
   fi
 
   # rm -f "$target_file"

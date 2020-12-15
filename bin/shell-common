@@ -1,11 +1,79 @@
 #!/bin/bash
 
+# shellcheck disable=SC2034
+
 #######################################################################
 # Shell very strict mode
 # http://redsymbol.net/articles/unofficial-bash-strict-mode/
 #######################################################################
 
 set -e
+
+COLOR_RESET='\033[0m' # Text Reset
+
+# Regular Colors
+COLOR_BLACK="\033[0;30m"  # Black
+COLOR_RED="\033[0;31m"    # Red
+COLOR_GREEN="\033[0;32m"  # Green
+COLOR_YELLOW="\033[0;33m" # Yellow
+COLOR_BLUE="\033[0;34m"   # Blue
+COLOR_PURPLE="\033[0;35m" # Purple
+COLOR_CYAN="\033[0;36m"   # Cyan
+COLOR_WHITE="\033[0;37m"  # White
+
+# Background
+BG_BLACK="\033[40m"  # Black
+BG_RED="\033[41m"    # Red
+BG_GREEN="\033[42m"  # Green
+BG_YELLOW="\033[43m" # Yellow
+BG_BLUE="\033[44m"   # Blue
+BG_PURPLE="\033[45m" # Purple
+BG_CYAN="\033[46m"   # Cyan
+BG_WHITE="\033[47m"  # White
+
+function output
+{
+  local color
+
+  if [ "${2:-}" != "" ]; then
+    case ${2:-} in
+    "success")
+      color="${COLOR_GREEN}"
+      logger -t "$(basename "${0}")" -p user.info "$1"
+      ;;
+    "info")
+      color="${COLOR_BLUE}"
+      logger -t "$(basename "${0}")" -p user.info "$1"
+      ;;
+    "error")
+      color="${COLOR_RED}"
+      logger -t "$(basename "${0}")" -p user.error "$1"
+      ;;
+    "warning")
+      color="${COLOR_YELLOW}"
+      logger -t "$(basename "${0}")" -p user.warn "$1"
+      ;;
+    "heading")
+      color="\033[1;39m"
+      ;;
+    esac
+  fi
+
+  echo -e "${color}${1}${COLOR_RESET}"
+}
+
+error_exit()
+{
+  output "$1" "error" >&2
+  exit 1
+}
+
+#output "lorem.."
+#output "success" "success"
+#output "info" "info"
+#output "error" "error"
+#output "warning" "warning"
+#output "heading" "heading"
 
 #######################################################################
 # Load environment variables
@@ -18,67 +86,13 @@ done
 unset file
 
 #######################################################################
-# Load source files
-#######################################################################
-
-#if [ ! -d "$SHELL_BIN" ]; then
-#  printf "\033[0;31m[error]\033[0m: %s\\n" "Error: The current working directory doesn't exist, cannot proceed."
-#  exit 1
-#fi
-
-# shellcheck source=./shell-colors
-source "${SHELL_BIN}/shell-colors"
-
-# shellcheck source=./shell-logger
-source "${SHELL_BIN}/shell-logger"
-
-#######################################################################
 # Check environment variables
 #######################################################################
 
-if [ -z $SHELL_DEBUG ]; then
+if [ -z "$SHELL_DEBUG" ]; then
   error_exit "An error occurred, the value of the variable SHELL_DEBUG was not loaded!"
 fi
 
-if [ -z $SHELL_BIN ]; then
+if [ -z "$SHELL_BIN" ]; then
   error_exit "An error occurred, the value of the variable SHELL_BIN was not loaded!"
 fi
-
-#######################################################################
-# Check system required dependencies
-#######################################################################
-
-#declare -a commands=()
-#
-#commands=(
-#  docker
-#  docker-compose
-#  git
-#  make
-#  gpg
-#  mkcert
-#  openssl
-#  shellcheck
-#  tree
-#  dotenv-linter
-#  hadolint
-#)
-
-#for command in "${commands[@]}"; do
-#  if ! command -v "$command" >/dev/null 2>/dev/null; then
-#    log_warn "${command} is not installed."
-#  fi
-#done
-
-#######################################################################
-# Private functions
-#######################################################################
-
-#readonly date_time=$(date +"%Y/%m/%d %H:%M:%S")
-#readonly utc_date_time=$(date -u +"%Y/%m/%dT%H:%M:%SZ")
-
-#######################################################################
-# Initialization
-#######################################################################
-
-#...

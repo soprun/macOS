@@ -55,6 +55,7 @@ export GIT_GPG_KEY
 export GIT_GPG_SIGN
 export GIT_GPG_PROGRAM
 export GIT_EDITOR
+#export GIT_SSL_NO_VERIFY=true
 
 ### Composer environment variables
 
