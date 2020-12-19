@@ -3,4 +3,6 @@
 # shellcheck source=../shell-common
 source "${SHELL_BIN}/shell-common"
 
-docker system prune --all --volumes --force
+if docker system prune --all --volumes --force&>/dev/null; then
+  output "=> Docker system prune ✅" 'success'
+fi

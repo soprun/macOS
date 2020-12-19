@@ -1,50 +1,63 @@
 #!/bin/bash
 
+# shellcheck disable=SC2207
+
 # shellcheck source=../shell-common
 source "${SHELL_BIN}/shell-common"
 
-function estimate() {
-  declare -a container_ids=($(docker container list --all --quiet))
-  declare -i container_count="${#container_ids[@]}"
+function estimate()
+{
+  local -a container_ids
+  local -i container_count
 
-  declare -a container_running_ids=($(docker container list --all --filter "status=running" --quiet))
-  declare -i container_running_count="${#container_running_ids[@]}"
+  container_ids=($(docker container list --all --quiet))
+  container_count="${#container_ids[@]}"
 
-  declare -a image_ids=($(docker images --all --quiet))
-  declare -i image_count="${#image_ids[@]}"
+  local -a container_running_ids
+  local -i container_running_count
 
-  log_info "Containers all: ${container_count}"
-  log_info "Containers running: ${container_running_count}"
-  log_info "Images all: ${image_count}"
+  container_running_ids=($(docker container list --all --filter "status=running" --quiet))
+  container_running_count="${#container_running_ids[@]}"
+
+  local -a image_ids
+  local -i image_count
+
+  image_ids=($(docker images --all --quiet))
+  image_count="${#image_ids[@]}"
+
+  output "Containers all: ${container_count}" 'info'
+  output "Containers running: ${container_running_count}" 'info'
+  output "Images all: ${image_count}" 'info'
 }
 
 estimate
-log_warn "Down docker! 🚛"
+
+output 'Down docker! 🚛' 'heading'
 
 if (("${container_running_count:-0}" > 0)); then
-  if docker container stop "${container_running_ids}"; then
-    log_success "=> Stop ${container_running_count} containers ✅"
+  if docker container stop "${container_running_ids:-}"; then
+    output "Stop ${container_running_count} containers ✅" 'success'
   fi
 fi
 
 if docker container prune --force &>/dev/null; then
-  log_success "=> Remove all stopped containers 🚒"
+  output "Remove all stopped containers 🚒" 'success'
 fi
 
 if docker network prune --force &>/dev/null; then
-  log_success "=> Remove all unused networks 🖥"
+  output "Remove all unused networks 🖥" 'success'
 fi
 
 if docker volume prune --force &>/dev/null; then
-  log_success "=> Remove all unused local volumes ✅"
+  output "Remove all unused local volumes ✅" 'success'
 fi
 
 if docker image prune --all --force &>/dev/null; then
-  log_success "=> Remove all unused local images 🚒"
+  output "Remove all unused local images 🚒" 'success'
 fi
 
-#if docker rmi --force $(docker images --all --quiet) &>/dev/null; then
-#  log_success "=> Remove all images 🖼"
-#fi
+if docker rmi --force "${image_ids:-}" &>/dev/null; then
+  output "Remove all images 🖼" 'success'
+fi
 
 estimate

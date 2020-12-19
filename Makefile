@@ -80,3 +80,6 @@ release:
 # 	echo "$(DOCKER_HUB_PASS)" | docker login -u $(DOCKER_HUB_USER) --password-stdin
 # 	docker push $(DOCKER_HUB_REPO):$(DOCKER_HUB_TAG)
 # 	[[ "${VERSION}" == "${VERSION_LATEST}" ]] && docker push $(DOCKER_HUB_REPO):latest || true
+
+log-stream:
+	log stream --process logger --level debug --style syslog

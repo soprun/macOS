@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# shellcheck source=../shell-common
+source "${SHELL_BIN}/shell-common"
+
+declare -r process="${1:-Telegram}"
+output "Process name: ${COLOR_BLUE}${process}${COLOR_RESET}" 'heading'
+
+ps aux | grep "${process}" | awk '{print $2}' | while read -r pid; do
+  output "PID: $pid" 'debug'
+  kill -9 "$pid" &>/dev/null
+done

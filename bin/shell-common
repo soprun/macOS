@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # shellcheck disable=SC2034
 
@@ -9,71 +9,9 @@
 
 set -e
 
-COLOR_RESET='\033[0m' # Text Reset
-
-# Regular Colors
-COLOR_BLACK="\033[0;30m"  # Black
-COLOR_RED="\033[0;31m"    # Red
-COLOR_GREEN="\033[0;32m"  # Green
-COLOR_YELLOW="\033[0;33m" # Yellow
-COLOR_BLUE="\033[0;34m"   # Blue
-COLOR_PURPLE="\033[0;35m" # Purple
-COLOR_CYAN="\033[0;36m"   # Cyan
-COLOR_WHITE="\033[0;37m"  # White
-
-# Background
-BG_BLACK="\033[40m"  # Black
-BG_RED="\033[41m"    # Red
-BG_GREEN="\033[42m"  # Green
-BG_YELLOW="\033[43m" # Yellow
-BG_BLUE="\033[44m"   # Blue
-BG_PURPLE="\033[45m" # Purple
-BG_CYAN="\033[46m"   # Cyan
-BG_WHITE="\033[47m"  # White
-
-function output
-{
-  local color
-
-  if [ "${2:-}" != "" ]; then
-    case ${2:-} in
-    "success")
-      color="${COLOR_GREEN}"
-      logger -t "$(basename "${0}")" -p user.info "$1"
-      ;;
-    "info")
-      color="${COLOR_BLUE}"
-      logger -t "$(basename "${0}")" -p user.info "$1"
-      ;;
-    "error")
-      color="${COLOR_RED}"
-      logger -t "$(basename "${0}")" -p user.error "$1"
-      ;;
-    "warning")
-      color="${COLOR_YELLOW}"
-      logger -t "$(basename "${0}")" -p user.warn "$1"
-      ;;
-    "heading")
-      color="\033[1;39m"
-      ;;
-    esac
-  fi
-
-  echo -e "${color}${1}${COLOR_RESET}"
-}
-
-error_exit()
-{
-  output "$1" "error" >&2
-  exit 1
-}
-
-#output "lorem.."
-#output "success" "success"
-#output "info" "info"
-#output "error" "error"
-#output "warning" "warning"
-#output "heading" "heading"
+#
+# todo: Ask for the administrator password upfront
+#sudo -v
 
 #######################################################################
 # Load environment variables
@@ -85,14 +23,161 @@ for file in ${HOME}/.{env,env.local}; do
 done
 unset file
 
+readonly COLOR_RESET='\033[0m' # Text Reset
+
+# Regular Colors
+readonly COLOR_BLACK="\033[0;30m"  # Black
+readonly COLOR_RED="\033[0;31m"    # Red
+readonly COLOR_GREEN="\033[0;32m"  # Green
+readonly COLOR_YELLOW="\033[0;33m" # Yellow
+readonly COLOR_BLUE="\033[0;34m"   # Blue
+readonly COLOR_PURPLE="\033[0;35m" # Purple
+readonly COLOR_CYAN="\033[0;36m"   # Cyan
+readonly COLOR_WHITE="\033[0;37m"  # White
+
+# Background
+readonly BG_BLACK="\033[40m"  # Black
+readonly BG_RED="\033[41m"    # Red
+readonly BG_GREEN="\033[42m"  # Green
+readonly BG_YELLOW="\033[43m" # Yellow
+readonly BG_BLUE="\033[44m"   # Blue
+readonly BG_PURPLE="\033[45m" # Purple
+readonly BG_CYAN="\033[46m"   # Cyan
+readonly BG_WHITE="\033[47m"  # White
+
+function if_boolean()
+{
+  local var="${1:-}"
+
+  if [ "${var}" == true ] || [ "${var}" == 1 ]; then
+    echo true
+  else
+    echo false
+  fi
+}
+
+function output
+{
+  local priority='user.info'
+  local label
+  local label_color="${COLOR_RESET}"
+  local message="${1}"
+  local message_color="${COLOR_RESET}"
+  local type="${2:-}"
+
+  local enable_message enable_message_color
+  enable_message="$(if_boolean "${SHELL_ENABLE_MESSAGE}")"
+  enable_message_color="$(if_boolean "${SHELL_ENABLE_MESSAGE_COLOR}")"
+
+  local enable_label enable_label_color  enable_label_uppercase
+  enable_label="$(if_boolean "${SHELL_ENABLE_LABEL}")"
+  enable_label_color="$(if_boolean "${SHELL_ENABLE_LABEL_COLOR}")"
+  enable_label_uppercase="$(if_boolean "${SHELL_ENABLE_LABEL_UPPERCASE}")"
+
+  if [ "${type}" != "" ]; then
+    case "${type}" in
+    "debug")
+      enable_label=false
+      enable_message=false
+      priority='user.debug'
+      ;;
+    "success")
+      message_color="${COLOR_GREEN}"
+      ;;
+      # Собирает информацию, которая полезна, но не важна для устранения проблем.
+    "info")
+      message_color="${COLOR_BLUE}"
+      priority='user.info'
+      ;;
+      # Собирает информацию, необходимую для устранения неполадок. Например, запишите информацию, которая может привести к сбою.
+    "notice")
+      message_color="${COLOR_BLUE}"
+      priority='user.notice'
+      ;;
+      # Собирает информацию о сбоях и ошибках в вашем коде. Если объект действия существует, система собирает информацию для связанной цепочки процессов.
+    "warning")
+      message_color="${COLOR_YELLOW}"
+      priority='user.warn'
+      ;;
+      # Захватывает ошибки, замеченные во время выполнения вашего кода. Если объект действия существует, система собирает информацию для связанной цепочки процессов.
+    "error")
+      message_color="${COLOR_RED}"
+      priority='user.error'
+      ;;
+    "heading")
+      enable_label=false
+      enable_message_color=true
+      message_color="\033[1;39m"
+      ;;
+    esac
+
+    label="[${type}]: "
+    label_color="${message_color}"
+  fi
+
+  local script_name
+  script_name="$(basename "${0}")"
+  script_name="${script_name%.*}"
+
+  logger -tag "${script_name}" -priority "${priority}" "${message}"
+
+  if [ "${enable_message}" == false ]; then
+    return
+  fi
+
+  if [ "${enable_message_color}" == false ]; then
+    unset message_color
+  fi
+
+  if [ "${enable_label_color}" == false ]; then
+    unset label_color
+  fi
+
+  if [ "${enable_label_uppercase}" == true ]; then
+    label="$(printf '%s\n' "$label" | awk '{ print toupper($0) }')"
+  fi
+
+  if [ "${enable_label}" == false ]; then
+    unset label label_color
+  fi
+
+  echo -e "${label_color}${label}${COLOR_RESET}${message_color}${message}${COLOR_RESET}"
+}
+
+error_exit()
+{
+  output "$1" "error" >&2
+  exit 1
+}
+
+#output 'Plan text..'
+#output "Heading text.." "heading"
+#
+#output 'Debug message...' 'debug'
+#output "Success message..." "success"
+#output "Info message..." "info"
+#output "Notification message..." "notice"
+#output "Warning message..." "warning"
+#output "Error message..." "error"
+#
+#exit 1
+
 #######################################################################
 # Check environment variables
 #######################################################################
 
-if [ -z "$SHELL_DEBUG" ]; then
+if [ -z "${SHELL_DEBUG}" ]; then
   error_exit "An error occurred, the value of the variable SHELL_DEBUG was not loaded!"
 fi
 
-if [ -z "$SHELL_BIN" ]; then
+if [ -z "${SHELL_BIN}" ]; then
   error_exit "An error occurred, the value of the variable SHELL_BIN was not loaded!"
+fi
+
+if [ "$(if_boolean "${SHELL_DEBUG}")" = true ]; then
+  output 'Debug mode is enabled!' 'warning'
+fi
+
+if [ "$(if_boolean "${SHELL_DEBUG}")" = true ]; then
+  output 'The shell-common was installed successfully!' 'success'
 fi

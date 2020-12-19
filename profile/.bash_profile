@@ -42,30 +42,30 @@ export SHELL_PROFILE_SOURCE
 
 ### Identity environment variables
 
-export ID_NAME
-export ID_USER
-export ID_EMAIL
-export ID_GPG_KEY
+#export ID_NAME
+#export ID_USER
+#export ID_EMAIL
+#export ID_GPG_KEY
 
 ### Git credentials
 
-export GIT_NAME
-export GIT_EMAIL
-export GIT_GPG_KEY
-export GIT_GPG_SIGN
-export GIT_GPG_PROGRAM
-export GIT_EDITOR
+#export GIT_NAME
+#export GIT_EMAIL
+#export GIT_GPG_KEY
+#export GIT_GPG_SIGN
+#export GIT_GPG_PROGRAM
+#export GIT_EDITOR
 #export GIT_SSL_NO_VERIFY=true
 
 ### Composer environment variables
 
-export COMPOSER_HOME
-export COMPOSER_CACHE_DIR
-export COMPOSER_MEMORY_LIMIT
-export COMPOSER_ALLOW_SUPERUSER
+#export COMPOSER_HOME
+#export COMPOSER_CACHE_DIR
+#export COMPOSER_MEMORY_LIMIT
+#export COMPOSER_ALLOW_SUPERUSER
 
 ### Docker environment variables
 
-export DOCKER_BUILDKIT
-export DOCKER_CLI_EXPERIMENTAL
-export COMPOSE_DOCKER_CLI_BUILD
+#export DOCKER_BUILDKIT
+#export DOCKER_CLI_EXPERIMENTAL
+#export COMPOSE_DOCKER_CLI_BUILD
