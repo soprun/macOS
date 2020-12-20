@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Run code inspections from the command line
+
+#https://www.jetbrains.com/help/phpstorm/command-line-code-inspector.html#inspection-profiles

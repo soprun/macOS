@@ -83,3 +83,7 @@ release:
 
 log-stream:
 	log stream --process logger --level debug --style syslog
+
+.PHONY: shellcheck
+shellcheck: ## run shellcheck validation
+	shellcheck  --check-sourced $(PWD)/bin/*

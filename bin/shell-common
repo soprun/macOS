@@ -13,6 +13,10 @@ set -e
 # todo: Ask for the administrator password upfront
 #sudo -v
 
+#export DEFAULT_PROJECT_PATH="$(pwd)"
+#IDE_BIN_HOME="${0%/*}"
+#exec "$IDE_BIN_HOME/../MacOS/phpstorm" inspect "$@"
+
 #######################################################################
 # Load environment variables
 #######################################################################

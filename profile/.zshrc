@@ -6,6 +6,8 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/soprun/.oh-my-zsh"
 
+source ${ZSH}/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -71,16 +73,28 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+
   git
+  git-flow
+  git-flow-completion
+  git-auto-fetch
+
+  composer
+
+  history
+  history-sync
 
   docker
   docker-compose
+  # docker-completion
+  symfony
 
   brew
 
   ssh-agent
   gpg-agent
 
+  zsh-autocomplete
   zsh-completions
   zsh-syntax-highlighting
   zsh-autosuggestions
