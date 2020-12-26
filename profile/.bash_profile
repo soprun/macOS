@@ -71,3 +71,7 @@ export DOCKER_BUILDKIT
 export DOCKER_CLI_EXPERIMENTAL
 export COMPOSE_DOCKER_CLI_BUILD
 export BUILDX_NO_DEFAULT_LOAD=false
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+fi

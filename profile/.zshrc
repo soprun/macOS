@@ -6,8 +6,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/soprun/.oh-my-zsh"
 
-source ${ZSH}/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -73,6 +71,14 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  common-aliases
+  osx
+  extract
+  colorize
+
+  safe-paste
+  colorize
+  command-not-found
 
   git
   git-flow
@@ -94,7 +100,6 @@ plugins=(
   ssh-agent
   gpg-agent
 
-  zsh-autocomplete
   zsh-completions
   zsh-syntax-highlighting
   zsh-autosuggestions
@@ -139,7 +144,7 @@ ZSH_COMMAND_TIME_MSG="Execution time: %s sec"
 # Message color.
 ZSH_COMMAND_TIME_COLOR="cyan"
 
-autoload -U compinit && compinit
+autoload -Uz compinit && compinit
 
 # shellcheck source=./.iterm2_shell_integration.zsh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -149,3 +154,5 @@ if [ -e "${HOME}/.bash_profile" ]; then
   # shellcheck source=./../profile-bash/.bash_profile
   source "${HOME}/.bash_profile"
 fi
+
+# source "${ZSH}/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh" &>/dev/null

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Handle Docker Images Like A Pro
+# https://medium.com/javascript-in-plain-english/delete-docker-images-like-a-pro-a8fece854ec8
+
+# shellcheck source=../shell-common
+source "${SHELL_BIN}/shell-common"
+
+# Delete all the invalid images
+# docker images | grep none | tr -s ' ' | cut -d ' ' -f 3 | xargs -I {} docker rmi -f {}
+# docker images --all --quiet --filter "dangling=true" | xargs -I {} docker rmi -f {}
+
+#docker rmi "$(docker images --all --quiet --filter "dangling=true")" &>/dev/null
+#exit 0
+
+if docker rmi --force "$(docker images --all --quiet --filter "dangling=true")" &>/dev/null; then
+  output 'Remove all untagged images 🖼' 'success'
+fi
