@@ -99,7 +99,7 @@ function output
       priority='user.notice'
       ;;
       # Собирает информацию о сбоях и ошибках в вашем коде. Если объект действия существует, система собирает информацию для связанной цепочки процессов.
-    "warning")
+    "warn" | "warning")
       message_color="${COLOR_YELLOW}"
       priority='user.warn'
       ;;
