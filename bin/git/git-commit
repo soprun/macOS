@@ -51,7 +51,7 @@ fi
 
 output "$(printf "Name:\t $COLOR_BLUE%s$COLOR_RESET" "$GIT_NAME")" "info"
 output "$(printf "Email:\t $COLOR_BLUE%s$COLOR_RESET" "$GIT_EMAIL")" "info"
-output "$(printf "GPG key:\t $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")" "info"
+output "$(printf "GPG key: $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")" "info"
 output "$(printf "Branch:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")" "info"
 output "$(printf "Commit:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")" "info"
 
