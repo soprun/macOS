@@ -49,11 +49,11 @@ fi
 # echo $commit_message
 # echo $commit_push
 
-output "$(printf "name: $COLOR_BLUE%s$COLOR_RESET" "$GIT_NAME")" "info"
-output "$(printf "email: $COLOR_BLUE%s$COLOR_RESET" "$GIT_EMAIL")" "info"
+output "$(printf "Name: $COLOR_BLUE%s$COLOR_RESET" "$GIT_NAME")" "info"
+output "$(printf "Email: $COLOR_BLUE%s$COLOR_RESET" "$GIT_EMAIL")" "info"
 output "$(printf "GPG key: $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")" "info"
-output "$(printf "branch: $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")" "info"
-output "$(printf "commit: $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")" "info"
+output "$(printf "Branch: $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")" "info"
+output "$(printf "Commit: $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")" "info"
 
 if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
   output "An error occurred when record changes" 'error'
@@ -78,8 +78,4 @@ if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
   if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
     output "An error occurred when pushing tag: $tag_name" "warn"
   fi
-fi
-
-if [ -w "$file" ]; then
-  output "File '${file}' is writeable!"
 fi
