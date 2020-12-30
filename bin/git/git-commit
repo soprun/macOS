@@ -35,39 +35,39 @@ case $1 in
         shift # past value
         ;;
     *)
-        log_error "Unknown option $1" "error"
-        log_error "Usage: ${0} [-m|--message=\"commit...\" --push]"
+        output "Unknown option $1" "error"
+        output "Usage: ${0} [-m|--message=\"commit...\" --push]" "error"
         exit 1
         ;;
 esac
 done
 
 if [ -z "$commit_message" ]; then
-  log_error "Commit message empty!"
+  output "Commit message empty!" "error"
 fi
 
 # echo $commit_message
 # echo $commit_push
 
-log_info "$(printf "name: $COLOR_BLUE%s$COLOR_RESET" "$GIT_NAME")"
-log_info "$(printf "email: $COLOR_BLUE%s$COLOR_RESET" "$GIT_EMAIL")"
-log_info "$(printf "GPG key: $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")"
-log_info "$(printf "branch: $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")"
-log_info "$(printf "commit: $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")"
+output "$(printf "name: $COLOR_BLUE%s$COLOR_RESET" "$GIT_NAME")" "info"
+output "$(printf "email: $COLOR_BLUE%s$COLOR_RESET" "$GIT_EMAIL")" "info"
+output "$(printf "GPG key: $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")" "info"
+output "$(printf "branch: $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")" "info"
+output "$(printf "commit: $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")" "info"
 
 if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
-  log_error "An error occurred when record changes"
+  output "An error occurred when record changes" 'error'
 else
-  log_success "Commit id: $(git rev-parse --short HEAD)"
-  log_success "Commit sha: $(git rev-parse HEAD)"
-  log_success "https://github.com/soprun/docker-project/commit/$(git rev-parse HEAD)"
+  output "Commit id: $(git rev-parse --short HEAD)" "success"
+  output "Commit sha: $(git rev-parse HEAD)" "success"
+  output "https://github.com/soprun/docker-project/commit/$(git rev-parse HEAD)" "success"
 fi
 
 # Pushes your local commits to the remote repository
 
 if [ "$commit_push" = "true" ]; then
   if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
-    log_warn "An error occurred when pushing tag: $tag_name"
+    loutput warn "An error occurred when pushing tag: $tag_name"
   fi
   exit 0
 fi
@@ -76,7 +76,7 @@ read -r -p "Push to the repository? [y/N]" git_push
 
 if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
   if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
-    log_warn "An error occurred when pushing tag: $tag_name"
+    output "An error occurred when pushing tag: $tag_name" "warn"
   fi
 fi
 

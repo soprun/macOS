@@ -52,12 +52,12 @@ if docker volume prune --force &>/dev/null; then
   output "Remove all unused local volumes ✅" 'success'
 fi
 
-if docker image prune --all --force &>/dev/null; then
-  output "Remove all unused local images 🚒" 'success'
-fi
+# if docker image prune --all --force &>/dev/null; then
+#   output "Remove all unused local images 🚒" 'success'
+# fi
 
-if docker rmi --force "${image_ids:-}" &>/dev/null; then
-  output "Remove all images 🖼" 'success'
-fi
+# if docker rmi --force "${image_ids:-}" &>/dev/null; then
+#   output "Remove all images 🖼" 'success'
+# fi
 
 estimate

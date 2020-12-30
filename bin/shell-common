@@ -73,7 +73,7 @@ function output
   enable_message="$(if_boolean "${SHELL_ENABLE_MESSAGE}")"
   enable_message_color="$(if_boolean "${SHELL_ENABLE_MESSAGE_COLOR}")"
 
-  local enable_label enable_label_color  enable_label_uppercase
+  local enable_label enable_label_color enable_label_uppercase
   enable_label="$(if_boolean "${SHELL_ENABLE_LABEL}")"
   enable_label_color="$(if_boolean "${SHELL_ENABLE_LABEL_COLOR}")"
   enable_label_uppercase="$(if_boolean "${SHELL_ENABLE_LABEL_UPPERCASE}")"
