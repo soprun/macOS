@@ -75,3 +75,5 @@ export BUILDX_NO_DEFAULT_LOAD=false
 #if [ -f $(brew --prefix)/etc/bash_completion ]; then
 #  . $(brew --prefix)/etc/bash_completion
 #fi
+
+PROMPT='%{%f%b%k%}$(build_prompt)'

@@ -55,6 +55,13 @@ output "$(printf "GPG key: $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")" "info"
 output "$(printf "Branch:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")" "info"
 output "$(printf "Commit:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")" "info"
 
+# echo -e "commit? [yes/${COLOR_GREEN}NO${COLOR_RESET}]";
+# exit 1
+# read -r -p "commit? [${COLOR_GREEN}y/${COLOR_RED}N${COLOR_RESET}]" git_commit
+# if [[ ! "$git_commit" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  # output "An error occurred when pushing tag: $tag_name" "warn"
+# fi
+
 if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
   output "An error occurred when record changes" 'error'
 else

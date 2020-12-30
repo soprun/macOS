@@ -26,28 +26,28 @@ CASE_SENSITIVE="true"
 HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
-DISABLE_UPDATE_PROMPT="true"
+# DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-DISABLE_MAGIC_FUNCTIONS="true"
+# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-DISABLE_AUTO_TITLE="true"
+# DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -84,6 +84,7 @@ plugins=(
   git-flow
   git-flow-completion
   git-auto-fetch
+  git-prompt
 
   composer
 
@@ -153,9 +154,9 @@ ZSH_COMMAND_TIME_COLOR="cyan"
 
 # autoload -U compinstall && compinstall
 
-# autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit
 # autoload -U compinit && compinit
-autoload -U compinit && compinit
+# autoload -U compinit && compinit
 
 # shellcheck source=./.iterm2_shell_integration.zsh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -188,18 +189,41 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # export AGNOSTER_PROMPT_SEGMENTS
 
-prompt_context() {
-    local seq
-    seq='%(!.{%F{yellow}%}.)%n'
-    if [[ "$USER" != "$DEFAULT_USER" ]]; then
-        seq="$seq@%m"
-    fi
-    prompt_segment black default $seq
-}
+# prompt_context() {
+#     local seq
+#     seq='%(!.{%F{yellow}%}.)%n'
+#     if [[ "$USER" != "$DEFAULT_USER" ]]; then
+#         seq="$seq@%m"
+#     fi
+#     prompt_segment black default $seq
+# }
 
 # prompt_segment() - Takes two arguments, background and foreground.
 # Both can be omitted, rendering default background/foreground.
 
-customize_agnoster() {
-  prompt_segment 'red' '' ' ⚙ ⚡⚡⚡ ⚙  '
-}
+# customize_agnoster() {
+#   prompt_segment 'red' '' ' ⚙ ⚡⚡⚡ ⚙  '
+# }
+
+# PROMPT="%{%f%b%k%}%n%~%?"
+# PROMPT='%B%F{240}%1~%f%b %# '
+
+# PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b %# '
+
+# autoload -U promptinit
+# promptinit
+
+# autoload -Uz vcs_info
+# precmd_vcs_info() { vcs_info }
+# precmd_functions+=( precmd_vcs_info )
+# setopt prompt_subst
+# RPROMPT=\$vcs_info_msg_0_
+# zstyle ':vcs_info:git:*' formats '%F{240}(%b)%r%f'
+# zstyle ':vcs_info:*' enable git
+
+# PS1="%K%n%k@%m:%~/ > "
+# PS2="> "
+# RPS1="%(?..(%?%))"
+
+# PS1="%{%f%b%k%}33$(build_prompt)12"
+# PS2="%_>33"
