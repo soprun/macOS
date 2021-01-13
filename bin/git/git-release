@@ -26,15 +26,15 @@ if [[ "$2" ]]; then
     if [[ "$2" == '-p' ]] || [[ "$2" == '--preview' ]]; then
         PREVIEW=true
     else
-        log_error "Invalid arguments: \"$*\""
-        log_warn "$USAGE"
+        output "Invalid arguments: \"$*\""
+        output "$USAGE"
         exit 1
     fi
 else
     PREVIEW=false
 fi
 
-log_info "=> Fetching tags... "
+output "=> Fetching tags... "
 
 if ! git fetch --tags >/dev/null 2>/dev/null; then
     error_exit "An error occurred while fetching the last tag!"
@@ -44,7 +44,7 @@ fi
 last_tag="$(git describe --tags $(git rev-list --tags --max-count=1))"
 last_tag="${last_tag/v/}"
 
-log_info "$(printf "Current tag:$COLOR_BLUE v%s$COLOR_RESET" "$last_tag")"
+output "$(printf "Current tag:$COLOR_BLUE v%s$COLOR_RESET" "$last_tag")"
 
 # Replace dot with space then split into array.
 last_tag_arr=(${last_tag//./ })
@@ -67,15 +67,15 @@ case "$LEVEL_CHOICE" in
     ((bug += 1))
     ;;
 *)
-    log_error "Invalid arguments: \"$*\""
-    log_warn "$USAGE"
+    output "Invalid arguments: \"$*\""
+    output "$USAGE"
     exit 1
     ;;
 esac
 
 release_tag="v$major.$minor.$bug"
 
-log_success "$(printf "Release tag:$COLOR_GREEN %s$COLOR_RESET ✅" "$release_tag")"
+output "$(printf "Release tag:$COLOR_GREEN %s$COLOR_RESET ✅" "$release_tag")"
 
 # printf "Release title:\t%s\n" "Release title ...$(date +"%Y/%m/%d %H:%M:%S")"
 # printf "Release date:\t%s\n" "$(date +"%Y/%m/%d %H:%M:%S")"
@@ -83,25 +83,25 @@ log_success "$(printf "Release tag:$COLOR_GREEN %s$COLOR_RESET ✅" "$release_ta
 # printf "Release email:\t%s\n" "$(git config --get user.email)"
 
 if [[ "$PREVIEW" == true ]]; then
-    log_info 'Skipping tag creation'
+    output 'Skipping tag creation'
 else
-    git tag --sign --annotate "$release_tag" --message "$release_tag"
-    log_success "Create annotated tag..."
+    echo git tag --sign --annotate "$release_tag" --message "$release_tag"
+    output "Create annotated tag..."
 
     if ! git verify-tag "$release_tag" >/dev/null 2>/dev/null; then
-        log_warn "An error occurred while verify tags"
+        output "An error occurred while verify tags"
     fi
 fi
 
-read -r -p "Push all tags: $tag_name? [y/N] " git_push
-
-if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-    log_info "Push tag: $release_tag"
-    
-    if ! git push origin --tags >/dev/null 2>/dev/null; then
-        log_warn "An error occurred while pushing tags"
-    fi
-fi
+#read -r -p "Push all tags: $tag_name? [y/N] " git_push
+#
+#if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+#    output "Push tag: $release_tag"
+#
+#    if ! git push origin --tags >/dev/null 2>/dev/null; then
+#        output "An error occurred while pushing tags"
+#    fi
+#fi
 
 # if ! git fetch --tags >/dev/null 2>/dev/null; then
 #     error_exit "An error occurred while fetching the last tag!"

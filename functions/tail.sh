@@ -16,3 +16,5 @@ tail() {
     $thbin "$@"
   fi
 }
+
+# tail -n5000 var/log/dev.log | awk '{print $6}' | sort -n | uniq -c
