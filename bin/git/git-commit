@@ -60,7 +60,7 @@ if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; the
 else
   output "Commit id: $(git rev-parse --short HEAD)" "success"
   output "Commit sha: $(git rev-parse HEAD)" "success"
-  output "https://github.com/soprun/docker-project/commit/$(git rev-parse HEAD)" "success"
+  # output "https://github.com/soprun/docker-project/commit/$(git rev-parse HEAD)" "success"
 fi
 
 # Pushes your local commits to the remote repository
