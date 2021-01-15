@@ -20,26 +20,26 @@ fi
 # Record changes to the repository
 # commit_message="Signing commit $(date +%Y-%m-%dT%H:%M:%S%z)"
 commit_message="Signing commit $(date +%d-%m-%Y)"
-commit_push="false"
+commit_push=false
 commit_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Getops does not support long option names
 while [[ $# -gt 0 ]]; do
-case $1 in
-    -m=*|--message=*)
-        commit_message="${1#*=}"
-        shift # past value
-        ;;
-    -p|--push)
-        commit_push="true"
-        shift # past value
-        ;;
-    *)
-        output "Unknown option $1" "error"
-        output "Usage: ${0} [-m|--message=\"commit...\" --push]" "error"
-        exit 1
-        ;;
-esac
+  case $1 in
+  -m=* | --message=*)
+    commit_message="${1#*=}"
+    shift # past value
+    ;;
+  -p | --push)
+    commit_push=true
+    shift # past value
+    ;;
+  *)
+    output "Unknown option $1" "error"
+    output "Usage: ${0} [-m|--message=\"commit...\" --push]" "error"
+    exit 1
+    ;;
+  esac
 done
 
 if [ -z "$commit_message" ]; then
@@ -55,13 +55,6 @@ output "$(printf "GPG key: $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")" "info"
 output "$(printf "Branch:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")" "info"
 output "$(printf "Commit:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")" "info"
 
-# echo -e "commit? [yes/${COLOR_GREEN}NO${COLOR_RESET}]";
-# exit 1
-# read -r -p "commit? [${COLOR_GREEN}y/${COLOR_RED}N${COLOR_RESET}]" git_commit
-# if [[ ! "$git_commit" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  # output "An error occurred when pushing tag: $tag_name" "warn"
-# fi
-
 if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
   output "An error occurred when record changes" 'error'
 else
@@ -72,17 +65,19 @@ fi
 
 # Pushes your local commits to the remote repository
 
-if [ "$commit_push" = "true" ]; then
+function git-push() {
   if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
-    output "An error occurred when pushing tag: $tag_name" "warn"
+    output "An error occurred when pushing" "warn"
   fi
+}
+
+if [ "$commit_push" ]; then
+  git-push
   exit 0
 fi
 
 read -r -p "Push to the repository? [y/N]" git_push
 
 if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
-    output "An error occurred when pushing tag: $tag_name" "warn"
-  fi
+  git-push
 fi
