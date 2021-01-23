@@ -7,7 +7,7 @@ tag_name="$1"
 tag_message="${2:-$tag_name}"
 
 if [ ! "$tag_name" ]; then
-  error_exit "Tag name empty!"
+	error_exit "Tag name empty!"
 fi
 
 log_info "Current tag: $(git-tag-name)"
@@ -19,7 +19,7 @@ git tag --sign --local-user "${ID_GPG_KEY}" --annotate "$tag_name" --message "$t
 read -r -p "Push tags to the repository? [y/N]" git_push
 
 if [[ $git_push =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  if ! git push origin "$tag_name" --tags > /dev/null 2> /dev/null; then
-    output "An error occurred when pushing tag: $tag_name" "warn"
-  fi
+	if ! git push origin "$tag_name" --tags > /dev/null 2> /dev/null; then
+		output "An error occurred when pushing tag: $tag_name" "warn"
+	fi
 fi

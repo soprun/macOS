@@ -9,7 +9,7 @@ source "${SHELL_HOME}/shell-common"
 remote="${1:---all}"
 
 if [ ! "$remote" ]; then
-  error_exit "Remote name empty!"
+	error_exit "Remote name empty!"
 fi
 
 question="git push$COLOR_PURPLE origin: $COLOR_RED$remote$COLOR_RESET? [y/N] "
@@ -17,7 +17,7 @@ question="git push$COLOR_PURPLE origin: $COLOR_RED$remote$COLOR_RESET? [y/N] "
 read -r -p "${question}" git_push
 
 if [[ $git_push =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  if ! git push origin "$remote" --follow-tags --verify > /dev/null 2> /dev/null; then
-    output "An error occurred when pushing: $remote" "warn"
-  fi
+	if ! git push origin "$remote" --follow-tags --verify > /dev/null 2> /dev/null; then
+		output "An error occurred when pushing: $remote" "warn"
+	fi
 fi

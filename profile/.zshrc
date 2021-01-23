@@ -74,49 +74,49 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  common-aliases
-  osx
-  extract
-  colorize
+	common-aliases
+	osx
+	extract
+	colorize
 
-  safe-paste
-  colorize
-  command-not-found
+	safe-paste
+	colorize
+	command-not-found
 
-  git
-  git-flow
-  git-flow-completion
-  git-auto-fetch
-  git-prompt
+	git
+	git-flow
+	git-flow-completion
+	git-auto-fetch
+	git-prompt
 
-  composer
+	composer
 
-  history
-  history-sync
+	history
+	history-sync
 
-  docker
-  docker-compose
-  # docker-completion
-  symfony
+	docker
+	docker-compose
+	# docker-completion
+	symfony
 
-  brew
+	brew
 
-  ssh-agent
-  gpg-agent
+	ssh-agent
+	gpg-agent
 
-  zsh-completions
-  zsh-syntax-highlighting
-  zsh-autosuggestions
-  command-time
-  history-substring-search
+	zsh-completions
+	zsh-syntax-highlighting
+	zsh-autosuggestions
+	command-time
+	history-substring-search
 
-  iterm2
+	iterm2
 
-  # dotenv
-  # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/zsh_reload#zsh_reload-plugin
-  zsh_reload
+	# dotenv
+	# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/zsh_reload#zsh_reload-plugin
+	zsh_reload
 
-  zsh-interactive-cd
+	zsh-interactive-cd
 )
 
 # shellcheck source=/dev/null
@@ -165,8 +165,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # include .bash_profile if it exists
 if [ -e "${HOME}/.bash_profile" ]; then
-  # shellcheck source=./.bash_profile
-  source "${HOME}/.bash_profile"
+	# shellcheck source=./.bash_profile
+	source "${HOME}/.bash_profile"
 fi
 
 # https://github.com/junegunn/fzf#search-syntax

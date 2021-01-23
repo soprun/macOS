@@ -6,15 +6,15 @@ set -e
 source "${SHELL_HOME}/shell-common"
 
 if [ "$(git config --global --get user.name)" != "$GIT_NAME" ]; then
-  error_exit "An error occurred, the user.name parameter does not match the identity."
+	error_exit "An error occurred, the user.name parameter does not match the identity."
 fi
 
 if [ "$(git config --global --get user.email)" != "$GIT_EMAIL" ]; then
-  error_exit "An error occurred, the user.email parameter does not match the identity."
+	error_exit "An error occurred, the user.email parameter does not match the identity."
 fi
 
 if [ "$(git config --global --get commit.gpgsign)" != "$GIT_GPG_SIGN" ]; then
-  error_exit "An error occurred, the gpgsign parameter does not match the identity."
+	error_exit "An error occurred, the gpgsign parameter does not match the identity."
 fi
 
 # Record changes to the repository
@@ -25,25 +25,25 @@ commit_branch=$(git rev-parse --abbrev-ref HEAD > /dev/null 2> /dev/null)
 
 # Getops does not support long option names
 while [[ $# -gt 0 ]]; do
-  case $1 in
-    -m=* | --message=*)
-      commit_message="${1#*=}"
-      shift # past value
-      ;;
-    -p | --push)
-      commit_push=true
-      shift # past value
-      ;;
-    *)
-      output "Unknown option $1" "error"
-      output "Usage: ${0} [-m|--message=\"commit...\" --push]" "error"
-      exit 1
-      ;;
-  esac
+	case $1 in
+		-m=* | --message=*)
+			commit_message="${1#*=}"
+			shift  # past value
+			;;
+		-p | --push)
+			commit_push=true
+			shift  # past value
+			;;
+		*)
+			output  "Unknown option $1" "error"
+			output  "Usage: ${0} [-m|--message=\"commit...\" --push]" "error"
+			exit  1
+			;;
+	esac
 done
 
 if [ -z "$commit_message" ]; then
-  output "Commit message empty!" "error"
+	output "Commit message empty!" "error"
 fi
 
 # echo $commit_message
@@ -56,28 +56,28 @@ output "$(printf "Branch:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")" "
 output "$(printf "Commit:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")" "info"
 
 if ! git commit -S --all --message "$commit_message" > /dev/null 2> /dev/null; then
-  output "An error occurred when record changes" 'error'
+	output "An error occurred when record changes" 'error'
 else
-  output "Commit id: $(git rev-parse --short HEAD)" "success"
-  output "Commit sha: $(git rev-parse HEAD)" "success"
-  # output "https://github.com/soprun/docker-project/commit/$(git rev-parse HEAD)" "success"
+	output "Commit id: $(git rev-parse --short HEAD)" "success"
+	output "Commit sha: $(git rev-parse HEAD)" "success"
+	# output "https://github.com/soprun/docker-project/commit/$(git rev-parse HEAD)" "success"
 fi
 
 # Pushes your local commits to the remote repository
 
 function git-push() {
-  if ! git push origin --follow-tags > /dev/null 2> /dev/null; then
-    output "An error occurred when pushing" "warn"
-  fi
+	if ! git push origin --follow-tags > /dev/null 2> /dev/null; then
+		output "An error occurred when pushing" "warn"
+	fi
 }
 
 if [ "$commit_push" ]; then
-  git-push
-  exit 0
+	git-push
+	exit 0
 fi
 
 read -r -p "Push to the repository? [y/N]" git_push
 
 if [[ $git_push =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  git-push
+	git-push
 fi

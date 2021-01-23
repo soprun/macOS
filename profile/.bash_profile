@@ -8,15 +8,15 @@
 #######################################################################
 
 for file in ${HOME}/.{env,env.local,bash_aliases}; do
-  # shellcheck source=./../.env
-  # shellcheck source=./.bash_aliases
-  [ -r "$file" ] && [ -f "$file" ] && source "$file"
+	# shellcheck source=./../.env
+	# shellcheck source=./.bash_aliases
+	[ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file
 
 if [ -z "$SHELL_HOME" ]; then
-  printf "\033[0;31m[error]\033[0m: %s\\n" "An error occurred, the value of the variable SHELL_HOME was not loaded!"
-  exit 1
+	printf "\033[0;31m[error]\033[0m: %s\\n" "An error occurred, the value of the variable SHELL_HOME was not loaded!"
+	exit 1
 fi
 
 #######################################################################
@@ -26,9 +26,9 @@ fi
 PATH="$SHELL_HOME:$PATH"
 
 for dir in "$SHELL_HOME"/*; do
-  if [ -d "$dir" ]; then
-    PATH="$dir:$PATH"
-  fi
+	if [ -d "$dir" ]; then
+		PATH="$dir:$PATH"
+	fi
 done
 unset dir
 

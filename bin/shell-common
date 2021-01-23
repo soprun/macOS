@@ -20,15 +20,15 @@ set -e
 #IDE_BIN_HOME="${0%/*}"
 #exec "$IDE_BIN_HOME/../MacOS/phpstorm" inspect "$@"
 
-SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 
 #######################################################################
 # Load environment variables
 #######################################################################
 
 for file in ${HOME}/.{env,env.local}; do
-  # shellcheck source=../.env
-  [ -r "$file" ] && [ -f "$file" ] && source "$file"
+	# shellcheck source=../.env
+	[ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file
 
@@ -55,106 +55,106 @@ readonly BG_CYAN="\033[46m"   # Cyan
 readonly BG_WHITE="\033[47m"  # White
 
 function if_boolean() {
-  local var="${1:-}"
+	local var="${1:-}"
 
-  if [ "${var}" == 1 ] || [ "${var}" == true ] || [ "${var}" == 1 ]; then
-    echo true
-    return
-  fi
+	if [ "${var}" == 1 ] || [ "${var}" == true ] || [ "${var}" == 1 ]; then
+		echo true
+		return
+	fi
 
-  echo false
+	echo false
 }
 
 function output {
-  local priority='user.info'
-  local label
-  local label_color="${COLOR_RESET}"
-  local message="${1}"
-  local message_color="${COLOR_RESET}"
-  local type="${2:-}"
+	local priority='user.info'
+	local label
+	local label_color="${COLOR_RESET}"
+	local message="${1}"
+	local message_color="${COLOR_RESET}"
+	local type="${2:-}"
 
-  local enable_message enable_message_color
-  enable_message="$(if_boolean "${SHELL_ENABLE_MESSAGE}")"
-  enable_message_color="$(if_boolean "${SHELL_ENABLE_MESSAGE_COLOR}")"
+	local enable_message enable_message_color
+	enable_message="$(if_boolean "${SHELL_ENABLE_MESSAGE}")"
+	enable_message_color="$(if_boolean "${SHELL_ENABLE_MESSAGE_COLOR}")"
 
-  local enable_label enable_label_color enable_label_uppercase
-  enable_label="$(if_boolean "${SHELL_ENABLE_LABEL}")"
-  enable_label_color="$(if_boolean "${SHELL_ENABLE_LABEL_COLOR}")"
-  enable_label_uppercase="$(if_boolean "${SHELL_ENABLE_LABEL_UPPERCASE}")"
+	local enable_label enable_label_color enable_label_uppercase
+	enable_label="$(if_boolean "${SHELL_ENABLE_LABEL}")"
+	enable_label_color="$(if_boolean "${SHELL_ENABLE_LABEL_COLOR}")"
+	enable_label_uppercase="$(if_boolean "${SHELL_ENABLE_LABEL_UPPERCASE}")"
 
-  if [ "${type}" != "" ]; then
-    case "${type}" in
-    "debug")
-      enable_label=false
-      enable_message=false
-      priority='user.debug'
-      ;;
-    "success")
-      message_color="${COLOR_GREEN}"
-      ;;
-      # Собирает информацию, которая полезна, но не важна для устранения проблем.
-    "info")
-      message_color="${COLOR_BLUE}"
-      priority='user.info'
-      ;;
-      # Собирает информацию, необходимую для устранения неполадок. Например, запишите информацию, которая может привести к сбою.
-    "notice")
-      message_color="${COLOR_BLUE}"
-      priority='user.notice'
-      ;;
-      # Собирает информацию о сбоях и ошибках в вашем коде. Если объект действия существует, система собирает информацию для связанной цепочки процессов.
-    "warn" | "warning")
-      message_color="${COLOR_YELLOW}"
-      priority='user.warn'
-      ;;
-      # Захватывает ошибки, замеченные во время выполнения вашего кода. Если объект действия существует, система собирает информацию для связанной цепочки процессов.
-    "error")
-      message_color="${COLOR_RED}"
-      priority='user.error'
-      ;;
-    "heading")
-      enable_label=false
-      enable_message_color=true
-      message_color="\033[1;39m"
-      ;;
-    esac
+	if [ "${type}" != "" ]; then
+		case "${type}" in
+			"debug")
+				enable_label=false
+				enable_message=false
+				priority='user.debug'
+				;;
+			"success")
+				message_color="${COLOR_GREEN}"
+				;;
+				# Собирает информацию, которая полезна, но не важна для устранения проблем.
+			"info")
+				message_color="${COLOR_BLUE}"
+				priority='user.info'
+				;;
+				# Собирает информацию, необходимую для устранения неполадок. Например, запишите информацию, которая может привести к сбою.
+			"notice")
+				message_color="${COLOR_BLUE}"
+				priority='user.notice'
+				;;
+				# Собирает информацию о сбоях и ошибках в вашем коде. Если объект действия существует, система собирает информацию для связанной цепочки процессов.
+			"warn" |  "warning")
+				message_color="${COLOR_YELLOW}"
+				priority='user.warn'
+				;;
+				# Захватывает ошибки, замеченные во время выполнения вашего кода. Если объект действия существует, система собирает информацию для связанной цепочки процессов.
+			"error")
+				message_color="${COLOR_RED}"
+				priority='user.error'
+				;;
+			"heading")
+				enable_label=false
+				enable_message_color=true
+				message_color="\033[1;39m"
+				;;
+		esac
 
-    label="[${type}]: "
-    label_color="${message_color}"
-  fi
+		label="[${type}]: "
+		label_color="${message_color}"
+	fi
 
-  local script_name
-  script_name="$(basename "${0}")"
-  script_name="${script_name%.*}"
+	local script_name
+	script_name="$(basename "${0}")"
+	script_name="${script_name%.*}"
 
-  logger -tag "${script_name}" -priority "${priority}" "${message}"
+	logger -tag "${script_name}" -priority "${priority}" "${message}"
 
-  if [ "${enable_message}" == false ]; then
-    return
-  fi
+	if [ "${enable_message}" == false ]; then
+		return
+	fi
 
-  if [ "${enable_message_color}" == false ]; then
-    unset message_color
-  fi
+	if [ "${enable_message_color}" == false ]; then
+		unset message_color
+	fi
 
-  if [ "${enable_label_color}" == false ]; then
-    unset label_color
-  fi
+	if [ "${enable_label_color}" == false ]; then
+		unset label_color
+	fi
 
-  if [ "${enable_label_uppercase}" == true ]; then
-    label="$(printf '%s\n' "$label" | awk '{ print toupper($0) }')"
-  fi
+	if [ "${enable_label_uppercase}" == true ]; then
+		label="$(printf '%s\n' "$label" | awk '{ print toupper($0) }')"
+	fi
 
-  if [ "${enable_label}" == false ]; then
-    unset label label_color
-  fi
+	if [ "${enable_label}" == false ]; then
+		unset label label_color
+	fi
 
-  echo -e "${label_color}${label}${COLOR_RESET}${message_color}${message}${COLOR_RESET}"
+	echo -e "${label_color}${label}${COLOR_RESET}${message_color}${message}${COLOR_RESET}"
 }
 
 function error_exit() {
-  output "$1" "error" >&2
-  exit 1
+	output "$1" "error" >&2
+	exit 1
 }
 
 #output 'Plan text..'
@@ -171,40 +171,40 @@ function error_exit() {
 
 # Return: [info]: shell-common:source[179]
 function debug() {
-  local script_name
-  script_name="$(basename "${0}")"
-  script_name="${script_name%.*}"
+	local script_name
+	script_name="$(basename "${0}")"
+	script_name="${script_name%.*}"
 
-  local output
-  output="${BASH_SOURCE[1]##*/}:${FUNCNAME[1]}[${BASH_LINENO[0]}]"
+	local output
+	output="${BASH_SOURCE[1]##*/}:${FUNCNAME[1]}[${BASH_LINENO[0]}]"
 
-  logger -tag "${script_name}" -priority 'user.debug' "${output}"
-  output "${output}" 'info' >/dev/tty
+	logger -tag "${script_name}" -priority 'user.debug' "${output}"
+	output "${output}" 'info' > /dev/tty
 }
 
 function command_exists() {
-  command -v "$@" >/dev/null 2>&1
+	command -v "$@" > /dev/null 2>&1
 }
 
 function command_eval() {
-  # "$@" >/dev/null 2>&1
-  # eval "$@" >/dev/null 2>&1
-  # output "$(eval "$@" >/dev/null)" 'info' 2>&1
+	# "$@" >/dev/null 2>&1
+	# eval "$@" >/dev/null 2>&1
+	# output "$(eval "$@" >/dev/null)" 'info' 2>&1
 
-  output "command: \"$*\"" 'info'
+	output "command: \"$*\"" 'info'
 
-  local output
-  output=$(eval "$@" 2>&1)
+	local output
+	output=$(eval "$@" 2>&1)
 
-  #  local output
-  #  output="$(eval "$*" 2>&2 | tee)"
-  #
-  #    echo "output: $output"
-  #  echo "output: $output >/dev/null"
-  #  output "$(eval "$*" >/dev/null)" 'info' 2>&1
-  #  output "" 'info' 2>&1
+	#  local output
+	#  output="$(eval "$*" 2>&2 | tee)"
+	#
+	#    echo "output: $output"
+	#  echo "output: $output >/dev/null"
+	#  output "$(eval "$*" >/dev/null)" 'info' 2>&1
+	#  output "" 'info' 2>&1
 
-  # output "$output" 'warn'
+	# output "$output" 'warn'
 }
 
 # Usage Example
@@ -214,33 +214,33 @@ function command_eval() {
 
 # backup_file "${HOME}/.ssh/config" true
 function backup_file() {
-  local source_file ignore target_file
+	local source_file ignore target_file
 
-  source_file="${1}"
-  ignore="$(if_boolean "${2}")"
-  target_file="${source_file}.backup-$(date +%Y-%m-%dT%H:%M:%S%z)"
+	source_file="${1}"
+	ignore="$(if_boolean "${2}")"
+	target_file="${source_file}.backup-$(date +%Y-%m-%dT%H:%M:%S%z)"
 
-  if [ -L "${source_file}" ]; then
-    if [ "${ignore}" == true ]; then
-      output "FILE ${source_file} exists and is a symbolic link." "warn"
-      return
-    fi
+	if [ -L "${source_file}" ]; then
+		if [ "${ignore}" == true ]; then
+			output  "FILE ${source_file} exists and is a symbolic link." "warn"
+			return
+		fi
 
-    error_exit "FILE ${source_file} exists and is a symbolic link."
-  fi
+		error_exit "FILE ${source_file} exists and is a symbolic link."
+	fi
 
-  if [ ! -f "${source_file}" ]; then
-    if [ "${ignore}" == true ]; then
-      output "Ignore if it doesn't exist ${source_file}" "warn"
-      return
-    fi
+	if [ ! -f "${source_file}" ]; then
+		if [ "${ignore}" == true ]; then
+			output  "Ignore if it doesn't exist ${source_file}" "warn"
+			return
+		fi
 
-    error_exit "File ${source_file} is not exists." "warn"
-  fi
+		error_exit "File ${source_file} is not exists." "warn"
+	fi
 
-  # copy files
-  cp "${source_file}" "${target_file}"
-  output "The backup file was created in ${target_file}." "success"
+	# copy files
+	cp "${source_file}" "${target_file}"
+	output "The backup file was created in ${target_file}." "success"
 }
 
 #######################################################################
@@ -248,19 +248,19 @@ function backup_file() {
 #######################################################################
 
 if [ -z "${SHELL_DEBUG}" ]; then
-  error_exit "An error occurred, the value of the variable SHELL_DEBUG was not loaded!"
+	error_exit "An error occurred, the value of the variable SHELL_DEBUG was not loaded!"
 fi
 
 if [ -z "${SHELL_HOME}" ]; then
-  error_exit "An error occurred, the value of the variable SHELL_HOME was not loaded!"
+	error_exit "An error occurred, the value of the variable SHELL_HOME was not loaded!"
 fi
 
 if [ "$(if_boolean "${SHELL_DEBUG}")" = true ]; then
-  output 'Debug mode is enabled!' 'warning'
+	output 'Debug mode is enabled!' 'warning'
 fi
 
 if [ "$(if_boolean "${SHELL_DEBUG}")" = true ]; then
-  output 'The shell-common was installed successfully!' 'success'
+	output 'The shell-common was installed successfully!' 'success'
 fi
 
 # shellcheck source=./shell-date
