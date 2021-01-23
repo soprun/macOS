@@ -26,7 +26,7 @@ files: ## Project variables
 .PHONY: shfmt
 shfmt: ## A shell parser, formatter, and interpreter with bash support; https://github.com/mvdan/sh
 	for file in $(SHELL_FILES) ; do \
-  	shfmt -l -w -s -sr -ci -bn -kp $$file; \
+  	shfmt $$file; \
 	done
 
 .PHONY: shellcheck

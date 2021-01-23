@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+readonly file="${HOME}/.ssh/id_rsa_yubikey.pub"
+
+ssh-add -L | grep "cardno:" >"$file"
+
+chmod 644 "$file"
+
+output "An SSH key was generated. ${file}" "success"

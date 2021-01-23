@@ -1,0 +1,28 @@
+#!/bin/bash
+
+function download() {
+  curl -O ${DOWNLOAD}/"${@}"
+}
+
+function upload {
+  curl --http1.0 -F "file=@${@}" ${UPLOAD}
+}
+
+function vpn {
+  ssh -C -N -L 5555:127.0.0.1:8118 vpn
+}
+
+function cert {
+  cn="${1:-${TS}}"
+  expire="${2:-8}"
+  openssl req -new \
+    -newkey rsa:4096 -nodes \
+    -subj "/CN=${cn}" \
+    -x509 -sha512 -days "${expire}" \
+    -keyout "s.${cn}.pem" -out "s.${cn}.crt"
+  openssl x509 -in "s.${cn}.crt" -noout \
+    -subject -issuer -dates -serial
+  for ft in \-sha1 \-sha256 \-sha512 ; do \
+    openssl x509 -in "s.${cn}.crt" -noout \
+    -fingerprint ${ft} | tr -d ":" ; done
+    }

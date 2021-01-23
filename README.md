@@ -45,3 +45,9 @@ http://antigen.sharats.me/
 
 https://macvim-dev.github.io/macvim/
 
+---
+
+
+https://shankarkulumani.com/2019/03/gpg.html
+https://github.com/drduh/config/blob/master/zshrc
+https://github.com/drduh/YubiKey-Guide

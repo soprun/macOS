@@ -4,8 +4,6 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-ip=$(curl --silent http://ipecho.net/plain)
-
+ip=$(curl --silent -disable https://icanhazip.com)
 echo "$ip" | tr -d '\n ' | pbcopy
-
-log_info "$ip"
+output "$ip" "info"

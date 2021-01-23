@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+output "Setting up Git" "heading"
+
+# Read email from the --card-status
+CARD_MAIL=$(gpg --card-status )
+
+output $CARD_MAIL
+
+exit 1
+
+if [[ $? == 0 ]]; then
+  echo "> Using mail: ${CARD_MAIL}"
+  CARD_NAME=$(gpg --card-status | grep "General key info" --color=never "(?<=[0-9]{4}-[0-9]{2}-[0-9]{2} ).*(?= <${CARD_MAIL})")
+
+  if [[ $? != 0 ]]; then
+    echo "> ! Cannot find CARD_NAME."
+    echo "> FAILED!"
+  else
+    echo "> Using name: ${CARD_NAME}"
+    KEY_ID=$(gpg --keyid-format none --list-key "${CARD_MAIL}" | grep -Po "[A-F0-9]{40}")
+    if [[ $? == 0 ]]; then
+      echo "> Using key:  ${KEY_ID}"
+      echo git config --global user.name "${CARD_NAME}"
+      echo git config --global user.email "${CARD_MAIL}"
+      echo git config --global commit.gpgsign true
+      echo git config --global user.signingkey "${KEY_ID}"
+      # git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
+
+      echo "> SUCCESS!"
+    else
+      echo "> ! Cannot find KEY_ID"
+      echo "> FAILED!"
+    fi
+  fi
+else
+  echo "> ! No known yubikey was detected."
+  echo "> FAILED!"
+fi

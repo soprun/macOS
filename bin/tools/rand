@@ -1,0 +1,13 @@
+#!/bin/bash
+
+function rand {
+  for item in '01' \
+    '[:digit:]' '[:upper:]' \
+    '[:xdigit:]' '[:alnum:]' '[:graph:]'; do
+    tr -dc "${item}" </dev/urandom |
+      fold -w 80 | head -n 3 |
+      sed "-es/./ /"{1..80..20}
+  done
+}
+
+rand

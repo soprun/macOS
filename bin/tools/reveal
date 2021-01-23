@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+file=$(realpath "${1}")
+output=$(realpath "${1}" | rev | cut -c16- | rev)
+
+gpg \
+  --decrypt \
+  --output "${output}" \
+  "${file}"
+
+output "Decrypt file: ${file} -> ${output}" "info"
+
+#$ reveal document.pdf.1580000000.enc
+#gpg: anonymous recipient; trying secret key 0xFF3E7D88647EBCDB ...
+#gpg: okay, we are the anonymous recipient.
+#gpg: encrypted with RSA key, ID 0x0000000000000000
+#document.pdf.1580000000.enc -> document.pdf

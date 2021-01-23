@@ -3,79 +3,79 @@
 set -e
 
 # Current working directory
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 # Load environment variables
 ######################################################################
 for file in ${DIR}/.{env,env.local}; do
-	# shellcheck source=./.env
-	[ -r "$file" ] && [ -f "$file" ] && source "$file"
+  # shellcheck source=./.env
+  [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file
 
 if [ -f "$DIR/bin/shell-common" ]; then
-	# shellcheck disable=SC1094
-	# shellcheck source=./bin/shell-common
-	source "$DIR/bin/shell-common"
+  # shellcheck disable=SC1094
+  # shellcheck source=./bin/shell-common
+  source "$DIR/bin/shell-common"
 else
-	echo "shell-common - File does not exist."
-	exit 1
+  echo "shell-common - File does not exist."
+  exit 1
 fi
 
 output "\nCreate symlink" "heading"
 
 if ! test -f "$DIR/.env.local"; then
-	touch "$DIR/.env.local"
+  touch "$DIR/.env.local"
 fi
 
 declare -a files
 
 files+=(
-	"$DIR/.env::$HOME/.env"
-	"$DIR/.env.local::$HOME/.env.local"
-	"$DIR/profile/.zshrc::$HOME/.zshrc"
-	"$DIR/profile/.bash_profile::$HOME/.bash_profile"
-	"$DIR/profile/.bash_aliases::$HOME/.bash_aliases"
-	"$DIR/config/.gitconfig::$HOME/.gitconfig"
-	"$DIR/config/.gitignore::$HOME/.gitignore"
-	"$DIR/config/gpg.conf::$HOME/.gnupg/gpg.conf"
-	"$DIR/config/gpg-agent.conf::$HOME/.gnupg/gpg-agent.conf"
-	"$DIR/config/ssh.conf::$HOME/.ssh/config"
+  "$DIR/.env::$HOME/.env"
+  "$DIR/.env.local::$HOME/.env.local"
+  "$DIR/profile/.zshrc::$HOME/.zshrc"
+  "$DIR/profile/.bash_profile::$HOME/.bash_profile"
+  "$DIR/profile/.bash_aliases::$HOME/.bash_aliases"
+  "$DIR/config/.gitconfig::$HOME/.gitconfig"
+  "$DIR/config/.gitignore::$HOME/.gitignore"
+  "$DIR/config/gpg.conf::$HOME/.gnupg/gpg.conf"
+  "$DIR/config/gpg-agent.conf::$HOME/.gnupg/gpg-agent.conf"
+  "$DIR/config/ssh.conf::$HOME/.ssh/config"
 )
 
 for index in "${files[@]}"; do
-	source_file="${index%%::*}"
-	target_file="${index##*::}"
+  source_file="${index%%::*}"
+  target_file="${index##*::}"
 
-	if [ -L "${target_file}" ]; then
-		output "${target_file} symbolic exists." 'info'
-	else
-		if [ ! -f "${source_file}" ]; then
-			error_exit  "File ${source_file} does not exists."
-		fi
+  if [ -L "${target_file}" ]; then
+    output "${target_file} symbolic exists." 'info'
+  else
+    if [ ! -f "${source_file}" ]; then
+      error_exit "File ${source_file} does not exists."
+    fi
 
-		if [ -f "${target_file}" ]; then
-			backup_file  "${target_file}"
-			rm  "${target_file}"
-			# error_exit "File ${target_file} is exists."
-		fi
+    if [ -f "${target_file}" ]; then
+      backup_file "${target_file}"
+      rm "${target_file}"
+      # error_exit "File ${target_file} is exists."
+    fi
 
-		output "${target_file}"
+    output "${target_file}"
 
-		command_eval ln -sf "${source_file}" "${target_file}" || {
-			error_exit  "An error occurred, failed to create symbolic link: ${source_file} to ${target_file}"
-		}
+    command_eval ln -sf "${source_file}" "${target_file}" || {
+      error_exit "An error occurred, failed to create symbolic link: ${source_file} to ${target_file}"
+    }
 
-		# Владелец может читать, записывать и запускать на выполнение; никто другой не имеет права выполнять никакие действия
-		command_eval chmod -R 700 "${target_file}" || {
-			error_exit  "An error occurred, failed to apply chmod"
-		}
+    # Владелец может читать, записывать и запускать на выполнение; никто другой не имеет права выполнять никакие действия
+    command_eval chmod -R 700 "${target_file}" || {
+      error_exit "An error occurred, failed to apply chmod"
+    }
 
-		output "File '${source_file}' symlink to '${target_file}'" 'success'
-	fi
+    output "File '${source_file}' symlink to '${target_file}'" 'success'
+  fi
 
-	unset source_file
-	unset target_file
+  unset source_file
+  unset target_file
 done
 unset files
 
@@ -107,4 +107,16 @@ unset files
 #  error_exit "An error occurred, failed to apply chmod"
 #}
 
-#GNUPG_HOME="${HOME}/.gnupg"
+
+# https://shankarkulumani.com/2019/03/gpg.html
+# https://menduz.com/posts/2020.11.08
+
+# export GNUPGHOME=$(mktemp -d)
+# export GNUPGHOME="${HOME}/.gnupg"
+# echo $GNUPGHOME
+
+#mkdir -p "$GNUPGHOME"
+#curl -o "$GNUPGHOME/gpg.conf" https://raw.githubusercontent.com/drduh/config/master/gpg.conf
+#curl -o "$GNUPGHOME/gpg-agent.conf" https://raw.githubusercontent.com/drduh/config/master/gpg-agent.conf
+#chmod 600 "$GNUPGHOME/gpg.conf"
+#chmod 600 "$GNUPGHOME/gpg-agent.conf"

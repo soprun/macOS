@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+output "Importing GPG keys" "heading"
+
+username=$(ssh -T git@github.com 2>&1 | sed 's/^Hi //' | sed 's/\! .*//')
+
+#output $username
+
+
+curl --silent "https://github.com/${username}.gpg" | gpg --import

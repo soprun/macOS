@@ -4,5 +4,5 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-gpg --armor --export-ssh-key "$ID_GPG_KEY" | pbcopy
-output 'Export ssh key and copy the clipboard.' 'success'
+ssh git@github.com
+ssh git@gitlab.com
