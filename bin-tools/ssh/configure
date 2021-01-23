@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck source=./../../bin/shell-common
+source "${SHELL_HOME}/shell-common"
+
 # https://coolestguidesontheplanet.com/connecting-ssh-with-no-passwords-from-local-to-live-domain/
 # https://gist.github.com/Vadorequest/b2caf72df68bb05aee942cc660bb4846
 
@@ -17,7 +20,7 @@ if [ ! -d "$SSH_HOME" ]; then
   log_error "An error occurred, directory SSH_HOME does not exist!"
 fi
 
-echo $SSH_HOME
+echo "$SSH_HOME"
 
 # function configure_ssh() {
 # }

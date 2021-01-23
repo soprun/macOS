@@ -39,15 +39,15 @@ if (("${container_running_count:-0}" > 0)); then
   fi
 fi
 
-if docker container prune --force &>/dev/null; then
+if docker container prune --force &> /dev/null; then
   output "Remove all stopped containers 🚒" 'success'
 fi
 
-if docker network prune --force &>/dev/null; then
+if docker network prune --force &> /dev/null; then
   output "Remove all unused networks 🖥" 'success'
 fi
 
-if docker volume prune --force &>/dev/null; then
+if docker volume prune --force &> /dev/null; then
   output "Remove all unused local volumes ✅" 'success'
 fi
 

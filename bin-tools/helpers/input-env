@@ -1,19 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 
-# shellcheck source=./../common.sh
-source "${CWD}/../common.sh"
+# shellcheck source=./../../bin/shell-common
+source "${SHELL_HOME}/shell-common"
 
-declare name="$1"
-declare value=""
-declare default_value="$(printenv "$1")"
+name="$1"
+value=""
+default_value="$(printenv "$1")"
 
-log_debug "name: $name"
-log_debug "default: $default_value"
+output "name: $name" "debug"
+output "default: $default_value" "debug"
 
-read -p "$(printf "env: %s $COLOR_CYAN[%s]$COLOR_RESET: " "$name" "$default_value")" value
+printf "env: %s ${COLOR_CYAN}[%s]${COLOR_RESET}: " "$name" "$default_value"
+read -r value
 
 value="${value:-$default_value}"
 
-echo "${name}="${value}"" >"$HOME/.env.local"
+echo "${name}=\"${value}\"" > "$HOME/.env.local"
 
-log_info "value: $value"
+output "value: $value" "info"

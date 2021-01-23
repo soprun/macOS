@@ -25,7 +25,7 @@ fi
 
 PATH="$SHELL_HOME:$PATH"
 
-for dir in $SHELL_HOME/*; do
+for dir in "$SHELL_HOME"/*; do
   if [ -d "$dir" ]; then
     PATH="$dir:$PATH"
   fi
@@ -79,4 +79,5 @@ export BUILDX_NO_DEFAULT_LOAD=false
 #  . $(brew --prefix)/etc/bash_completion
 #fi
 
+# shellcheck disable=SC2016
 PROMPT='%{%f%b%k%}$(build_prompt)'

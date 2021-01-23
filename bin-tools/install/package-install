@@ -14,20 +14,21 @@ fi
 # Update homebrew recipes
 # brew update
 
-PACKAGES=(
-  git
-  docker
-  docker-compose
-  make
-  # gnupg
-  # pinentry-mac
-  openssl
-  mkcert
-  shellcheck
-  composer
-  dotenv-linter
-  hadolint
-)
+#declare -a PACKAGES
+
+#PACKAGES=(
+#  git
+#  docker
+#  docker-compose
+#  make
+#  # gnupg
+#  # pinentry-mac
+#  openssl
+#  mkcert
+#  composer
+#  dotenv-linter
+#  hadolint
+#)
 
 # echo "Installing packages..."
 # brew install "${PACKAGES[@]}"

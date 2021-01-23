@@ -93,11 +93,9 @@ DIR := $(shell cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
 
 
 SHELL_FILES := \
-	$(shell find $(PWD)/bin -type f -print) \
-	$(shell find $(PWD)/bin-tools -type f -print) \
-	$(shell find $(PWD)/functions -type f -print) \
+	$(PWD)/install \
 	$(shell find $(PWD)/profile -type f -print) \
-	$(shell find $(PWD)/profile -type f -print)
+	$(shell find $(PWD)/bin -type f -print)
 
 SHELL_FILES := $(shell file $(SHELL_FILES) | grep 'shell script\|zsh script' | cut -d: -f1 | sort -u  )
 
@@ -120,11 +118,11 @@ files: ## Project variables
 .PHONY: shfmt
 shfmt: ## A shell parser, formatter, and interpreter with bash support; https://github.com/mvdan/sh
 	for file in $(SHELL_FILES) ; do \
-  	shfmt -l -w $$file; \
+  	shfmt -l -w -s -i 2 -sr -ci -bn -kp $$file; \
 	done
 
 .PHONY: shellcheck
 shellcheck: ## ShellCheck finds bugs in your shell scripts: https://www.shellcheck.net
 	for file in $(SHELL_FILES) ; do \
-  	shellcheck --check-sourced --external-sources --source-path=$(PWD)/bin --exclude=$(shellcheck_exclude_code) $$file; \
+  	shellcheck --check-sourced --external-sources --source-path=$(PWD)/bin $$file; \
 	done

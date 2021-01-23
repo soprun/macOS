@@ -5,6 +5,6 @@ source "${SHELL_HOME}/shell-common"
 
 docker-down
 
-if docker system prune --all --volumes --force &>/dev/null; then
+if docker system prune --all --volumes --force &> /dev/null; then
   output "=> Docker system prune ✅" 'success'
 fi

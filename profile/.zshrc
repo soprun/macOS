@@ -119,7 +119,7 @@ plugins=(
   zsh-interactive-cd
 )
 
-# shellcheck source=./oh-my-zsh.sh
+# shellcheck source=/dev/null
 source "${ZSH}/oh-my-zsh.sh"
 
 # User configuration
@@ -159,14 +159,13 @@ ZSH_COMMAND_TIME_COLOR="cyan"
 
 autoload -Uz compinit && compinit
 # autoload -U compinit && compinit
-# autoload -U compinit && compinit
 
-# shellcheck source=./.iterm2_shell_integration.zsh
+# shellcheck source=/dev/null
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # include .bash_profile if it exists
 if [ -e "${HOME}/.bash_profile" ]; then
-  # shellcheck source=./../profile-bash/.bash_profile
+  # shellcheck source=./.bash_profile
   source "${HOME}/.bash_profile"
 fi
 
@@ -175,6 +174,7 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # source "${ZSH}/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh" &>/dev/null
 
+# shellcheck source=/dev/null
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # AGNOSTER_PROMPT_SEGMENTS=("prompt_git" "${AGNOSTER_PROMPT_SEGMENTS[@]}")
