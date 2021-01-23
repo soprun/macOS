@@ -27,7 +27,7 @@ on:
   pull_request:
     branches: [ master ]
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  # workflow_dispatch:
 
 ###############
 # Set the Job #
@@ -62,13 +62,3 @@ jobs:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FILTER_REGEX_INCLUDE: .*bin/.* .*profile/.* ./install
-
-      - name: Run the sh-checker
-        uses: luizm/action-sh-checker@v0.1.8
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional if sh_checker_comment is false.
-          SHELLCHECK_OPTS: # Optional: exclude some shellcheck warnings.
-          SHFMT_OPTS: -s # Optional: pass arguments to shfmt.
-#        with:
-#          sh_checker_comment: true
-#          sh_checker_exclude: ".terraform ^dir/example.sh"
