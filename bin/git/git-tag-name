@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
 # Gets tag from current branch
 # log_info $(git describe --tags --abbrev=0)
 
 # # gets tags across all branches, not just the current branch
-log_info $(git describe --tags `git rev-list --tags --max-count=1`)
+output "$(git describe --tags "$(git rev-list --tags --max-count=1)")" "info"

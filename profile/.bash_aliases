@@ -1,4 +1,7 @@
+#!/bin/bash
+
 # shellcheck shell=bash
+# shellcheck disable=SC2034
 
 # https://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
@@ -84,7 +87,6 @@ alias headerc='curl -I --compress'
 alias root='sudo -i'
 alias su='sudo -i'
 
-
 #25: Get system memory, cpu usage, and gpu memory info quickly
 ## pass options to free ##
 alias meminfo='free -m -l -t'
@@ -105,4 +107,3 @@ alias cpuinfo='lscpu'
 
 ## get GPU ram on desktop / laptop##
 alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
-

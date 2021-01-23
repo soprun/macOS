@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
-log_info $(git rev-parse HEAD)
+output "$(git rev-parse HEAD)" "info"

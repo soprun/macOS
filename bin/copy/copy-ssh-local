@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
 identity="${1:-$ID_EMAIL}"
-name="$(echo $identity | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q)"
+name="$(echo "${identity}" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q)"
 file="$HOME/.ssh/$name.pub"
 
 if [ ! -f "$file" ]; then
-  log_error "File '$identity' does not exists!"
+  error_exit "File '$identity' does not exists!"
 fi
 
 pbcopy <"$file"
 
-log_success 'Export ssh key and copy the clipboard.'
+output 'Export ssh key and copy the clipboard.' 'success'

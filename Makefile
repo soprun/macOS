@@ -1,60 +1,63 @@
+DIR := $(shell cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
+
+
 #PATH := $(shell env PATH)
 #PWD := $(shell pwd)
 #HOME := $(HOME)
-PATH_BIN := "$(HOME)/bin"
+#PATH_BIN := "$(HOME)/bin"
 
 # See release target
-DIST_DIR=dist
+#DIST_DIR=dist
 
-# Update channel. Can be release, beta or edge. Uses edge by default.
-CHANNEL ?= edge
+## Update channel. Can be release, beta or edge. Uses edge by default.
+#CHANNEL ?= edge
+#
+## Version properties
+#COMMIT=$(shell git rev-parse --short HEAD)
+#TAG_NAME=$(shell git describe --abbrev=0)
+#RELEASE_VERSION=$(TAG_NAME)
+#SNAPSHOT_VERSION=$(RELEASE_VERSION)-SNAPSHOT-$(COMMIT)
+#
+## Set proper version
+#VERSION=
+#ifeq ($(TAG_NAME),$(shell git describe --abbrev=4))
+#	ifeq ($(CHANNEL),edge)
+#		VERSION=$(SNAPSHOT_VERSION)
+#	else
+#		VERSION=$(RELEASE_VERSION)
+#	endif
+#else
+#	VERSION=$(SNAPSHOT_VERSION)
+#endif
 
-# Version properties
-COMMIT=$(shell git rev-parse --short HEAD)
-TAG_NAME=$(shell git describe --abbrev=0)
-RELEASE_VERSION=$(TAG_NAME)
-SNAPSHOT_VERSION=$(RELEASE_VERSION)-SNAPSHOT-$(COMMIT)
 
-# Set proper version
-VERSION=
-ifeq ($(TAG_NAME),$(shell git describe --abbrev=4))
-	ifeq ($(CHANNEL),edge)
-		VERSION=$(SNAPSHOT_VERSION)
-	else
-		VERSION=$(RELEASE_VERSION)
-	endif
-else
-	VERSION=$(SNAPSHOT_VERSION)
-endif
+#.PHONY: all build lint clean release
+#
+#all: init
+#
+#init:
+#	@echo 'init';
+#	@echo $(HOME_BIN)
+#	#echo $(PWD)
 
-
-.PHONY: all build lint clean release
-
-all: init
-
-init:
-	@echo 'init';
-	@echo $(HOME_BIN)
-	#echo $(PWD)
-
-git:
-	@echo $(COMMIT);
-	@echo $(TAG_NAME);
-	@echo $(RELEASE_VERSION);
-	@echo $(SNAPSHOT_VERSION);
-	@echo $(VERSION);
-
-build:
-	@echo 123;
-
-lint:
-	echo 456;
-
-clean:
-	echo 'clean';
-
-release:
-	echo 'release';
+#git:
+#	@echo $(COMMIT);
+#	@echo $(TAG_NAME);
+#	@echo $(RELEASE_VERSION);
+#	@echo $(SNAPSHOT_VERSION);
+#	@echo $(VERSION);
+#
+#build:
+#	@echo 123;
+#
+#lint:
+#	echo 456;
+#
+#clean:
+#	echo 'clean';
+#
+#release:
+#	echo 'release';
 
 #make-bin-other:
 #	rm -f "${HOME}/bin-other"
@@ -81,9 +84,47 @@ release:
 # 	docker push $(DOCKER_HUB_REPO):$(DOCKER_HUB_TAG)
 # 	[[ "${VERSION}" == "${VERSION_LATEST}" ]] && docker push $(DOCKER_HUB_REPO):latest || true
 
-log-stream:
-	log stream --process logger --level debug --style syslog
+#log-stream:
+#	log stream --process logger --level debug --style syslog
+
+#.PHONY: shellcheck
+#shellcheck: ## run shellcheck validation
+	#shellcheck  --check-sourced $(PWD)/bin/*
+
+
+SHELL_FILES := \
+	$(shell find $(PWD)/bin -type f -print) \
+	$(shell find $(PWD)/bin-tools -type f -print) \
+	$(shell find $(PWD)/functions -type f -print) \
+	$(shell find $(PWD)/profile -type f -print) \
+	$(shell find $(PWD)/profile -type f -print)
+
+SHELL_FILES := $(shell file $(SHELL_FILES) | grep 'shell script\|zsh script' | cut -d: -f1 | sort -u  )
+
+shellcheck_exclude_code := \
+	SC1091
+
+# Self-Documented Makefile see https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
+.DEFAULT_GOAL := help
+
+.PHONY: help
+help:
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z0-9_-]+:.*?##/ { printf "  \033[36m%-27s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
+.PHONY: files
+files: ## Project variables
+	@for file in $(SHELL_FILES) ; do \
+		echo $$file; \
+	done
+
+.PHONY: shfmt
+shfmt: ## A shell parser, formatter, and interpreter with bash support; https://github.com/mvdan/sh
+	for file in $(SHELL_FILES) ; do \
+  	shfmt -l -w $$file; \
+	done
 
 .PHONY: shellcheck
-shellcheck: ## run shellcheck validation
-	shellcheck  --check-sourced $(PWD)/bin/*
+shellcheck: ## ShellCheck finds bugs in your shell scripts: https://www.shellcheck.net
+	for file in $(SHELL_FILES) ; do \
+  	shellcheck --check-sourced --external-sources --source-path=$(PWD)/bin --exclude=$(shellcheck_exclude_code) $$file; \
+	done

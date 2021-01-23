@@ -3,7 +3,7 @@
 set -e
 
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
 if [ "$(git config --global --get user.name)" != "$GIT_NAME" ]; then
   error_exit "An error occurred, the user.name parameter does not match the identity."
@@ -21,7 +21,7 @@ fi
 # commit_message="Signing commit $(date +%Y-%m-%dT%H:%M:%S%z)"
 commit_message="Signing commit $(date +%d-%m-%Y)"
 commit_push=false
-commit_branch=$(git rev-parse --abbrev-ref HEAD)
+commit_branch=$(git rev-parse --abbrev-ref HEAD >/dev/null 2>/dev/null)
 
 # Getops does not support long option names
 while [[ $# -gt 0 ]]; do

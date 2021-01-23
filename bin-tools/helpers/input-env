@@ -14,6 +14,6 @@ read -p "$(printf "env: %s $COLOR_CYAN[%s]$COLOR_RESET: " "$name" "$default_valu
 
 value="${value:-$default_value}"
 
-echo "${name}="${value}"" > "$HOME/.env.local"
+echo "${name}="${value}"" >"$HOME/.env.local"
 
 log_info "value: $value"

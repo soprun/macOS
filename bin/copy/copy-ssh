@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
 gpg --armor --export-ssh-key "$ID_GPG_KEY" | pbcopy
 log_success 'Export ssh key and copy the clipboard.'

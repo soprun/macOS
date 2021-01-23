@@ -3,7 +3,7 @@
 # https://gist.github.com/rponte/fdc0724dd984088606b0
 
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
 USAGE='USAGE: git-release LEVEL [-p] [-h]'
 HELP="$USAGE
@@ -16,38 +16,38 @@ Flags:
 "
 
 if [[ "$#" -eq 0 ]] || [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
-    echo "$HELP"
-    exit 1
+  echo "$HELP"
+  exit 1
 fi
 
 LEVEL_CHOICE=$1
 
 if [[ "$2" ]]; then
-    if [[ "$2" == '-p' ]] || [[ "$2" == '--preview' ]]; then
-        PREVIEW=true
-    else
-        output "Invalid arguments: \"$*\""
-        output "$USAGE"
-        exit 1
-    fi
+  if [[ "$2" == '-p' ]] || [[ "$2" == '--preview' ]]; then
+    PREVIEW=true
+  else
+    output "Invalid arguments: \"$*\""
+    output "$USAGE"
+    exit 1
+  fi
 else
-    PREVIEW=false
+  PREVIEW=false
 fi
 
 output "=> Fetching tags... "
 
 if ! git fetch --tags >/dev/null 2>/dev/null; then
-    error_exit "An error occurred while fetching the last tag!"
+  error_exit "An error occurred while fetching the last tag!"
 fi
 
 # Get latest tag name
-last_tag="$(git describe --tags $(git rev-list --tags --max-count=1))"
+last_tag="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
 last_tag="${last_tag/v/}"
 
 output "$(printf "Current tag:$COLOR_BLUE v%s$COLOR_RESET" "$last_tag")"
 
 # Replace dot with space then split into array.
-last_tag_arr=(${last_tag//./ })
+last_tag_arr=("${last_tag//./ }")
 
 major=${last_tag_arr[0]}
 minor=${last_tag_arr[1]}
@@ -55,22 +55,22 @@ bug=${last_tag_arr[2]}
 
 case "$LEVEL_CHOICE" in
 "major")
-    ((major += 1))
-    minor=0
-    bug=0
-    ;;
+  ((major += 1))
+  minor=0
+  bug=0
+  ;;
 "m")
-    ((minor += 1))
-    bug=0
-    ;;
+  ((minor += 1))
+  bug=0
+  ;;
 "b")
-    ((bug += 1))
-    ;;
+  ((bug += 1))
+  ;;
 *)
-    output "Invalid arguments: \"$*\""
-    output "$USAGE"
-    exit 1
-    ;;
+  output "Invalid arguments: \"$*\""
+  output "$USAGE"
+  exit 1
+  ;;
 esac
 
 release_tag="v$major.$minor.$bug"
@@ -83,14 +83,14 @@ output "$(printf "Release tag:$COLOR_GREEN %s$COLOR_RESET ✅" "$release_tag")"
 # printf "Release email:\t%s\n" "$(git config --get user.email)"
 
 if [[ "$PREVIEW" == true ]]; then
-    output 'Skipping tag creation'
+  output 'Skipping tag creation'
 else
-    echo git tag --sign --annotate "$release_tag" --message "$release_tag"
-    output "Create annotated tag..."
+  echo git tag --sign --annotate "$release_tag" --message "$release_tag"
+  output "Create annotated tag..."
 
-    if ! git verify-tag "$release_tag" >/dev/null 2>/dev/null; then
-        output "An error occurred while verify tags"
-    fi
+  if ! git verify-tag "$release_tag" >/dev/null 2>/dev/null; then
+    output "An error occurred while verify tags"
+  fi
 fi
 
 #read -r -p "Push all tags: $tag_name? [y/N] " git_push

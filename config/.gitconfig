@@ -4,6 +4,6 @@
 [commit]
 	gpgsign = true
 [core]
-	excludesfile = /Users/soprun/.gitignore
+	excludesfile = ~/.gitignore
 [credential]
 	helper = osxkeychain

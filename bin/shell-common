@@ -2,6 +2,9 @@
 
 # shellcheck disable=SC2034
 
+# https://ru.wikipedia.org/wiki//dev/null
+# https://ru.wikipedia.org/wiki/Chmod
+
 #######################################################################
 # Shell very strict mode
 # http://redsymbol.net/articles/unofficial-bash-strict-mode/
@@ -16,6 +19,10 @@ set -e
 #export DEFAULT_PROJECT_PATH="$(pwd)"
 #IDE_BIN_HOME="${0%/*}"
 #exec "$IDE_BIN_HOME/../MacOS/phpstorm" inspect "$@"
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+
+SHELL_DIR
 
 #######################################################################
 # Load environment variables
@@ -49,19 +56,18 @@ readonly BG_PURPLE="\033[45m" # Purple
 readonly BG_CYAN="\033[46m"   # Cyan
 readonly BG_WHITE="\033[47m"  # White
 
-function if_boolean()
-{
+function if_boolean() {
   local var="${1:-}"
 
-  if [ "${var}" == true ] || [ "${var}" == 1 ]; then
+  if [ "${var}" == 1 ] || [ "${var}" == true ] || [ "${var}" == 1 ]; then
     echo true
-  else
-    echo false
+    return
   fi
+
+  echo false
 }
 
-function output
-{
+function output {
   local priority='user.info'
   local label
   local label_color="${COLOR_RESET}"
@@ -148,8 +154,7 @@ function output
   echo -e "${label_color}${label}${COLOR_RESET}${message_color}${message}${COLOR_RESET}"
 }
 
-error_exit()
-{
+function error_exit() {
   output "$1" "error" >&2
   exit 1
 }
@@ -166,6 +171,80 @@ error_exit()
 #
 #exit 1
 
+# Return: [info]: shell-common:source[179]
+function debug() {
+  local script_name
+  script_name="$(basename "${0}")"
+  script_name="${script_name%.*}"
+
+  local output
+  output="${BASH_SOURCE[1]##*/}:${FUNCNAME[1]}[${BASH_LINENO[0]}]"
+
+  logger -tag "${script_name}" -priority 'user.debug' "${output}"
+  output "${output}" 'info' >/dev/tty
+}
+
+function command_exists() {
+  command -v "$@" >/dev/null 2>&1
+}
+
+function command_eval() {
+  # "$@" >/dev/null 2>&1
+  # eval "$@" >/dev/null 2>&1
+  # output "$(eval "$@" >/dev/null)" 'info' 2>&1
+
+  output "command: \"$*\"" 'info'
+
+  local output
+  output=$(eval "$@" 2>&1)
+
+  #  local output
+  #  output="$(eval "$*" 2>&2 | tee)"
+  #
+  #    echo "output: $output"
+  #  echo "output: $output >/dev/null"
+  #  output "$(eval "$*" >/dev/null)" 'info' 2>&1
+  #  output "" 'info' 2>&1
+
+  # output "$output" 'warn'
+}
+
+# Usage Example
+#commland_exists docker || {
+#  log_error "Command 'docker' is not installed."
+#}
+
+# backup_file "${HOME}/.ssh/config" true
+function backup_file() {
+  local source_file ignore target_file
+
+  source_file="${1}"
+  ignore="$(if_boolean "${2}")"
+  target_file="${source_file}.backup-$(date +%Y-%m-%dT%H:%M:%S%z)"
+
+  if [ -L "${source_file}" ]; then
+    if [ "${ignore}" == true ]; then
+      output "FILE ${source_file} exists and is a symbolic link." "warn"
+      return
+    fi
+
+    error_exit "FILE ${source_file} exists and is a symbolic link."
+  fi
+
+  if [ ! -f "${source_file}" ]; then
+    if [ "${ignore}" == true ]; then
+      output "Ignore if it doesn't exist ${source_file}" "warn"
+      return
+    fi
+
+    error_exit "File ${source_file} is not exists." "warn"
+  fi
+
+  # copy files
+  cp "${source_file}" "${target_file}"
+  output "The backup file was created in ${target_file}." "success"
+}
+
 #######################################################################
 # Check environment variables
 #######################################################################
@@ -174,8 +253,8 @@ if [ -z "${SHELL_DEBUG}" ]; then
   error_exit "An error occurred, the value of the variable SHELL_DEBUG was not loaded!"
 fi
 
-if [ -z "${SHELL_BIN}" ]; then
-  error_exit "An error occurred, the value of the variable SHELL_BIN was not loaded!"
+if [ -z "${SHELL_HOME}" ]; then
+  error_exit "An error occurred, the value of the variable SHELL_HOME was not loaded!"
 fi
 
 if [ "$(if_boolean "${SHELL_DEBUG}")" = true ]; then
@@ -185,3 +264,6 @@ fi
 if [ "$(if_boolean "${SHELL_DEBUG}")" = true ]; then
   output 'The shell-common was installed successfully!' 'success'
 fi
+
+# shellcheck source=./shell-date
+source "${SOURCE_DIR}/shell-date"

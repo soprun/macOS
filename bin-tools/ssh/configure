@@ -10,11 +10,11 @@
 # SSH_HOME="${HOME}/.ssh"
 
 if test -z "$SSH_HOME"; then
-    log_error "An error occurred, the ssh_home environment variable is empty!"
+  log_error "An error occurred, the ssh_home environment variable is empty!"
 fi
 
 if [ ! -d "$SSH_HOME" ]; then
-    log_error "An error occurred, directory SSH_HOME does not exist!"
+  log_error "An error occurred, directory SSH_HOME does not exist!"
 fi
 
 echo $SSH_HOME

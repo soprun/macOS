@@ -1,9 +1,8 @@
 #!/bin/bash
 
-
 # Call bash with a reasonable default path.
 # PATH={/usr,}/{s,}bin bash
 
-for i in $PATH; do
-    echo $i is in the path;
-done
+#for i in $PATH; do
+#    echo $i is in the path;
+#done

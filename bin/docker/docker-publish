@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
 docker container list --filter "publish=80-443" --format "table {{.ID}}\t{{.Names}}"
-

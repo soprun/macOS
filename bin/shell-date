@@ -2,9 +2,6 @@
 
 set -e
 
-# shellcheck source=./shell-common
-source "${SHELL_BIN}/shell-common"
-
 # https://www.vankuik.nl/2019-04-23_ISO_date_on_macOS
 
 # fully ISO-8601 compliant date
@@ -27,13 +24,13 @@ source "${SHELL_BIN}/shell-common"
 # Чтобы напечатать текущую дату в формате ISO 8601 в macOS:
 # 2019-04-23T14:44:46
 function current_date() {
-    date +%Y-%m-%dT%H:%M:%S
+  date +%Y-%m-%dT%H:%M:%S
 }
 
 # Чтобы распечатать его с информацией о часовом поясе, добавьте% z.
 # 2019-04-23T14:44:42+0200
 function current_date_timezone() {
-    date +%Y-%m-%dT%H:%M:%S%z
+  date +%Y-%m-%dT%H:%M:%S%z
 }
 
 # Обратите внимание, что в последнем случае вам не хватает двоеточия в бите часового пояса.
@@ -41,11 +38,13 @@ function current_date_timezone() {
 # 2019-04-23T14:44:42+02:00
 
 function current_date_zone() {
-    zone=$(date +%z);
-    datetime=$(date +%Y-%m-%dT%H:%M:%S);
-    echo $datetime${zone:0:3}:${zone:3:2}
+  local zone datetime
+  zone=$(date +%z)
+  datetime=$(date +%Y-%m-%dT%H:%M:%S)
+
+  echo "${datetime}${zone:0:3}:${zone:3:2}"
 }
 
-current_date
-current_date_timezone
-current_date_zone
+#current_date
+#current_date_timezone
+#current_date_zone

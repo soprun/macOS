@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# shellcheck disable=SC1094
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
-log_info "$(git rev-parse --short HEAD)"
+output "$(git rev-parse --short HEAD)" "info"

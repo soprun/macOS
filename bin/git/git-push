@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
 # Pushes your local commits to the remote repository
 # GitHub does support GPG signed commits.
@@ -9,15 +9,15 @@ source "${SHELL_BIN}/shell-common"
 remote="${1:---all}"
 
 if [ ! "$remote" ]; then
-  log_error "Remote name empty!"
+  error_exit "Remote name empty!"
 fi
 
 question="git push$COLOR_PURPLE origin: $COLOR_RED$remote$COLOR_RESET? [y/N] "
 
-read -r -p "$(echo "$question")" git_push
+read -r -p "${question}" git_push
 
 if [[ "$git_push" =~ ^([yY][eE][sS]|[yY])$ ]]; then
   if ! git push origin "$remote" --follow-tags --verify >/dev/null 2>/dev/null; then
-    log_warn "An error occurred when pushing: $remote"
+    output "An error occurred when pushing: $remote" "warn"
   fi
 fi

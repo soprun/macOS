@@ -3,10 +3,9 @@
 # shellcheck disable=SC2207
 
 # shellcheck source=../shell-common
-source "${SHELL_BIN}/shell-common"
+source "${SHELL_HOME}/shell-common"
 
-function estimate()
-{
+function estimate() {
   local -a container_ids
   local -i container_count
 
