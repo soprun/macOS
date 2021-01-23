@@ -165,6 +165,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # include .bash_profile if it exists
 if [ -e "${HOME}/.bash_profile" ]; then
+	# shellcheck disable=SC1091
 	# shellcheck source=./.bash_profile
 	source "${HOME}/.bash_profile"
 fi

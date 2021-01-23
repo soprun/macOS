@@ -3,6 +3,7 @@
 # Handle Docker Images Like A Pro
 # https://medium.com/javascript-in-plain-english/delete-docker-images-like-a-pro-a8fece854ec8
 
+# shellcheck disable=SC1091
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
