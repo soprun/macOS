@@ -122,7 +122,15 @@ shfmt: ## A shell parser, formatter, and interpreter with bash support; https://
 	done
 
 .PHONY: shellcheck
-shellcheck: ## ShellCheck finds bugs in your shell scripts: https://www.shellcheck.net
+shellcheck: ## ShellCheck finds bugs in your shell scripts; https://www.shellcheck.net
 	for file in $(SHELL_FILES) ; do \
   	shellcheck --check-sourced --external-sources --source-path=$(PWD)/bin $$file; \
 	done
+
+# https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md
+.PHONY: super-linter
+super-linter: ## Run Super-Linter locally; https://github.com/github/super-linter
+	docker run --rm \
+ 	--env RUN_LOCAL=true \
+ 	--volume ./:/tmp/lint \
+ 	github/super-linter
