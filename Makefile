@@ -132,5 +132,7 @@ shellcheck: ## ShellCheck finds bugs in your shell scripts; https://www.shellche
 super-linter: ## Run Super-Linter locally; https://github.com/github/super-linter
 	docker run --rm \
  	--env RUN_LOCAL=true \
- 	--volume ./:/tmp/lint \
+ 	--env VALIDATE_ALL_CODEBASE=true \
+ 	--env FILTER_REGEX_INCLUDE=".*bin/.* .*profile/.* ./install" \
+ 	--volume $(PWD):/tmp/lint \
  	github/super-linter
