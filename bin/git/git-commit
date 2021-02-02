@@ -72,10 +72,10 @@ function git-push() {
 	fi
 }
 
-if [ "$commit_push" ]; then
-	git-push
-	exit 0
-fi
+#if [ "$commit_push" ]; then
+#	git-push
+#	exit 0
+#fi
 
 read_boolean "Push to the repository?" || {
   git-push
