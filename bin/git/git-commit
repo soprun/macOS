@@ -77,6 +77,6 @@ function git-push() {
 #	exit 0
 #fi
 
-read_boolean "Push to the repository?" || {
+read_boolean "Push to the repository?" true || {
   git-push
 }
