@@ -69,7 +69,7 @@ fi
 function git-push() {
 	if ! git push origin --follow-tags > /dev/null 2> /dev/null; then
 		output "An error occurred when pushing" "warn"
-	fi
+	fi 
 }
 
 if [ "$commit_push" ]; then
