@@ -11,7 +11,7 @@ url="https://gravatar.com/avatar/$hash?size=$size"
 
 echo "$url" | pbcopy
 
-log_info "size: $size"
-log_info "email: $email"
-log_info "hash: $hash"
-log_success "$url"
+output "size: $size" "info"
+output "email: $email" "info"
+output "hash: $hash" "info"
+output "$url" "success"

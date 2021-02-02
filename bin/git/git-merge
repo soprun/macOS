@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+output "Download objects and refs from remote repository" "info"
+git fetch origin
+
+output "Join two or more development histories together" "info"
+git merge --ff --no-signatures -S origin/develop

@@ -6,8 +6,8 @@ source "${SHELL_HOME}/shell-common"
 
 # Copy the current branch name to the clipboard.
 
-branch=$(git-branch-name)
+branch=$(git rev-parse --abbrev-ref HEAD)
 
-log_info "Current branch: $branch"
+output "Current branch: $branch" "info"
 
 echo "$branch" | tr -d '\n' | tr -d ' ' | pbcopy
