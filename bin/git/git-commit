@@ -22,7 +22,7 @@ fi
 # commit_message="Signing commit $(date +%Y-%m-%dT%H:%M:%S%z)"
 commit_message="Signing commit $(date +%d-%m-%Y)"
 commit_push=false
-commit_branch=$(git rev-parse --abbrev-ref HEAD) > /dev/null 2> /dev/null
+commit_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Getops does not support long option names
 while [[ $# -gt 0 ]]; do
@@ -69,7 +69,7 @@ fi
 function git-push() {
 	if ! git push origin --follow-tags > /dev/null 2> /dev/null; then
 		output "An error occurred when pushing" "warn"
-	fi 
+	fi
 }
 
 if [ "$commit_push" ]; then
