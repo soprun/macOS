@@ -56,17 +56,19 @@ output "$(printf "GPG key: $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")" "info"
 output "$(printf "Branch:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")" "info"
 output "$(printf "Commit:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")" "info"
 
-if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
-  output "An error occurred when record changes" 'error'
-else
-  output "Commit id: $(git rev-parse --short HEAD)" "success"
-  output "Commit sha: $(git rev-parse HEAD)" "success"
-  # output "https://github.com/soprun/docker-project/commit/$(git rev-parse HEAD)" "success"
-fi
-
-# Pushes your local commits to the remote repository
-read_boolean "Push to the repository?" true || {
-  if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
-    output "An error occurred when pushing" "warn"
+read_boolean "Commit changes?" true || {
+  if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
+    output "An error occurred when record changes" 'error'
+  else
+    output "Commit id: $(git rev-parse --short HEAD)" "success"
+    output "Commit sha: $(git rev-parse HEAD)" "success"
+    # output "https://github.com/soprun/docker-project/commit/$(git rev-parse HEAD)" "success"
   fi
+
+  # Pushes your local commits to the remote repository
+  read_boolean "Push to the repository?" true || {
+    if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
+      output "An error occurred when pushing" "warn"
+    fi
+  }
 }
