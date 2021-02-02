@@ -243,30 +243,6 @@ function backup_file() {
   output "The backup file was created in ${target_file}." "success"
 }
 
-function read_boolean() {
-  local title
-  local default
-  local input
-  local timeout=60
-
-  default="$(if_boolean "${2:-false}")"
-  title=$(echo -e "$COLOR_YELLOW${1}${COLOR_RESET} [default=${COLOR_GREEN}${default}${COLOR_RESET}] ")
-
-  read -rp "$title" -t "$timeout" input
-  input="${input:-$default}"
-
-  if [[ "${input}" =~ ^([yY][eE][sS]|[yY]|true)$ ]]; then
-    return 1
-  fi
-
-  return 0
-}
-
-# Example
-#read_boolean "your answer" || {
-#  echo "Ok!"
-#}
-
 #######################################################################
 # Check environment variables
 #######################################################################
@@ -289,6 +265,9 @@ fi
 
 # shellcheck source=./shell-date
 source "${SOURCE_DIR}/shell-date"
+
+# shellcheck source=./shell-read-boolean
+source "${SOURCE_DIR}/shell-read-boolean"
 
 # type -a realpath
 # realpath is a function
