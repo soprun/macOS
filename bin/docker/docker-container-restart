@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# Эта команда гарантирует, что все запущенные в данный момент контейнеры будут перезапущены, если не будут остановлены.
+docker update --restart unless-stopped $(docker container list --all --quiet)
