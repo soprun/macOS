@@ -842,6 +842,18 @@
 			<key>value</key>
 			<string>service php-fpm restart</string>
 		</dict>
+		<dict>
+			<key>title</key>
+			<string>ps -ef | grep deploy.sh</string>
+			<key>value</key>
+			<string>ps -ef | grep deploy.sh</string>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>./deploy.sh uat1 deploy develop</string>
+			<key>value</key>
+			<string>./deploy.sh uat1 deploy develop</string>
+		</dict>
 	</array>
 	<key>SoundForEsc</key>
 	<false/>
