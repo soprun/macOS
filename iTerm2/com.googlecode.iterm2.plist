@@ -856,6 +856,18 @@
 			<key>value</key>
 			<string>./deploy.sh uat1 deploy develop</string>
 		</dict>
+		<dict>
+			<key>title</key>
+			<string>nginx -t &amp;&amp; service nginx restart</string>
+			<key>value</key>
+			<string>nginx -t &amp;&amp; service nginx restart</string>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>vim /etc/nginx/conf.d/flbauat1.conf</string>
+			<key>value</key>
+			<string>vim /etc/nginx/conf.d/flbauat1.conf</string>
+		</dict>
 	</array>
 	<key>SoundForEsc</key>
 	<false/>

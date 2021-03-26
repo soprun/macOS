@@ -107,3 +107,6 @@ alias cpuinfo='lscpu'
 
 ## get GPU ram on desktop / laptop##
 alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
+
+# Docker alias and function
+# https://github.com/tcnksm/docker-alias/blob/master/zshrc
