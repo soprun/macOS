@@ -73,7 +73,8 @@ export PATH="${COMPOSER_HOME}/vendor/bin:$PATH"
 export DOCKER_BUILDKIT
 export DOCKER_CLI_EXPERIMENTAL
 export COMPOSE_DOCKER_CLI_BUILD
-export BUILDX_NO_DEFAULT_LOAD=false
+# export BUILDX_NO_DEFAULT_LOAD=false
+export BUILDKIT_PROGRESS
 
 #if [ -f $(brew --prefix)/etc/bash_completion ]; then
 #  . $(brew --prefix)/etc/bash_completion
@@ -83,8 +84,8 @@ export BUILDX_NO_DEFAULT_LOAD=false
 PROMPT='%{%f%b%k%}$(build_prompt)'
 
 # GPG Agent
-GPG_TTY="$(tty)"
-export GPG_TTY
-unset SSH_AGENT_PID
-SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-export SSH_AUTH_SOCK
+#GPG_TTY="$(tty)"
+#export GPG_TTY
+#unset SSH_AGENT_PID
+#SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+#export SSH_AUTH_SOCK
