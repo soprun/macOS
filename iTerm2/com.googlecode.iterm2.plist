@@ -10,6 +10,8 @@
 	<string>Arrangement 1</string>
 	<key>Default Bookmark Guid</key>
 	<string>8F9AC0B4-4488-4457-9EF1-6B40436AAF7C</string>
+	<key>Default Toolbelt Width</key>
+	<real>250</real>
 	<key>DimBackgroundWindows</key>
 	<false/>
 	<key>DisableFullscreenTransparency</key>
@@ -775,6 +777,8 @@
 	<false/>
 	<key>OpenNoWindowsAtStartup</key>
 	<false/>
+	<key>PMPrintingExpandedStateForPrint2</key>
+	<false/>
 	<key>PasteTabToStringTabStopSize</key>
 	<integer>4</integer>
 	<key>PointerActions</key>
@@ -810,6 +814,8 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
+	<key>Print In Black And White</key>
+	<true/>
 	<key>RequireAuthenticationAfterScreenLocks</key>
 	<true/>
 	<key>SavePasteHistory</key>
@@ -867,6 +873,24 @@
 			<string>vim /etc/nginx/conf.d/flbauat1.conf</string>
 			<key>value</key>
 			<string>vim /etc/nginx/conf.d/flbauat1.conf</string>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>docker scan --dependency-tree php:8.0-f…</string>
+			<key>value</key>
+			<string>docker scan --dependency-tree php:8.0-fpm</string>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>cat /etc/nginx/conf.d/*.conf | grep ser…</string>
+			<key>value</key>
+			<string>cat /etc/nginx/conf.d/*.conf | grep server_name</string>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>/usr/bin/php /Users/soprun/.composer/ve…</string>
+			<key>value</key>
+			<string>/usr/bin/php /Users/soprun/.composer/vendor/bin/phing</string>
 		</dict>
 	</array>
 	<key>SoundForEsc</key>

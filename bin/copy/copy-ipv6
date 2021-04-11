@@ -4,7 +4,7 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-ip_address=$(ip-external)
+ip_address=$(ip-external true)
 
 echo "$ip_address" | tr -d '\n ' | pbcopy
 

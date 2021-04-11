@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+ip_version=4
+
+if [ "$(if_boolean "${1:-false}")" = true ]; then
+  ip_version=6
+fi
+
+ip_info=$(
+  curl \
+    --ipv${ip_version} \
+    --connect-timeout 60 \
+    --max-time 120 \
+    --http2 \
+    --fail \
+    --silent \
+    --show-error \
+    --location \
+    --request GET https://ifconfig.co/json \
+    --header "Accept: application/json" \
+    2>/dev/null | tr -d '\n '
+)
+
+if test -z "$ip_info"; then
+  error_exit "An error occurred while receiving a response from an external server!"
+fi
+
+echo "$ip_info"

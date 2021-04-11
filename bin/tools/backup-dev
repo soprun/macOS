@@ -4,6 +4,3 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-echo $DEV_HOME
-
-

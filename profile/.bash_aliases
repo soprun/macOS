@@ -33,10 +33,11 @@ alias ls="command ls -G"
 
 # Edition hosts file
 alias hosts="code /etc/hosts"
+alias hosts_vim="sudo vim /etc/hosts"
 
 # IP addresses
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-#alias ip-local="ipconfig getifaddr en0"
+#alias ip=""
+alias ip-local="ipconfig getifaddr en0"
 
 # Show active network interfaces
 alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
@@ -67,7 +68,8 @@ alias fgrep='fgrep --color=auto'
 alias ping='ping -c 5'
 
 # Do not wait interval 1 second, go fast #
-alias fastping='ping -c 100 -s.2'
+# Example: ping_fast google.com
+alias ping_fast='ping -c 100 -s 20'
 
 # 12: Show open ports
 # https://www.cyberciti.biz/faq/how-do-i-find-out-what-ports-are-listeningopen-on-my-linuxfreebsd-server/

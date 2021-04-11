@@ -31,7 +31,7 @@ shfmt: ## A shell parser, formatter, and interpreter with bash support; https://
 
 .PHONY: shellcheck
 shellcheck: ## ShellCheck finds bugs in your shell scripts; https://www.shellcheck.net
-	for file in $(SHELL_FILES) ; do \
+	@for file in $(SHELL_FILES) ; do \
   	shellcheck --check-sourced --external-sources --source-path=$(PWD)/bin $$file; \
 	done
 

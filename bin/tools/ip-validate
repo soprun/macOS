@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# Test an IP address for validity:
+# Usage:
+#      valid_ip IP_ADDRESS
+#      if [[ $? -eq 0 ]]; then echo good; else echo bad; fi
+#   OR
+#      if valid_ip IP_ADDRESS; then echo good; else echo bad; fi
+#
+
+#function valid_ip() {
+#  local ip=$1
+#  local stat=1
+#
+#  if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+#    OIFS=$IFS
+#    IFS='.'
+#    ip=($ip)
+#    IFS=$OIFS
+#    [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 && \
+#    ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
+#    stat=$?
+#  fi
+#  return $stat
+#}
+#
+# valid_ip
+
+ip-validate() {
+  local ip="${1:-0.0.0.0}"
+  local if_error_occurs_exit="$(if_boolean "${2:-true}")"
+
+  if test -z "$ip"; then
+    error_exit "An error occurred, empty IP address!"
+  fi
+
+  if ! expr "$ip" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
+    if [ "${if_error_occurs_exit}" == true ]; then
+      error_exit "An error occurred, the IP address was not validated."
+    fi
+
+    output "An error occurred, the IP address was not validated." "warn"
+    return 1
+  fi
+
+  return 0
+}
+
+ip-validate "${@}"
