@@ -149,7 +149,7 @@ function output {
     unset title label_color
   fi
 
-  echo -e "${label_color}${label}${COLOR_RESET}${message_color}${message}${COLOR_RESET}"
+  echo -e "${label_color}${label}${COLOR_RESET}${message_color}${message}${COLOR_RESET}" >&2
 }
 
 function error_exit() {
@@ -283,3 +283,30 @@ realpath() {
   dir=$(cd "$dir" && /bin/pwd)
   echo "$dir$base"
 }
+
+# POSIX
+#
+# Create option variables dynamically. Try call:
+#
+#    sh -x example.sh --verbose --test --debug
+
+declare test=0
+declare verbose=0
+declare debug=0
+
+for i in "$@"; do
+  case "$i" in
+  --test | --verbose | --debug)
+    shift                # Remove option from command line
+    name=${i#--}         # Delete option prefix
+    declare -r "$name"=1 # set default value
+    ;;
+  --test=* | --verbose=* | --debug=*)
+    shift
+    name=${i#--}
+    value=${name#*=}            # value is whatever's after first word and =
+    name=${name%%=*}            # restrict name to first word only (even if there's another = in the value)
+    declare -r "$name"="$value" # make *new* variable
+    ;;
+  esac
+done

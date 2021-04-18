@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+declare -r image_id=$1
+
+if [ -z $image_id ]; then
+  error_exit "An error occurred, the '${COLOR_BLUE}$(basename $BASH_SOURCE) <image_id>${COLOR_RESET}' argument is required."
+fi
+
+output "Image ID: ${COLOR_BLUE}${image_id}\n"
+
+output "${COLOR_PURPLE}Labels:\n${COLOR_RESET}$(docker inspect --format='{{.RepoTags}}' $image_id)\n"

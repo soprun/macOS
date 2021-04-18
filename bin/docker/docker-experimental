@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# Sure the experimental flag is enabled:
+output "Docker experimental: $(docker version -f '{{.Server.Experimental}}')" "info"

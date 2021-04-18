@@ -231,3 +231,9 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # PS1="%{%f%b%k%}33$(build_prompt)12"
 # PS2="%_>33"
+
+function docker_context_prompt() {
+        PS1="context: $(docker version --format='{{.Client.Context}}')> "
+}
+
+PROMPT_COMMAND=docker_context_prompt

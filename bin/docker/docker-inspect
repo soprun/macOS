@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+declare -r container_id=$1
+
+if [ -z $container_id ]; then
+  error_exit "An error occurred, the '${COLOR_BLUE}$(basename $BASH_SOURCE) <container_id>${COLOR_RESET}' argument is required."
+fi
+
+output "Container ID: ${COLOR_BLUE}${container_id}"
+
+output "${COLOR_PURPLE}Healthcheck:\n${COLOR_RESET}$(docker inspect --format='{{.Config.Healthcheck}}' $container_id)\n"
+output "${COLOR_PURPLE}Labels:\n${COLOR_RESET}$(docker inspect --format='{{.Config.Labels}}' $container_id)\n"
+output "${COLOR_PURPLE}Labels:\n${COLOR_RESET}$(docker inspect --format='{{.Config.RepoTags}}' $container_id)\n"
