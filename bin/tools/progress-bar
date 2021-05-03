@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 #! /bin/bash
 # progress-bar2.sh
 # Author: Graham Ewart (with reformatting by ABS Guide author).
@@ -12,23 +11,24 @@ interval=1
 long_interval=10
 
 {
-     trap "exit" SIGUSR1
-     sleep $interval; sleep $interval
-     while true
-     do
-       echo -n '.'     # Use dots.
-       sleep $interval
-     done; } &         # Start a progress bar as a background process.
+  trap "exit" SIGUSR1
+  sleep $interval
+  sleep $interval
+  while true; do
+    echo -n '.' # Use dots.
+    sleep $interval
+  done
+} & # Start a progress bar as a background process.
 
 pid=$!
-trap "echo !; kill -USR1 $pid; wait $pid"  EXIT        # To handle ^C.
+trap "echo !; kill -USR1 $pid; wait $pid" EXIT # To handle ^C.
 
 echo -n 'Long-running process '
 sleep $long_interval
 echo ' Finished!'
 
 kill -USR1 $pid
-wait $pid              # Stop the progress bar.
+wait $pid # Stop the progress bar.
 trap EXIT
 
 exit $?

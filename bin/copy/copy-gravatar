@@ -4,14 +4,16 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-size="${2:-250}"
-email="${1:-${ID_EMAIL}}"
-hash="$(email-to-hash "$email")"
-url="https://gravatar.com/avatar/$hash?size=$size"
+copy-gravatar() {
+  local email="${1:-${ID_EMAIL}}"
+  local hash="$(echo -n "${email}" | openssl dgst -md5)"
+  local url="https://gravatar.com/avatar/${hash}?size=${2:-250}"
 
-echo "$url" | pbcopy
+  echo -n "${url}" | pbcopy
 
-output "size: $size" "info"
-output "email: $email" "info"
-output "hash: $hash" "info"
-output "$url" "success"
+  output "email:\t${email}"
+  output "hash:\t${hash}"
+  output "url:\t${url}"
+}
+
+copy-gravatar "$@"
