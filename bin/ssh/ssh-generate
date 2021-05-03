@@ -4,15 +4,18 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
+# Examples:
+# $ ssh-generate dev@soprun.com
+
 # Generating a new SSH key
 # https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
 identity="${1}"
 bits=4096
 type="rsa"
-hosts=""
+#hosts=
 passphrase="${2}"
-comment="${identity}"
+comment="$identity"
 
 if [ ! "$identity" ]; then
   read_boolean "Set the default ID_EMAIL: ${COLOR_BLUE}${ID_EMAIL}" true || {
@@ -20,70 +23,40 @@ if [ ! "$identity" ]; then
   }
 fi
 
-#printf "%s" "$@" | base64
-
-#echo "$(printf "%s" "@${identity}" | base64 )"
-
-#output "${identity}"
-#output "${identity}" | base64
-#output "${identity}" | openssl dgst -sha256
-
-#exit 0
-
-#output $identity
-#exit 0
-if [ ! "$identity" ]; then
-  error_exit "\nThe identity argument is required!\nExample execute: $(basename ${BASH_SOURCE}) ${COLOR_BLUE}working@mail.com"
+if [ ! "${identity}" ]; then
+  error_exit "The identity argument is required!\nExample execute: ${SOURCE_SCRIPT} ${COLOR_BLUE}working@mail.com"
 fi
 
-#key_hash="$(echo "${identity}" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q)"
-key_hash="$(echo "${identity}" | openssl dgst -sha256)"
+key_hash="$(echo "${identity}" | openssl dgst -md5)"
 key_public="${HOME}/.ssh/${key_hash}.pub"
 key_private="${HOME}/.ssh/${key_hash}"
 
-
-if [ -f "${key_public}" ]; then
-  error_exit "File ${key_public} exists!"
-fi
-
 output 'Generating a new SSH key'
-
-
-read_boolean "Set hosts?" true || {
-  read -rp "hosts:" hosts
-  input="${input:-$default}"
-}
 
 output "ID:\t\t${COLOR_GREEN}${identity}" "info"
 output "Hash:\t\t${COLOR_GREEN}${key_hash}" "info"
-output "Public key:\t${key_public}" "info"
-output "Private key:\t${key_private}" "info"
+output "Public key:\t${files[0]}" "info"
+output "Private key:\t${files[1]}" "info"
 output "Bits:\t\t${COLOR_BLUE}${bits:-${COLOR_RED}Not specified!}" "info"
 output "Type:\t\t${COLOR_BLUE}${type:-${COLOR_RED}Not specified!}" "info"
 output "Pass:\t\t${COLOR_BLUE}${passphrase:-${COLOR_RED}Not specified!}" "info"
 output "Comment:\t${COLOR_BLUE}${comment:-${COLOR_RED}Not specified!}" "info"
-output "Hosts:\t\t${COLOR_BLUE}${hosts:-${COLOR_RED}Not specified!}" "info"
 
-read_boolean "Generate new Key pair?" true || {
+read_boolean "Generate new key pair?" true || {
+#  rm -f "${key_private}"
+#  rm -f "${key_public}"
+
   # Generate Keypair - Enter and password
   ssh-keygen \
     -q \
     -b "${bits}" \
     -t "${type}" \
     -N "${passphrase}" \
-    -C "${comment}" \
-    -f "${file_path}" \
-    -F "${hosts}"
+    -C "${identity}" \
+    -f "${key_private}"
 
-  chmod 600 "${file_path}"
-  chmod 644 "${file_path}.pub"
+  chmod 600 "${key_private}"
+  chmod 644 "${key_public}"
+
   # ssh -vT git@github.com
-}
-
-# "Comment" Changes the comment for a keyfile.
-#comment=""
-
-# Specifies name of the file in which to store the created key.
-#file=""
-
 }

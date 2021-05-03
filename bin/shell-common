@@ -80,7 +80,7 @@ fi
 #exec "$IDE_BIN_HOME/../MacOS/phpstorm" inspect "$@"
 
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-#SOURCE="$(basename $0)"
+SOURCE_SCRIPT="$(basename $0)"
 
 #######################################################################
 # Load environment variables
