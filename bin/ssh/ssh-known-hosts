@@ -1,0 +1,3 @@
+#!/bin/bash
+
+# Remove all keys belonging to a hostname from a known_hosts file.

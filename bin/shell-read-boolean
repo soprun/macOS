@@ -7,12 +7,18 @@ function read_boolean() {
   local timeout=60
 
   default="$(if_boolean "${2:-false}")"
-  title=$(echo -e "$COLOR_YELLOW${1}${COLOR_RESET} [default=${COLOR_GREEN}${default}${COLOR_RESET}] ")
+  title=$(echo -e "${COLOR_YELLOW}${1}${COLOR_RESET} [default=${COLOR_GREEN}${default}${COLOR_RESET}] ")
 
   read -rp "$title" -t "$timeout" input
   input="${input:-$default}"
 
-  if [[ "${input}" =~ ^([yY][eE][sS]|[yY]|true)$ ]]; then
+  if [ $verbose = 1 ]; then
+    output "$(source_base): ${default}"
+    output "${SOURCE_BASE}: ${timeout}"
+    output "${SOURCE_BASE}: ${input}"
+  fi
+
+  if [[ "${input}" =~ ^([yY][eE][sS]|[yY]|true|1)$ ]]; then
     return 1
   fi
 

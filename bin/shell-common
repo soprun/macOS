@@ -12,7 +12,72 @@
 
 set -e
 
-#
+# $@ is all command line parameters passed to the script.
+# -o is for short options like -v
+# -l is for long options with double dash like --version
+# the comma separates different long options
+# -a is for long options with single dash like -version
+
+# set --:
+# If no arguments follow this option, then the positional parameters are unset. Otherwise, the positional parameters
+# are set to the arguments, even if some of them begin with a ‘-’.
+
+#verbose=0
+#debug=0
+
+#if [ -z $* ]; then
+#  echo "No options found!"
+#  exit 1
+#fi
+
+#options=$(getopt -l "help,version:,verbose,debug,dryrun" -o "hv:Vrd" -a -- "$@")
+#set -- "$options"
+#eval set -- "$options"
+
+#Options:
+# -v, --verbose      verbose operation
+# -n, --dry-run      not really, just print what would be done
+#     --help         print this help message
+#     --version      print program version
+
+progname=$(basename $0)
+version=@VERSION@
+
+SHORTOPTS="dmnv"
+LONGOPTS="daily,monthly,help,verbose,version"
+
+while getopts "v,verbose,debug" opt; do
+  case $opt in
+  -v | --verbose ) verbose=1 ;;
+  debug ) debug=1 ;;
+  \?) ;;
+  esac
+done
+
+if [ ! -z $debug ]; then
+  echo "Debug mode on!"
+  set +x
+
+  set -o functrace
+fi
+
+if [ ! -z $verbose ]; then
+  echo "Verbose mode on!"
+  set -xv # Set xtrace and verbose mode.
+fi
+
+if [ ! -z $dryrun ]; then
+  echo "Dryrun mode on!"
+fi
+
+echo "dryrun: $dryrun"
+echo "debug: $debug"
+echo "verbose: $verbose"
+echo "done."
+
+
+return
+
 # todo: Ask for the administrator password upfront
 #sudo -v
 
@@ -128,6 +193,20 @@ function output {
   script_name="${script_name%.*}"
 
   logger -tag "${script_name}" -priority "${priority}" "${message}"
+
+  if [ $verbose = 1 ]; then
+    echo -e "script_name: ${COLOR_GREEN}${script_name:-unknown}${COLOR_RESET}"
+    echo -e "script_name: ${COLOR_GREEN}${script_name:-unknown}${COLOR_RESET}"
+    echo -e "type: ${COLOR_GREEN}${type:-unknown}${COLOR_RESET}"
+    echo -e "priority: ${COLOR_GREEN}${priority:-unknown}${COLOR_RESET}"
+    echo -e "message: ${COLOR_GREEN}${message:-unknown}${COLOR_RESET}"
+    echo -e "label: ${COLOR_GREEN}${label:-unknown}${COLOR_RESET}"
+    echo -e "label_color: ${COLOR_GREEN}${label_color:-unknown}${COLOR_RESET}"
+    echo -e "enable_message: ${COLOR_GREEN}${enable_message:-unknown}${COLOR_RESET}"
+    echo -e "enable_message_color: ${COLOR_GREEN}${enable_message_color:-unknown}${COLOR_RESET}"
+    echo -e "enable_label_color: ${COLOR_GREEN}${enable_label_color:-unknown}${COLOR_RESET}"
+    echo -e "enable_label_uppercase: ${COLOR_GREEN}${enable_label_uppercase:-unknown}${COLOR_RESET}"
+  fi
 
   if [ "${enable_message}" == false ]; then
     return
@@ -283,30 +362,3 @@ realpath() {
   dir=$(cd "$dir" && /bin/pwd)
   echo "$dir$base"
 }
-
-# POSIX
-#
-# Create option variables dynamically. Try call:
-#
-#    sh -x example.sh --verbose --test --debug
-
-declare test=0
-declare verbose=0
-declare debug=0
-
-for i in "$@"; do
-  case "$i" in
-  --test | --verbose | --debug)
-    shift                # Remove option from command line
-    name=${i#--}         # Delete option prefix
-    declare -r "$name"=1 # set default value
-    ;;
-  --test=* | --verbose=* | --debug=*)
-    shift
-    name=${i#--}
-    value=${name#*=}            # value is whatever's after first word and =
-    name=${name%%=*}            # restrict name to first word only (even if there's another = in the value)
-    declare -r "$name"="$value" # make *new* variable
-    ;;
-  esac
-done

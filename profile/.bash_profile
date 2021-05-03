@@ -45,10 +45,10 @@ export SHELL_PROFILE_SOURCE
 
 ### Identity environment variables
 
-#export ID_NAME
-#export ID_USER
-#export ID_EMAIL
-#export ID_GPG_KEY
+export ID_NAME
+export ID_USER
+export ID_EMAIL
+export ID_GPG_KEY
 
 ### Git credentials
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shellcheck source=./../../bin/shell-common
+# shellcheck source=./../shell-common
 source "${SHELL_HOME}/shell-common"
 
 if tty -s; then
