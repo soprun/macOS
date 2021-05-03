@@ -12,15 +12,6 @@ fi
 
 output "String: ${string}" "info"
 
-#hash-generator "$@"Ò
-#echo -n "${value}" | openssl dgst -sha256
-#exit 0
-
-# For other algorithms you can replace -sha256 with -md4, -md5, -ripemd160, -sha, -sha1, -sha224, -sha384, -sha512 or -whirlpool.
-
-#For the sha256 hash in base64, use:
-#
-#echo -n foo | openssl dgst -binary -sha1 | openssl base64
-#Example
-#echo -n foo | openssl dgst -binary -sha1 | openssl base64
-#C+7Hteo/D9vJXQ3UfzxbwnXaijM=
+output "[md5]: ${COLOR_GREEN}$(echo -n "${string}" | openssl dgst -md5)" "success"
+output "[sha256]: ${COLOR_GREEN}$(echo -n "${string}" | openssl dgst -sha256)" "success"
+output "[sha256(binary) + base64]: ${COLOR_GREEN}$(echo -n "${string}" | openssl dgst -binary -sha256 | openssl base64)" "success"
