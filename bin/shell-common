@@ -10,73 +10,67 @@
 # http://redsymbol.net/articles/unofficial-bash-strict-mode/
 #######################################################################
 
-set -e
+# Allow commands to fail silently
+set +e
 
-# $@ is all command line parameters passed to the script.
-# -o is for short options like -v
-# -l is for long options with double dash like --version
-# the comma separates different long options
-# -a is for long options with single dash like -version
+# Allow access undefined variables
+set +u
 
-# set --:
-# If no arguments follow this option, then the positional parameters are unset. Otherwise, the positional parameters
-# are set to the arguments, even if some of them begin with a ‘-’.
+# Return the status of the last command in a pipe even if
+# an earlier command fails
+set +o pipefail
 
-#verbose=0
-#debug=0
+#set -euo pipefail
+shopt -s extdebug
 
-#if [ -z $* ]; then
-#  echo "No options found!"
-#  exit 1
-#fi
+# Define default values
+declare -i debug=0
+declare -i verbose=0
 
-#options=$(getopt -l "help,version:,verbose,debug,dryrun" -o "hv:Vrd" -a -- "$@")
-#set -- "$options"
-#eval set -- "$options"
-
-#Options:
-# -v, --verbose      verbose operation
-# -n, --dry-run      not really, just print what would be done
-#     --help         print this help message
-#     --version      print program version
-
-progname=$(basename $0)
-version=@VERSION@
-
-SHORTOPTS="dmnv"
-LONGOPTS="daily,monthly,help,verbose,version"
-
-while getopts "v,verbose,debug" opt; do
-  case $opt in
-  -v | --verbose ) verbose=1 ;;
-  debug ) debug=1 ;;
-  \?) ;;
+for i in "$@"; do
+  case "$i" in
+  -v | --verbose )
+    shift
+    declare -ir verbose=1
+    ;;
+  -vv )
+    shift
+    declare -ir verbose=2
+    ;;
+  -vvv )
+    shift
+    declare -ir verbose=3
+    ;;
+  -v=* | --verbose=* )
+    shift
+    name=${i#--}
+    declare -ir verbose=${name#*=}
+    ;;
+  --debug)
+    shift
+    declare -ir debug=1
+    ;;
   esac
 done
 
-if [ ! -z $debug ]; then
-  echo "Debug mode on!"
+if [ $debug -ne 0 ]; then
+  echo -e "\033[0;33m[warning] Debug mode on!\033[0m\n"
   set +x
-
+#  set -T
   set -o functrace
 fi
 
-if [ ! -z $verbose ]; then
-  echo "Verbose mode on!"
-  set -xv # Set xtrace and verbose mode.
+if [ $verbose -ne 0 ]; then
+  echo -e "\033[0;33m[warning] Verbose mode on!\033[0m\n"
+  # Set xtrace and verbose mode.
+  set -v
+
+  if [ $verbose -gt 1 ]; then
+    echo -e "\033[0;33m[warning] Verbose: print commands and their arguments as they are executed.\033[0m\n"
+    set -x
+  fi
 fi
 
-if [ ! -z $dryrun ]; then
-  echo "Dryrun mode on!"
-fi
-
-echo "dryrun: $dryrun"
-echo "debug: $debug"
-echo "verbose: $verbose"
-echo "done."
-
-
-return
 
 # todo: Ask for the administrator password upfront
 #sudo -v
@@ -86,6 +80,7 @@ return
 #exec "$IDE_BIN_HOME/../MacOS/phpstorm" inspect "$@"
 
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+#SOURCE="$(basename $0)"
 
 #######################################################################
 # Load environment variables
@@ -194,19 +189,19 @@ function output {
 
   logger -tag "${script_name}" -priority "${priority}" "${message}"
 
-  if [ $verbose = 1 ]; then
-    echo -e "script_name: ${COLOR_GREEN}${script_name:-unknown}${COLOR_RESET}"
-    echo -e "script_name: ${COLOR_GREEN}${script_name:-unknown}${COLOR_RESET}"
-    echo -e "type: ${COLOR_GREEN}${type:-unknown}${COLOR_RESET}"
-    echo -e "priority: ${COLOR_GREEN}${priority:-unknown}${COLOR_RESET}"
-    echo -e "message: ${COLOR_GREEN}${message:-unknown}${COLOR_RESET}"
-    echo -e "label: ${COLOR_GREEN}${label:-unknown}${COLOR_RESET}"
-    echo -e "label_color: ${COLOR_GREEN}${label_color:-unknown}${COLOR_RESET}"
-    echo -e "enable_message: ${COLOR_GREEN}${enable_message:-unknown}${COLOR_RESET}"
-    echo -e "enable_message_color: ${COLOR_GREEN}${enable_message_color:-unknown}${COLOR_RESET}"
-    echo -e "enable_label_color: ${COLOR_GREEN}${enable_label_color:-unknown}${COLOR_RESET}"
-    echo -e "enable_label_uppercase: ${COLOR_GREEN}${enable_label_uppercase:-unknown}${COLOR_RESET}"
-  fi
+  #  if [ $verbose = 1 ]; then
+  #    echo -e "script_name: ${COLOR_GREEN}${script_name:-unknown}${COLOR_RESET}"
+  #    echo -e "script_name: ${COLOR_GREEN}${script_name:-unknown}${COLOR_RESET}"
+  #    echo -e "type: ${COLOR_GREEN}${type:-unknown}${COLOR_RESET}"
+  #    echo -e "priority: ${COLOR_GREEN}${priority:-unknown}${COLOR_RESET}"
+  #    echo -e "message: ${COLOR_GREEN}${message:-unknown}${COLOR_RESET}"
+  #    echo -e "label: ${COLOR_GREEN}${label:-unknown}${COLOR_RESET}"
+  #    echo -e "label_color: $f{COLOR_GREEN}${label_color:-unknown}${COLOR_RESET}"
+  #    echo -e "enable_message: ${COLOR_GREEN}${enable_message:-unknown}${COLOR_RESET}"
+  #    echo -e "enable_message_color: ${COLOR_GREEN}${enable_message_color:-unknown}${COLOR_RESET}"
+  #    echo -e "enable_label_color: ${COLOR_GREEN}${enable_label_color:-unknown}${COLOR_RESET}"
+  #    echo -e "enable_label_uppercase: ${COLOR_GREEN}${enable_label_uppercase:-unknown}${COLOR_RESET}"
+  #  fi
 
   if [ "${enable_message}" == false ]; then
     return
@@ -228,7 +223,7 @@ function output {
     unset title label_color
   fi
 
-  echo -e "${label_color}${label}${COLOR_RESET}${message_color}${message}${COLOR_RESET}" >&2
+  echo -e "${label_color}${label}${COLOR_RESET}${message_color:-}${message}${COLOR_RESET}" >&2
 }
 
 function error_exit() {
