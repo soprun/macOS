@@ -76,6 +76,9 @@ export COMPOSE_DOCKER_CLI_BUILD
 # export BUILDX_NO_DEFAULT_LOAD=false
 export BUILDKIT_PROGRESS
 
+#export DOCKER_CONTENT_TRUST
+#export DOCKER_CONTENT_TRUST_SERVER
+
 #if [ -f $(brew --prefix)/etc/bash_completion ]; then
 #  . $(brew --prefix)/etc/bash_completion
 #fi

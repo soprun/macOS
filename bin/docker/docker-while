@@ -1,0 +1,5 @@
+#!/bin/sh
+
+docker run --name test -d busybox sh -c "while true; do $(echo date); sleep 1; done"
+
+docker logs --follow test
