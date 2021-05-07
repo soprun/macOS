@@ -23,6 +23,9 @@ set +o pipefail
 #set -euo pipefail
 shopt -s extdebug
 
+# Text reset attributes
+tput sgr0
+
 # Define default values
 declare -i debug=0
 declare -i verbose=0
@@ -88,9 +91,8 @@ SOURCE_SCRIPT="$(basename $0)"
 
 for file in ${HOME}/.{env,env.local}; do
   # shellcheck source=../.env
-  [ -r "$file" ] && [ -f "$file" ] && source "$file"
+  [ -r "$file" ] && [ -f "$file" ] && source "$file" && unset file
 done
-unset file
 
 readonly COLOR_RESET='\033[0m' # Text Reset
 
@@ -113,6 +115,19 @@ readonly BG_BLUE="\033[44m"   # Blue
 readonly BG_PURPLE="\033[45m" # Purple
 readonly BG_CYAN="\033[46m"   # Cyan
 readonly BG_WHITE="\033[47m"  # White
+
+#color_reset=$(tput sgr0)
+#color_black=$(tput setaf 0)
+#color_red=$(tput setaf 1)
+#color_green=$(tput setaf 2)
+#color_yellow=$(tput setaf 3)
+#color_blue=$(tput setaf 4)
+#color_magenta=$(tput setaf 5)
+#color_cyan=$(tput setaf 6)
+#color_white=$(tput setaf 7)
+#
+#text_bold=$(tput bold)
+#text_half=$(tput dim)
 
 function if_boolean() {
   local var="${1:-}"
