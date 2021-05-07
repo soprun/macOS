@@ -1,0 +1,102 @@
+#!/bin/bash
+
+#function output {
+#  local priority='user.info'
+#  local label
+#  local label_color="${COLOR_RESET}"
+#  local message="${1}"
+#  local message_color="${COLOR_RESET}"
+#  local type="${2:-}"
+#
+#  local enable_message enable_message_color
+#  enable_message="$(if_boolean "${SHELL_ENABLE_MESSAGE}")"
+#  enable_message_color="$(if_boolean "${SHELL_ENABLE_MESSAGE_COLOR}")"
+#
+#  local enable_label enable_label_color enable_label_uppercase
+#  enable_label="$(if_boolean "${SHELL_ENABLE_LABEL}")"
+#  enable_label_color="$(if_boolean "${SHELL_ENABLE_LABEL_COLOR}")"
+#  enable_label_uppercase="$(if_boolean "${SHELL_ENABLE_LABEL_UPPERCASE}")"
+#
+#  if [ "${type}" != "" ]; then
+#    case "${type}" in
+#    "debug")
+#      enable_label=false
+#      enable_message=false
+#      priority='user.debug'
+#      ;;
+#    "success")
+#      message_color="${COLOR_GREEN}"
+#      ;;
+#      # Собирает информацию, которая полезна, но не важна для устранения проблем.
+#    "info")
+#      message_color="${COLOR_BLUE}"
+#      priority='user.info'
+#      ;;
+#      # Собирает информацию, необходимую для устранения неполадок. Например, запишите информацию, которая может привести к сбою.
+#    "notice")
+#      message_color="${COLOR_BLUE}"
+#      priority='user.notice'
+#      ;;
+#      # Собирает информацию о сбоях и ошибках в вашем коде. Если объект действия существует, система собирает информацию для связанной цепочки процессов.
+#    "warn" | "warning")
+#      message_color="${COLOR_YELLOW}"
+#      priority='user.warn'
+#      ;;
+#      # Захватывает ошибки, замеченные во время выполнения вашего кода. Если объект действия существует, система собирает информацию для связанной цепочки процессов.
+#    "error")
+#      message_color="${COLOR_RED}"
+#      priority='user.error'
+#      ;;
+#    "heading")
+#      enable_label=false
+#      enable_message_color=true
+#      message_color="\033[1;39m"
+#      ;;
+#    esac
+#
+#    label="[${type}]: "
+#    label_color="${message_color}"
+#  fi
+#
+#  local script_name
+#  script_name="$(basename "${0}")"
+#  script_name="${script_name%.*}"
+#
+#  logger -tag "${script_name}" -priority "${priority}" "${message}"
+#
+#  #  if [ $verbose = 1 ]; then
+#  #    echo -e "script_name: ${COLOR_GREEN}${script_name:-unknown}${COLOR_RESET}"
+#  #    echo -e "script_name: ${COLOR_GREEN}${script_name:-unknown}${COLOR_RESET}"
+#  #    echo -e "type: ${COLOR_GREEN}${type:-unknown}${COLOR_RESET}"
+#  #    echo -e "priority: ${COLOR_GREEN}${priority:-unknown}${COLOR_RESET}"
+#  #    echo -e "message: ${COLOR_GREEN}${message:-unknown}${COLOR_RESET}"
+#  #    echo -e "label: ${COLOR_GREEN}${label:-unknown}${COLOR_RESET}"
+#  #    echo -e "label_color: $f{COLOR_GREEN}${label_color:-unknown}${COLOR_RESET}"
+#  #    echo -e "enable_message: ${COLOR_GREEN}${enable_message:-unknown}${COLOR_RESET}"
+#  #    echo -e "enable_message_color: ${COLOR_GREEN}${enable_message_color:-unknown}${COLOR_RESET}"
+#  #    echo -e "enable_label_color: ${COLOR_GREEN}${enable_label_color:-unknown}${COLOR_RESET}"
+#  #    echo -e "enable_label_uppercase: ${COLOR_GREEN}${enable_label_uppercase:-unknown}${COLOR_RESET}"
+#  #  fi
+#
+#  if [ "${enable_message}" == false ]; then
+#    return
+#  fi
+#
+#  if [ "${enable_message_color}" == false ]; then
+#    unset message_color
+#  fi
+#
+#  if [ "${enable_label_color}" == false ]; then
+#    unset label_color
+#  fi
+#
+#  if [ "${enable_label_uppercase}" == true ]; then
+#    label="$(printf '%s\n' "$label" | awk '{ print toupper($0) }')"
+#  fi
+#
+#  if [ "${enable_label}" == false ]; then
+#    unset title label_color
+#  fi
+#
+#  echo -e "${label_color}${label}${COLOR_RESET}${message_color:-}${message}${COLOR_RESET}" >&2
+#}

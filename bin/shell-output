@@ -2,7 +2,7 @@
 
 function output {
   local text="${1:-}"
-  # local text_color="${color_reset}"
+  local text_color="${color_reset}"
 
   local label="${2:-}"
   local label_color
@@ -26,9 +26,13 @@ function output {
     label_color="${text_half}${color_blue}"
     logger_priority='user.notice'
     ;;
-  "warning")
+  "warn" | "warning")
     label_color="${text_half}${color_yellow}"
     logger_priority='user.warn'
+    ;;
+  "heading" | "header" | "title")
+    label_color="${text_half}${color_yellow}"
+    logger_priority='user.info'
     ;;
   "error")
     label_color="${text_half}${color_red}"
@@ -54,13 +58,5 @@ function output {
   fi
 
   sleep .1
-  printf "${color_reset}%s${color_reset}%s${color_reset}\n" "${label}" "${text}" >&2
+  printf "${color_reset}%s${color_reset}${text_color}%s${color_reset}\n" "${label}" "${text}" >&2
 }
-
-function error_exit() {
-  output "$1" "error" >&2
-  exit 1
-}
-
-#output 'Debug message...' 'debug'
-#output "Success message..." "success"
