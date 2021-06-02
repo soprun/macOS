@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+command="${@}"
+
+php -dxdebug.mode=off $(which composer) \
+  --no-interaction \
+  --no-scripts \
+  --ansi \
+  install \
+  --ignore-platform-reqs \
+  --no-scripts
+
+# composer require --ignore-platform-reqs --no-scripts psr/log
+
+# composer update --ignore-platform-reqs --no-scripts litgroup/enumerable

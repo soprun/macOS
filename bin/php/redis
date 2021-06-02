@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# php -r "if (new Redis() == true){ echo \"\r\n OK \r\n\"; }"
+
+php -i | grep redis
+php -r "var_dump(extension_loaded('redis'));"
+
+
+## To verify the module is loaded on the CLI, run either:
+
+# php --info | grep <module> .
+# php --modules | grep <module>
+
+#brew info php

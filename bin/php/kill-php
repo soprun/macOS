@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ps -A | grep php-fpm | awk '{print $1}'
+
+pkill -9 "php-fpm"

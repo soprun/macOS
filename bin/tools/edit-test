@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+if [ ! -f "${1}" ]; then
+  echo "$1"
+fi
+
+output $1
+
+${EDITOR:-vim} "$0"

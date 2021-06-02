@@ -32,8 +32,8 @@ alias lsd="ls -lFG | grep --color=never '^d'"
 alias ls="command ls -G"
 
 # Edition hosts file
-alias hosts="code /etc/hosts"
-alias hosts_vim="sudo vim /etc/hosts"
+alias edit-hosts="sudo code --add /etc/hosts"
+alias edit-hosts-vim="sudo vim /etc/hosts"
 
 # IP addresses
 #alias ip=""
@@ -112,3 +112,6 @@ alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 
 # Docker alias and function
 # https://github.com/tcnksm/docker-alias/blob/master/zshrc
+
+alias php-ini='code --add "$(php -r "echo php_ini_loaded_file();")"'
+alias php-restart='brew services restart php'

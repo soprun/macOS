@@ -92,3 +92,8 @@ PROMPT='%{%f%b%k%}$(build_prompt)'
 #unset SSH_AGENT_PID
 #SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 #export SSH_AUTH_SOCK
+
+#export EDITOR='vim'
+#export EDITOR='phpstorm'
+export EDITOR='code'
+
