@@ -2,21 +2,23 @@
 
 function read_boolean() {
   local title
-  local default
   local input
   local timeout=60
+  local default_answer="$(if_boolean "${2:-false}")"
 
-  default="$(if_boolean "${2:-false}")"
-  title=$(echo -e "${COLOR_YELLOW}${1}${COLOR_RESET} [default=${COLOR_GREEN}${default}${COLOR_RESET}] ")
-
-  read -rp "$title" -t "$timeout" input
-  input="${input:-$default}"
-
-  if [ $verbose = 1 ]; then
-    output "$(source_base): ${default}"
-    output "${SOURCE_BASE}: ${timeout}"
-    output "${SOURCE_BASE}: ${input}"
+  if [ -z "${1:-}" ]; then
+    error_exit "Your question empty!" "error"
   fi
+
+  title=$(
+    printf \
+      "${text_bold}${color_yellow}%s️${text_reset}️[default=${color_green}%s${text_reset}]" \
+      "${1:-}" \
+      "${default_answer}"
+  )
+
+  read -rp "${title}" -t "${timeout}" input
+  input="${input:-${default_answer}}"
 
   if [[ "${input}" =~ ^([yY][eE][sS]|[yY]|true|1)$ ]]; then
     return 1
@@ -26,6 +28,6 @@ function read_boolean() {
 }
 
 # Example
-#read_boolean "your answer" || {
+#read_boolean "Your question" || {
 #  echo "Ok!"
 #}

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# shellcheck source=./../shell-common
+source "${SHELL_HOME}/shell-common"
+
+echo
+echo -e "$(tput bold) reg  bld  und   tput-command-colors$(tput sgr0)"
+
+for i in $(seq 0 $(tput colors)); do
+  echo " $(tput setaf $i)Text$(tput sgr0) $(tput bold)$(tput setaf $i)Text$(tput sgr0) $(tput sgr 0 1)$(tput setaf $i)Text$(tput sgr0)  echo \"\$(tput setaf $i)Hello, world\$(tput sgr0)\""
+done
+
+echo ' Bold            $(tput bold)'
+echo ' Underline       $(tput sgr 0 1)'
+echo ' Reset           $(tput sgr0)'
+echo

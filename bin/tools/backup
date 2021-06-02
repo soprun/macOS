@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# Current working directory
+DIR="${PWD}"
+BACKUP_DIR="${PWD}/.backup"
+
+output "Current working directory" "title"
+output "Current directory: ${text_bold}${color_blue}${DIR}" "info"
+output "Backup directory: ${text_bold}${color_blue}${BACKUP_DIR}" "info"
+
+read_boolean "Is this the current working directory?" true || {
+  echo "Ok!"
+
+  if [ -d $BACKUP_DIR ]; then
+    output "The directory does not exist" "warning"
+  fi
+
+  output $DIR
+  output $SOURCE_DIR
+  output $SOURCE_SCRIPT
+}

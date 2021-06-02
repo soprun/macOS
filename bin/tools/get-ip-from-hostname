@@ -28,7 +28,7 @@ function get_ip {
       dns_server="8.8.8.8"
     fi
 
-    if [ -z "query_type" ]; then
+    if [ -z $query_type ]; then
       # query A record for IPv4  by default, use AAAA for IPv6
       query_type="A"
     fi

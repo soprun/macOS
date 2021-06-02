@@ -26,6 +26,10 @@ shopt -s extdebug
 # Text reset attributes
 tput sgr0
 
+# Save screen
+# tput smcup # switch to secondary screen
+# tput rmcup # switch back to primary screen
+
 # Define default values
 declare -i debug=0
 declare -i verbose=0
@@ -66,11 +70,11 @@ fi
 if [ $verbose -ne 0 ]; then
   echo -e "\033[0;33m[warning] Verbose mode on!\033[0m\n"
   # Set xtrace and verbose mode.
-  set -v
+  # set -v
 
   if [ $verbose -gt 1 ]; then
     echo -e "\033[0;33m[warning] Verbose: print commands and their arguments as they are executed.\033[0m\n"
-    set -x
+    # set -x
   fi
 fi
 
@@ -115,18 +119,44 @@ readonly BG_PURPLE="\033[45m" # Purple
 readonly BG_CYAN="\033[46m"   # Cyan
 readonly BG_WHITE="\033[47m"  # White
 
-color_reset=$(tput sgr0)
-color_black=$(tput setaf 0)
-color_red=$(tput setaf 1)
-color_green=$(tput setaf 2)
-color_yellow=$(tput setaf 3)
-color_blue=$(tput setaf 4)
-color_magenta=$(tput setaf 5)
-color_cyan=$(tput setaf 6)
-color_white=$(tput setaf 7)
+## Reset text format to the terminal's default
+readonly text_reset=$(tput sgr0)
 
-text_bold=$(tput bold)
-text_half=$(tput dim)
+#COLUMNS=`tput cols`
+#export COLUMNS # Get screen width.
+#COLUMNS=$(tput cols)
+#LINES=$(tput lines)
+
+## Text mode commands
+# see: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+
+readonly text_bold=$(tput bold)      # Select bold mode
+readonly text_half=$(tput dim)       # Select dim (half-bright) mode
+readonly text_underline=$(tput smul) # Enable underline mode
+#tput rmul    # Disable underline mode
+#tput rev     # Turn on reverse video mode
+#tput smso    # Enter standout (bold) mode
+#tput rmso    # Exit standout mode
+
+## Set the foreground colour using ANSI escape
+readonly color_black=$(tput setaf 0)
+readonly color_red=$(tput setaf 1)
+readonly color_green=$(tput setaf 2)
+readonly color_yellow=$(tput setaf 3)
+readonly color_blue=$(tput setaf 4)
+readonly color_magenta=$(tput setaf 5)
+readonly color_cyan=$(tput setaf 6)
+readonly color_white=$(tput setaf 7)
+
+## Set the background colour using ANSI escape
+readonly bg_color_black=$(tput setab 0)
+readonly bg_color_red=$(tput setab 1)
+readonly bg_color_green=$(tput setab 2)
+readonly bg_color_yellow=$(tput setab 3)
+readonly bg_color_blue=$(tput setab 4)
+readonly bg_color_magenta=$(tput setab 5)
+readonly bg_color_cyan=$(tput setab 6)
+readonly bg_color_white=$(tput setab 7)
 
 function if_boolean() {
   local var="${1:-}"
@@ -139,34 +169,41 @@ function if_boolean() {
   echo false
 }
 
+function line_break() {
+  local -r text=${1:-}
+  printf "\r%s%s${text_reset}\n" "${text}" "$(printf "%*s" "$(($(tput cols) - ${#text}))" '' | tr ' ' -)"
+}
+
 function output {
   local text="${1:-}"
-  local text_color="${color_reset}"
+  local text_color="${text_reset}"
 
   local label="${2:-}"
   local label_color
+  local label_line
 
   local logger_priority="user.info"
 
   case "${label}" in
   "debug")
-    label_color="${text_half}$(tput setaf 8)"
+    label_color="$(tput setaf 8)"
+    text_color="$(tput setaf 7)"
     logger_priority='user.debug'
     ;;
   "success")
-    label_color="${text_half}${color_green}"
+    label_color="${color_green}"
     logger_priority='user.success'
     ;;
   "info")
-    label_color="${text_half}${color_blue}"
+    label_color="${color_blue}"
     logger_priority='user.info'
     ;;
   "notice" | "alert")
-    label_color="${text_half}${color_blue}"
+    label_color="${color_blue}"
     logger_priority='user.notice'
     ;;
   "warn" | "warning")
-    label_color="${text_half}${color_yellow}"
+    label_color="${color_yellow}"
     logger_priority='user.warn'
     ;;
   "heading" | "header" | "title")
@@ -174,8 +211,13 @@ function output {
     unset label
     ;;
   "error")
-    label_color="${text_half}${color_red}"
+    label_color="${color_red}"
     logger_priority='user.error'
+    ;;
+  "line")
+    label_line=true
+    label_color="$(tput setaf 250)"
+    text_color="${color_blue}"
     ;;
   *)
     unset label
@@ -189,16 +231,34 @@ function output {
   logger -tag "${script_name}" -logger_priority "${logger_priority}" "${text}"
 
   if [ "${label}" == "debug" ]; then
-    return
+    if [ "${debug}" -eq 0 ]; then
+      return
+    fi
   fi
+
+  sleep .1
 
   if [ -n "${label}" ]; then
     label="${label_color}[${label}]: "
   fi
 
-  sleep .1
-  printf "${color_reset}%s${color_reset}${text_color}%s${color_reset}\n" "${label}" "${text}" >&2
+  if [ -n "${label_line}" ]; then
+    printf "\n%s\n\n" "$(line_break "${label_color}--- [ ${text_color}${text}${text_reset}${label_color} ] ")"
+    return
+  fi
+
+  printf "${text_reset}%s${text_reset}${text_color}%s${text_reset}\n" "${label}" "${text}" >&2
+
+  # The separator is a line break at the end.
+  if [ "$(if_boolean "${3:-false}")" = true ]; then
+    printf "${text_color}%s${text_reset}\n" "$(line_break)"
+  fi
 }
+
+# debug
+# warning
+# error
+# info
 
 function error_exit() {
   output "$1" "error" >&2
@@ -208,7 +268,13 @@ function error_exit() {
 # Examples:
 #output 'Plan text..'
 #output "Heading text.." "heading"
-#
+
+# Prints the horizontal line separator;
+#output "Plan text.." "text" true
+#output "Plan text" "debug"
+#output "Plan text" "text"
+#output "Plan text" "info" true
+#output "Plan text" "line"
 #output 'Debug message...' 'debug'
 #output "Success message..." "success"
 #output "Info message..." "info"

@@ -29,12 +29,6 @@ shfmt: ## A shell parser, formatter, and interpreter with bash support; https://
   	shfmt $$file; \
 	done
 
-.PHONY: shellcheck
-shellcheck: ## ShellCheck finds bugs in your shell scripts; https://www.shellcheck.net
-	@for file in $(SHELL_FILES) ; do \
-  	shellcheck --check-sourced --external-sources --source-path=$(PWD)/bin $$file; \
-	done
-
 # https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md
 .PHONY: super-linter
 super-linter: ## Run Super-Linter locally; https://github.com/github/super-linter
@@ -44,3 +38,9 @@ super-linter: ## Run Super-Linter locally; https://github.com/github/super-linte
  	--env FILTER_REGEX_EXCLUDE=".*bin-tools/.* .*functions/.* .*iTerm2/.* .*phpstorm/.* " \
  	--volume $(PWD):/tmp/lint \
  	github/super-linter
+
+.PHONY: shellcheck
+shellcheck: ## ShellCheck finds bugs in your shell scripts: https://www.shellcheck.net
+	@for file in $(shell file $(shell find $(PWD)/bin -type f -print) | grep 'shell script' | cut -d: -f1 | sort -u ) ; do \
+		shellcheck --check-sourced --external-sources $$file; \
+	done

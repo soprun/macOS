@@ -28,8 +28,8 @@ ip_address=$(
     2>/dev/null | tr -d '\n '
 )
 
-if test -z "$ip_address"; then
+if test -z "${ip_address}"; then
   error_exit "An error occurred while receiving a response from an external server!"
 fi
 
-printf "%s" $ip_address
+printf "%s" "${ip_address}"
