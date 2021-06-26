@@ -1,11 +1,13 @@
 #!/bin/bash
 
+# Examples:
+# $ check-connection localhost 8000 true 10
+
+USAGE='check-connection {string:host} {int:port} {boolean:is_exit} {int:attempts:-20}'
+
 # shellcheck disable=SC1091
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
-
-# Examples:
-# $ check-connection localhost 8000 true 10
 
 check-connection() {
   local host="${1:-}"
@@ -35,7 +37,7 @@ check-connection() {
   done
 
   if [ "${i}" -eq "${attempts}" ]; then
-    output "== Connection refused:\033[0m $({ nc -z "${host}" "${port}" | sed s/Output/Useless/ >outfile; } 2>&1)" "error"
+    output "== Connection refused:\033[0m $({ nc -z "${host}" "${port}"; } 2>&1)" "error"
 
     if [ "$(if_boolean "${is_exit}")" = true ]; then
       exit 1

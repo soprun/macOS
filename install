@@ -120,3 +120,11 @@ unset files
 #curl -o "$GNUPGHOME/gpg-agent.conf" https://raw.githubusercontent.com/drduh/config/master/gpg-agent.conf
 #chmod 600 "$GNUPGHOME/gpg.conf"
 #chmod 600 "$GNUPGHOME/gpg-agent.conf"
+
+
+#base=https://github.com/docker/machine/releases/download/v0.16.0 \
+#  && curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/usr/local/bin/docker-machine \
+#  && chmod +x /usr/local/bin/docker-machine
+
+# 1. Copy ./bin/* to >>> /usr/local/bin/
+# 2. set: chmod +x /usr/local/bin/...

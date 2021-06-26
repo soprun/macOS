@@ -33,6 +33,8 @@ tput sgr0
 # Define default values
 declare -i debug=0
 declare -i verbose=0
+declare -i help=0
+declare USAGE
 
 for i in "$@"; do
   case "$i" in
@@ -56,6 +58,10 @@ for i in "$@"; do
   --debug)
     shift
     declare -ir debug=1
+    ;;
+  --help)
+    shift
+    declare -ir help=1
     ;;
   esac
 done
@@ -174,6 +180,7 @@ function line_break() {
   printf "\r%s%s${text_reset}\n" "${text}" "$(printf "%*s" "$(($(tput cols) - ${#text}))" '' | tr ' ' -)"
 }
 
+# USAGE:
 function output {
   local text="${1:-}"
   local text_color="${text_reset}"
@@ -398,3 +405,16 @@ realpath() {
   dir=$(cd "$dir" && /bin/pwd)
   echo "$dir$base"
 }
+
+#######################################################################
+# Launch scripts...
+#######################################################################
+
+if [ $help -ne 0 ]; then
+  if [ -z "${USAGE}" ]; then
+    output "The global variable ${color_green}USAGE${text_reset} is empty!" "error"
+  else
+    output "${color_green}USAGE:${text_reset} ${USAGE}"
+  fi
+  exit 0
+fi

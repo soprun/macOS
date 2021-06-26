@@ -22,5 +22,12 @@ done
 
 declare -i length=${1:-32}
 
-output "encoding: ${encoding}; length: ${length};" "info"
-output "$(openssl rand "${encoding}" "${length}")" "success"
+output="$(exec openssl rand "${encoding}" "${length}")"
+
+echo -n "${output}" | pbcopy
+echo -n "${output}"
+
+#output "encoding: ${encoding}; length: ${length};" "info"
+#output "${output}" "success"
+
+
