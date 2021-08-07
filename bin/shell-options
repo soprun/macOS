@@ -1,0 +1,107 @@
+#!/bin/bash
+
+# Standard check for command-line arg.
+#if [ $# -lt 1 ]; then
+#  error_exit "No options found!"
+#fi
+
+usage() {
+  {
+    cat <<EOF
+Usage: ${color_magenta}$(basename $0)${text_reset} options
+This script can download 64 or 65 version centos.
+OPTIONS:
+	-h	Show the help and exit
+	-v	Download type, can be '6.4' or '6.5'
+	-s	Harddisk size
+	-e	Verbose
+EOF
+  } >&2
+}
+
+while getopts ":-:habcde:" OPTION; do
+  output "OPTARG: ${OPTARG[*]}" "debug"
+  output "OPTIND: ${OPTIND[*]}" "debug"
+  output "OPTION: ${OPTION}" "debug"
+  output "OPTARG: ${OPTARG}" "debug"
+
+  case $OPTION in
+  -)
+    # support long options: https://stackoverflow.com/a/28466267/519360
+    if [ "$OPTION" = "-" ]; then # long option: reformulate OPT and OPTARG
+      OPTION="${OPTARG%%=*}"     # extract long option name
+      OPTARG="${OPTARG#$OPTION}" # extract long C argument (may be empty)
+      OPTARG="${OPTARG#=}"       # if long option argument, remove assigning `=`
+    fi
+
+    [ $OPTIND -ge 1 ] && optind=$(expr $OPTIND - 1) || optind=$OPTIND
+
+    eval OPTION="\$$optind"
+
+    OPTARG=$(echo $OPTION | cut -d'=' -f2)
+    OPTION=$(echo $OPTION | cut -d'=' -f1)
+
+    case $OPTION in
+    --foo)
+      output "foo" "success"
+      ;;
+    --bar)
+      output "bar" "success"
+      ;;
+    --foobar)
+      output "foobar" "success"
+      ;;
+    --barfoo)
+      output "barfoo" "success"
+      ;;
+    --help)
+      usage && exit 0
+      ;;
+    --arguments)
+      output "arguments" "success"
+      ;;
+    *)
+      output "Unknown option ${OPTARG}" "error" >&2
+      usage && exit 0
+      ;;
+    esac
+    OPTIND=1
+    shift
+    ;;
+  h)
+    usage && exit 0
+    ;;
+  a)
+    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
+    ;;
+  b)
+    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
+    ;;
+  c)
+    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
+    ;;
+  d)
+    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
+    ;;
+  e)
+    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
+    ;;
+  ??*)
+    # bad long option
+    error_exit "Option -${OPTARG} requires an argument." >&2
+    ;;
+  ?)
+    # bad short option (error reported via getopts)
+    error_exit "Unknown option ${OPTARG}" >&2
+    ;;
+  *)
+    # Done with options
+    break
+    ;;
+  esac
+done
+
+# Move argument pointer to next.
+shift $((OPTIND - 1))
+
+exit $?

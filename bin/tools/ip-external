@@ -4,250 +4,24 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-# shellcheck source=./output
-# source "${SOURCE_DIR}/tools/output"
+# USAGE:
+# ip-external [default=false] - ipv4
+# ip-external true - ipv6
 
-#function error_exit() {
-#  output "$*" "error" >&2
-#  exit 1
-#}
-#
-#function die() {
-#  echo "${color_red}$*" >&2
-#  exit 2
-#}
+ip_version=4
 
-#if [ $# -lt 1 ]; then
-#  error_exit "No options found!"
-#fi
+if [ "$(if_boolean "${1:-false}")" = true ]; then
+  ip_version=6
+fi
 
-#function usage() {
-#  echo "Usage: $(basename $0) options (-ab) (-c value) (-d) (-e) -h for help" >&2
-# echo "usage: $0 [-v] [--loglevel[=]<value>]" >&2
-#exit $E_OPTERROR
-# output "Usage: $(basename $0) options (-ab) (-c value) (-d) (-e) -h for help" "error" >&2
-# exit $E_OPTERROR
-#}
+error_exit "${ip_version}"
 
-usage_func() {
-  {
-    cat <<EOF
-Usage: ${color_magenta}$(basename $0)${text_reset} options
-This script can download 64 or 65 version centos.
-OPTIONS:
-	-h	Show the help and exit
-	-v	Download type, can be '6.4' or '6.5'
-	-s	Harddisk size
-	-e	Verbose
-EOF
-  } >&2
-}
-
-# Standard check for command-line arg.
-#if [ -z "$1" ]; then
-#  usage >&2
-#  exit $E_BADARGS
-#fi
-
-#output "$(echo -n "$*" | tr '[:lower:]' '[:upper:]')"
-#exit 0
-
-#set -f
-
-# set default value
-#declare -r OPTIONS="habcip:-:-"
-#declare -r OPTIONS=
-#declare OPTION
-
-#OPTIONS="$@"
-#OPTNUM=$#
-
-#if (! getopts "${OPTIONS}" OPTION); then
-#  usage_func
-#  exit "$E_OPTERROR"
-#fi
-
-#getopts "${OPTIONS}" OPTION
-
-needs_arg() {
-  if [ -z "$OPTARG" ]; then
-    die "No arg for --$OPTION option"
-  fi
-}
-
-# optspec=":vhl:t:-:"
-
-while getopts ":-:habcde:" OPTION; do
-  output "OPTARG: ${OPTARG[*]}" "debug"
-  output "OPTIND: ${OPTIND[*]}" "debug"
-  output "OPTION: ${OPTION}" "debug"
-  output "OPTARG: ${OPTARG}" "debug"
-
-  case $OPTION in
-  -)
-    # support long options: https://stackoverflow.com/a/28466267/519360
-    if [ "$OPTION" = "-" ]; then # long option: reformulate OPT and OPTARG
-      OPTION="${OPTARG%%=*}"     # extract long option name
-      OPTARG="${OPTARG#$OPTION}" # extract long option argument (may be empty)
-      OPTARG="${OPTARG#=}"       # if long option argument, remove assigning `=`
-    fi
-
-    [ $OPTIND -ge 1 ] && optind=$(expr $OPTIND - 1) || optind=$OPTIND
-
-    eval OPTION="\$$optind"
-
-    OPTARG=$(echo $OPTION | cut -d'=' -f2)
-    OPTION=$(echo $OPTION | cut -d'=' -f1)
-
-    case $OPTION in
-    --foo)
-      output "foo" "success"
-      ;;
-    --bar)
-      output "bar" "success"
-      ;;
-    --foobar)
-      output "foobar" "success"
-      ;;
-    --barfoo)
-      output "barfoo" "success"
-      ;;
-    --help)
-      usage_func && exit 0
-      ;;
-    --arguments)
-      output "arguments" "success"
-      ;;
-    *)
-      output "Unknown option ${OPTARG}" "error"
-      usage_func
-      exit 0
-      ;;
-    esac
-    OPTIND=1
-    shift
-    ;;
-  h)
-    usage_func && exit 0
-    ;;
-  a)
-    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
-    ;;
-  b)
-    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
-    ;;
-  c)
-    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
-    ;;
-  d)
-    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
-    ;;
-  e)
-    output "option ${OPTION}, optind=${OPTIND}, optarg=${OPTARG}"
-    ;;
-  ??*)
-    # bad long option
-    error_exit "Option -${OPTARG} requires an argument." >&2
-    ;;
-  ?)
-    # bad short option (error reported via getopts)
-    error_exit "Unknown option ${OPTARG}" >&2
-    ;;
-  *)
-    # Done with options
-    break
-    ;;
-  esac
-done
-
-# Move argument pointer to next.
-shift $(($OPTIND - 1))
-
-output "Ok" "success"
-exit $?
-
-#exit 0
-
-#while getopts "xq:hlcp:q" opt; do
-#  case $opt in
-#  h | *)
-#    usage >&2
-#    exit 2
-#    ;;
-#  l)
-#    last=1
-#    current=""
-#    ;;
-#  c)
-#    current=1
-#    last=""
-#    ;;
-#  p)
-#    prints=1
-#    exports=""
-#    ;;
-#  q)
-#    echo "option q"
-#
-#    q="${OPTARG}"
-#    #    if [[ "$OPTARG"=="-*" ]]; then
-#    #      ((OPTIND--))
-#    #      q="DEFAULT"
-#    #    fi
-#
-#    echo "(c) argument: '${q}'"
-#    ;;
-#  x)
-#    exports=1
-#    prints=""
-#    ;;
-#  ?)
-#    usage && exit "${E_OPTERROR}"
-#    ;;
-#  esac
-#done
-#
-#while [[ $prints ]]; do
-#  if [[ $last ]]; then
-#    echo -e "nLast available version in repository is: "$LAST"n"
-#  fi
-#
-#  if [[ $current ]]; then
-#    echo -e "nCurrent available version in repository is: "$CURR"n"
-#  fi
-#  break
-#done
-
-#while getopts "a:b" opt; do
-#  case $opt in
-#  a)
-#    echo "Found option $opt"
-#    echo "Found argument for ption $opt - $OPTARG"
-#    ;;
-#  b)
-#    echo "Found option $opt"
-#    echo "Found argument for ption $opt - $OPTARG"
-#    ;;
-#  *)
-#    echo "No reasonable options found!"
-#    ;;
-#  esac
-#done
-
-#ip_version=4
-#
-#if [ "$(if_boolean "${1:-false}")" = true ]; then
-#  ip_version=6
-#fi
-#
 #select os in "linux" "windows" "mac"; do
 #  echo "${os}"
 #  break
 #done
 
-#echo "IP: $ip"
-
-#eval "output: $(output "213" "info")"
+output "IP version: ${ip_version}" "debug"
 
 # https://icanhazip.com
 # https://ifconfig.co/ip
@@ -272,3 +46,5 @@ if test -z "${ip_address}"; then
 fi
 
 printf "%s" "${ip_address}"
+
+exit $?
