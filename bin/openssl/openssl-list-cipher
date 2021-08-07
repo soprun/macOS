@@ -1,0 +1,30 @@
+#!/bin/bash
+
+
+openssl ciphers -v 'kEECDH+aECDSA+AES:kEECDH+AES+aRSA:kEDH+aRSA+AES' | column -t
+
+
+
+lsof | grep "PhpStorm"
+killall
+
+lsof "$(which phpstorm)" | column -t
+
+ps aux | sort -nr -k 3 | head -10
+
+ps -e | grep python | awk '{print "sudo kill -9",  $1}' | sh
+
+
+https://ss64.com/osx/ps.html
+
+ps aux -e -o "command" | sort -nr -k 3
+
+ps -Ao user,pid,%cpu,%mem,vsz,rss,tt,stat,start,time,command
+
+ps -Ao user,pid,%cpu,%mem,vsz,rss,tt,stat,start,time,command -U "$(whoami)" | head -10
+
+ps -Ao user,pid,%cpu,%mem,vsz,rss,tt,stat,start,time,command -U "$(whoami)" -u user,pid,%cpu,%mem,vsz,rss,tt,state,start
+
+
+ps -g "$(id -g)" -u "$(id -u)" -U "$(whoami)" -t "$(tty)"
+# cat /etc/passwd | 1":" -f1,3 | grep $UID | cut -d":" -f1

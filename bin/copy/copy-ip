@@ -6,6 +6,8 @@ source "${SHELL_HOME}/shell-common"
 
 ip_address=$(ip-external)
 
-echo "$ip_address" | tr -d '\n ' | pbcopy
+echo -n "$ip_address" | tr -d '\n ' | pbcopy
 
 output "Your IP Address: ${COLOR_GREEN}${ip_address}" "info"
+
+(B[m95.84.250.148

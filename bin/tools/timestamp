@@ -9,4 +9,4 @@ timestamp() {
   date +"%s" # current time
 }
 
-output "$(timestamp)" "info"
+output "Unix timestamps: ${color_cyan}${text_bold}$(timestamp)"

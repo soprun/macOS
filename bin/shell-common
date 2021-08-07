@@ -180,116 +180,19 @@ function line_break() {
   printf "\r%s%s${text_reset}\n" "${text}" "$(printf "%*s" "$(($(tput cols) - ${#text}))" '' | tr ' ' -)"
 }
 
-# USAGE:
-function output {
-  local text="${1:-}"
-  local text_color="${text_reset}"
-
-  local label="${2:-}"
-  local label_color
-  local label_line
-
-  local logger_priority="user.info"
-
-  case "${label}" in
-  "debug")
-    label_color="$(tput setaf 8)"
-    text_color="$(tput setaf 7)"
-    logger_priority='user.debug'
-    ;;
-  "success")
-    label_color="${color_green}"
-    logger_priority='user.success'
-    ;;
-  "info")
-    label_color="${color_blue}"
-    logger_priority='user.info'
-    ;;
-  "notice" | "alert")
-    label_color="${color_blue}"
-    logger_priority='user.notice'
-    ;;
-  "warn" | "warning")
-    label_color="${color_yellow}"
-    logger_priority='user.warn'
-    ;;
-  "heading" | "header" | "title")
-    text_color="\033[44m${text_bold}${text_half}"
-    unset label
-    ;;
-  "error")
-    label_color="${color_red}"
-    logger_priority='user.error'
-    ;;
-  "line")
-    label_line=true
-    label_color="$(tput setaf 250)"
-    text_color="${color_blue}"
-    ;;
-  *)
-    unset label
-    ;;
-  esac
-
-  local script_name
-  script_name="$(basename "${0}")"
-  script_name="${script_name%.*}"
-
-  logger -tag "${script_name}" -logger_priority "${logger_priority}" "${text}"
-
-  if [ "${label}" == "debug" ]; then
-    if [ "${debug}" -eq 0 ]; then
-      return
-    fi
-  fi
-
-  sleep .1
-
-  if [ -n "${label}" ]; then
-    label="${label_color}[${label}]: "
-  fi
-
-  if [ -n "${label_line}" ]; then
-    printf "\n%s\n\n" "$(line_break "${label_color}--- [ ${text_color}${text}${text_reset}${label_color} ] ")"
-    return
-  fi
-
-  printf "${text_reset}%s${text_reset}${text_color}%s${text_reset}\n" "${label}" "${text}" >&2
-
-  # The separator is a line break at the end.
-  if [ "$(if_boolean "${3:-false}")" = true ]; then
-    printf "${text_color}%s${text_reset}\n" "$(line_break)"
-  fi
-}
-
-# debug
-# warning
-# error
-# info
+# shellcheck source=./tools/output
+# source "${SOURCE_DIR}/tools/output"
 
 function error_exit() {
-  output "$1" "error" >&2
+  output "$*" "error" >&2
   exit 1
 }
 
-# Examples:
-#output 'Plan text..'
-#output "Heading text.." "heading"
-
-# Prints the horizontal line separator;
-#output "Plan text.." "text" true
-#output "Plan text" "debug"
-#output "Plan text" "text"
-#output "Plan text" "info" true
-#output "Plan text" "line"
-#output 'Debug message...' 'debug'
-#output "Success message..." "success"
-#output "Info message..." "info"
-#output "Notification message..." "notice"
-#output "Warning message..." "warning"
-#output "Error message..." "error"
-#
-#exit 1
+# complain to STDERR and exit with error
+function die() {
+  echo "$*" >&2
+  exit 2
+}
 
 # Return: [info]: shell-common:source[179]
 function debug() {

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+# gpg --with-keygrip --list-secret-keys $@ | grep Keygrip | awk '{print $3}'
