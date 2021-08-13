@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# docker clean all containers
+# https://www.codegrepper.com/code-examples/shell/docker+clean+all+containers
+
+# docker remove all containers
+docker rm $(docker ps -a -q)
+
+# how to clean up all docker containers
+docker container list -qa | xargs docker container stop && docker container prune
+
+# remove unused images docker manually
+$ docker rmi $(docker images -q -f dangling=true)

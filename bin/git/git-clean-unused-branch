@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# Return git current branch
+output "$(git rev-parse --abbrev-ref HEAD)" "info"
+
+# git fetch --all --prune
+
+# Fetch changes from all remotes and locally delete
+# remote deleted branches/tags etc
+# --prune will do the job :-;
+
+git fetch --all --prune

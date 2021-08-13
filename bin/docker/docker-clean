@@ -6,6 +6,18 @@ source "${SHELL_HOME}/shell-common"
 
 docker-down
 
-if docker system prune --all --volumes --force &> /dev/null; then
-	output "=> Docker system prune ✅" 'success'
+# Docker clean unused images
+#docker image prune --all
+
+# Remove unused images docker manually
+#docker rmi $(docker images -q -f dangling=true)
+
+# Prune volume docker
+#docker volume prune
+
+# Docker prune system
+#docker system prune --all
+
+if docker system prune --all --volumes --force &>/dev/null; then
+  output "=> Docker system prune ✅" 'success'
 fi
