@@ -4,13 +4,67 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-# Current working directory
-DIR="${PWD}"
-BACKUP_DIR="${PWD}/.backup"
-
 output "Current working directory" "title"
-output "Current directory: ${text_bold}${color_blue}${DIR}" "info"
-output "Backup directory: ${text_bold}${color_blue}${BACKUP_DIR}" "info"
+#output "HOME: ${text_bold}${color_blue}${HOME}" "info"
+#output "DEVELOPMENT HOME: ${text_bold}${color_green}${DEVELOPMENT_HOME}" "info"
+#output "CURRENT DIR: ${text_bold}${color_blue}${CURRENT_DIR}" "info"
+# output "PROJECT DIR: ${text_bold}${color_blue}${CURRENT_DIR}" "info"
+# output "BACKUP DIR: ${text_bold}${color_blue}${BACKUP_DIR}" "info"
+
+declare -r SOURCE_FILE="${1}"
+
+if [ ! -r "${SOURCE_FILE}" ]; then
+  error_exit "An error has occurred, the source file cannot be read!"
+fi
+
+PROJECT_CURRENT_DIR="$(echo -n "${PWD//${DEVELOPMENT_HOME}/}" | sed 's/^.//')"
+PROJECT_NAME="$(echo -n "${PROJECT_CURRENT_DIR}" | awk -F "/" '{print $1}')"
+PROJECT_DIR="$(printf "%s/%s" "${DEVELOPMENT_HOME}" "${PROJECT_NAME}")"
+
+unset PROJECT_CURRENT_DIR
+
+output "PROJECT NAME: ${text_bold}${color_green}${PROJECT_NAME}" "info"
+output "PROJECT DIR: ${text_bold}${color_blue}${PROJECT_DIR}" "info"
+
+BACKUP_DIR="${PROJECT_DIR}/.backup"
+
+read_boolean "Is this the current project directory?" true || {
+  if [ ! -d "${BACKUP_DIR}" ]; then
+    output "$(printf "The directory '%s' does not exist!" "${BACKUP_DIR}")" "warning"
+
+    read_boolean "$(printf "Create a directory: %s ?" "${BACKUP_DIR}")" true || {
+      mkdir "${BACKUP_DIR}"
+    }
+  fi
+}
+
+TARGET_DIR="${BACKUP_DIR}/$(date +%F-%T)"
+
+mkdir "${TARGET_DIR}"
+
+output  "${SOURCE_FILE}" "${TARGET_DIR}"
+
+
+#output "$(dirname "${PROJECT_DIR}")"
+#output "$(echo "$PROJECT_DIR" | awk -F "/" '{print $1}')"
+# prints 'The secret code is XXXXX'
+
+exit 0
+
+# .git
+
+if
+  [ -n "${backup_dir}" ] &
+  [ -d "${PWD}/../.backup" ]
+then
+  backup_dir="${PWD}/.backup"
+fi
+
+output "dasd: ${backup_dir}"
+output "dasd: ${SOURCE_DIR}"
+output "dasd: ${SOURCE_SCRIPT}"
+
+exit 0
 
 read_boolean "Is this the current working directory?" true || {
   echo "Ok!"
@@ -19,7 +73,7 @@ read_boolean "Is this the current working directory?" true || {
     output "The directory does not exist" "warning"
   fi
 
-  output $DIR
+  output ${DIR}
   output $SOURCE_DIR
   output $SOURCE_SCRIPT
 }
