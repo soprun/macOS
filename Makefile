@@ -44,3 +44,7 @@ shellcheck: ## ShellCheck finds bugs in your shell scripts: https://www.shellche
 	@for file in $(shell file $(shell find $(PWD)/bin -type f -print) | grep 'shell script' | cut -d: -f1 | sort -u ) ; do \
 		shellcheck --check-sourced --external-sources $$file; \
 	done
+
+.PHONY: permission
+permission: ## set chmod +x $SHELL_HOME/*
+	chmod +x $SHELL_HOME/*

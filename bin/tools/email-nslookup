@@ -4,4 +4,6 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-killall Finder
+nslookup -q=mx soprun.com
+
+# https://faun.pub/verify-email-existence-via-command-line-e5cbee779d26

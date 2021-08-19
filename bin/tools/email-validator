@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# Usage example
+# email-validator "${email}" || {
+#   error_exit "Email is invalid: ${email}!"
+# }
+
+function email-validator() {
+  local -r email="${1:-}"
+  local -r regex="^([A-Za-z]+[A-Za-z0-9]*((\.|\-|\_)?[A-Za-z]+[A-Za-z0-9]*){1,})@(([A-Za-z]+[A-Za-z0-9]*)+((\.|\-|\_)?([A-Za-z]+[A-Za-z0-9]*)+){1,})+\.([A-Za-z]{2,})+$"
+
+  if [ -z "${email}" ]; then
+    error_exit "An error occurred, email address is empty!"
+  fi
+
+  output "Email address: ${email}" "debug"
+
+  if [[ ${email} =~ ${regex} ]]; then
+    output "Email is ${color_green}valid: ${email}" "debug" >&2
+    return 0
+  fi
+
+  output "Email is ${color_red}invalid: ${email}" "debug" >&2
+  return 1
+}
+
+email-validator "${@}"

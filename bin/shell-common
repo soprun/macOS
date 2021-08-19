@@ -34,6 +34,7 @@ tput sgr0
 declare -i debug=0
 declare -i verbose=0
 declare -i help=0
+declare -i quiet=0
 declare USAGE
 
 for i in "$@"; do
@@ -63,25 +64,36 @@ for i in "$@"; do
     shift
     declare -ir help=1
     ;;
+  --quiet)
+    shift
+    declare -ir quiet=1
+    ;;
   esac
 done
+
+if [ $verbose -ne 0 ]; then
+  echo -e "\033[0;33m[warning] Verbose mode on! level=${verbose} \033[0m\n"
+
+  if [ $debug -eq 0 ]; then
+    # Enable debug when verbose!
+    declare -ir debug=1
+  fi
+
+  if [ $verbose -gt 1 ]; then
+    # echo -e "\033[0;33m[warning] Verbose: print commands and their arguments as they are executed.\033[0m\n"
+    set -x
+  fi
+  if [ $verbose -gt 2 ]; then
+    # Set xtrace and verbose mode.
+    set -v
+  fi
+fi
 
 if [ $debug -ne 0 ]; then
   echo -e "\033[0;33m[warning] Debug mode on!\033[0m\n"
   set +x
   #  set -T
   set -o functrace
-fi
-
-if [ $verbose -ne 0 ]; then
-  echo -e "\033[0;33m[warning] Verbose mode on!\033[0m\n"
-  # Set xtrace and verbose mode.
-  # set -v
-
-  if [ $verbose -gt 1 ]; then
-    echo -e "\033[0;33m[warning] Verbose: print commands and their arguments as they are executed.\033[0m\n"
-    # set -x
-  fi
 fi
 
 # todo: Ask for the administrator password upfront
@@ -254,6 +266,11 @@ function output {
     return
   fi
 
+  if [ "${debug}" -eq 1 ] || [ $verbose -ne 0 ]; then
+    # text="${color_yellow}${BASH_SOURCE[0]} ($$): ${text_color}${text}"
+    text="${color_yellow}${script_name} ($$): ${text_color}${text}"
+  fi
+
   printf "${text_reset}%s${text_reset}${text_color}%s${text_reset}\n" "${label}" "${text}" >&2
 
   # The separator is a line break at the end.
@@ -410,11 +427,53 @@ realpath() {
 # Launch scripts...
 #######################################################################
 
+function usage_option_title() {
+  printf "${text_bold}${color_green}%s:\n" "${1:-}"
+}
+
+function usage_option_line() {
+  local option="${1:-}"
+  local description="${2:-}"
+  printf "\t${color_cyan}%-10s\t${text_reset}%s\n" "${option}" "${description}"
+}
+
+# USAGE="${color_magenta}$(basename $0)${text_reset} ${color_yellow}[warning]${text_reset}: arguments and options are not filled in"
+
+#USAGE_DEFAULT_COMMAND=$(printf  "")
+
+# ${color_yellow}[warning]${text_reset}: arguments and options are not filled in
+
+if [ -z "${USAGE_COMMAND}" ]; then
+  USAGE_COMMAND="$(usage_option_line "${color_blue}$(basename "$0")" "[options] [arguments]")"
+fi
+
+USAGE_OPTION=""
+
+USAGE="
+$(usage_option_title "Usage")
+${USAGE_COMMAND}
+
+$(usage_option_title "Options (shell-common)")
+$(usage_option_line "--help" "Display this help message")
+$(usage_option_line "--quiet" "Do not output any message")
+$(usage_option_line "--debug" "Switches on debug mode.")
+$(usage_option_line "--version" "Display this application version")
+$(usage_option_line "-v|vv|vvv, --verbose" "Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug")
+"
+
+if [ -n "${USAGE_OPTION}" ]; then
+  output "USAGE_OPTION: ${USAGE_OPTION}" "debug"
+  USAGE+="
+$(usage_option_title "Options ($(basename $0))")
+${USAGE_OPTION}
+"
+fi
+
 if [ $help -ne 0 ]; then
   if [ -z "${USAGE}" ]; then
     output "The global variable ${color_green}USAGE${text_reset} is empty!" "error"
   else
-    output "${color_green}USAGE:${text_reset} ${USAGE}"
+    output "${USAGE}"
   fi
   exit 0
 fi

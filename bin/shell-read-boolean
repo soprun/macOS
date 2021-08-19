@@ -12,7 +12,7 @@ function read_boolean() {
 
   title=$(
     printf \
-      "${text_bold}${color_yellow}%s️${text_reset}️[default=${color_green}%s${text_reset}]" \
+      "${text_bold}${color_yellow}%s️${text_reset}️[default=${color_green}%s${text_reset}] " \
       "${1:-}" \
       "${default_answer}"
   )

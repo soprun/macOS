@@ -4,16 +4,40 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-copy-gravatar() {
-  local email="${1:-${ID_EMAIL}}"
-  local hash="$(echo -n "${email}" | openssl dgst -md5)"
-  local url="https://gravatar.com/avatar/${hash}?size=${2:-250}"
+function copy-gravatar() {
+  local -r email="${1:-${ID_EMAIL}}"
 
+  # read_boolean "Email address correct? ${color_green}${text_bold}${email}" true && {
+  #   error_exit "An error occurred, email argument is required."
+  # }
+
+  email-validator "${email}" || {
+    error_exit "Email is invalid: ${email}!"
+  }
+
+  local -r hash="$(echo -n "${email}" | openssl dgst -md5)"
+
+  output "email hash: ${hash}" "debug"
+
+  local -r url="https://gravatar.com/avatar/${hash}?size=${2:-250}"
+
+  output "gravatar url: ${url}" "debug"
+
+  # copy to clipboard
   echo -n "${url}" | pbcopy
 
-  output "email:\t${email}"
-  output "hash:\t${hash}"
-  output "url:\t${url}"
+  declare -a sizes=(
+    100
+    250
+    450
+  )
+
+  (
+    printf "Email Hash Size URL\n"
+    for size in "${sizes[@]}"; do
+      echo "${email} ${hash} ${size} https://gravatar.com/avatar/${hash}?size=${size}"
+    done
+  ) | column -t
 }
 
 copy-gravatar "$@"
