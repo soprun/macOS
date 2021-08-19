@@ -4,10 +4,8 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-ip_address=$(ip-external)
+ip=$(eval ip-external --ipv4)
 
-echo -n "$ip_address" | tr -d '\n ' | pbcopy
+echo -n "${ip}" | tr -d '\n ' | pbcopy
 
-output "Your IP Address: ${COLOR_GREEN}${ip_address}" "info"
-
-(B[m95.84.250.148
+output "Your IP Address: ${color_green}${ip}" "info"

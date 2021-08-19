@@ -5,21 +5,48 @@
 source "${SHELL_HOME}/shell-common"
 
 # USAGE:
-# ip-external [default=false] - ipv4
-# ip-external true - ipv6
+# ip-external --ipv4
+# ip-external --ipv6
 
-ip_version=4
+declare -i ip_version=4
 
-if [ "$(if_boolean "${1:-false}")" = true ]; then
-  ip_version=6
-fi
+while getopts ":-:v:" OPTION; do
+  case $OPTION in
+  -)
+    #    support long options: https://stackoverflow.com/a/28466267/519360
+    if [ "$OPTION" = "-" ]; then # long option: reformulate OPT and OPTARG
+      OPTION="${OPTARG%%=*}"     # extract long option name
+      OPTARG="${OPTARG#$OPTION}" # extract long C argument (may be empty)
+      OPTARG="${OPTARG#=}"       # if long option argument, remove assigning `=`
+    fi
 
-error_exit "${ip_version}"
+    [ $OPTIND -ge 1 ] && optind=$(expr $OPTIND - 1) || optind=$OPTIND
 
-#select os in "linux" "windows" "mac"; do
-#  echo "${os}"
-#  break
-#done
+    eval OPTION="\$$optind"
+
+    OPTARG=$(echo $OPTION | cut -d'=' -f2)
+    OPTION=$(echo $OPTION | cut -d'=' -f1)
+
+    case $OPTION in
+    --ipv4)
+      declare -ir ip_version=4
+      ;;
+    --ipv6)
+      declare -ir ip_version=6
+      ;;
+    esac
+    shift
+    ;;
+  ??*)
+    # bad long option
+    error_exit "Option -${OPTARG} requires an argument." >&2
+    ;;
+  ?)
+    # bad short option (error reported via getopts)
+    error_exit "Unknown option ${OPTARG}" >&2
+    ;;
+  esac
+done
 
 output "IP version: ${ip_version}" "debug"
 
@@ -38,13 +65,13 @@ ip_address=$(
     --location \
     --request GET https://ifconfig.co/ip \
     --header "Accept: application/json" \
-    2>/dev/null | tr -d '\n '
+    2>/dev/null | tr -d '\n ' | tr -dc 'A-Za-z0-9:.'
 )
 
 if test -z "${ip_address}"; then
   error_exit "An error occurred while receiving a response from an external server!"
 fi
 
+#echo -n "${ip_address}"
 printf "%s" "${ip_address}"
-
-exit $?
+#exit $?
