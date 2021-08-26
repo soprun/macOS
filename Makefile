@@ -5,8 +5,9 @@ DIR := $(shell cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
 
 SHELL_FILES_PATH := \
 	$(PWD)/install \
-	$(shell find $(PWD)/profile -type f -print) \
 	$(shell find $(PWD)/bin -type f -print)
+
+# $(shell find $(PWD)/profile -type f -print) \
 
 SHELL_FILES := $(shell file $(SHELL_FILES_PATH) | grep 'shell script\|zsh script' | cut -d: -f1 | sort -u  )
 
@@ -26,7 +27,7 @@ files: ## Project variables
 .PHONY: shfmt
 shfmt: ## A shell parser, formatter, and interpreter with bash support; https://github.com/mvdan/sh
 	for file in $(SHELL_FILES) ; do \
-  	shfmt $$file; \
+  	shfmt -w -s $$file; \
 	done
 
 # https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md

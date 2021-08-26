@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# https://habr.com/ru/company/Voximplant/blog/281593/
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+if ! git fetch --tags >/dev/null 2>/dev/null; then
+  error_exit "An error occurred while fetching the last tag!"
+fi
+
+set +e
+
+# Get latest tag name
+tag="$(git describe --tags "$(git rev-list --tags --max-count=1)" 2>/dev/null)"
+tag="${tag/v/}"
+
+if [ -z "${tag}" ]; then
+  tag="0.0.0"
+fi
+
+commit_id="$(git rev-parse --short HEAD)"
+
+output "Tag: ${tag}" "debug"
+output "Commit id: ${commit_id}" "debug"
+
+output "${tag}+${commit_id}" "success"

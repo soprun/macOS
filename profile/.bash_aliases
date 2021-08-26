@@ -115,3 +115,5 @@ alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 
 alias php-ini='code --add "$(php -r "echo php_ini_loaded_file();")"'
 alias php-restart='brew services restart php'
+
+alias composer-install='composer --ignore-platform-reqs --no-scripts install'
