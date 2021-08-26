@@ -21,9 +21,9 @@ fi
 # Record changes to the repository
 # commit_message="Signing commit $(date +%Y-%m-%dT%H:%M:%S%z)"
 commit_message="Signing commit $(date +%d-%m-%Y)"
-commit_push=false
-commit_branch=$(git rev-parse --abbrev-ref HEAD) >/dev/null 2>/dev/null
+commit_branch="$(git rev-parse --abbrev-ref HEAD >/dev/null 2>/dev/null)"
 
+declare -i commit_push=0
 declare -i interactive=1
 
 # Getops does not support long option names
@@ -34,7 +34,7 @@ while [[ $# -gt 0 ]]; do
     shift # past value
     ;;
   -p | --push)
-    commit_push=true
+    commit_push=1
     shift # past value
     ;;
   --no-interactive)
@@ -67,6 +67,12 @@ output $commit_push
 if [ "$interactive" -eq 0 ]; then
   if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
     output "An error occurred when record changes" 'error'
+  fi
+
+  if [ "$interactive" -eq 1 ]; then
+    if ! git push origin --follow-tags >/dev/null 2>/dev/null; then
+      output "An error occurred when pushing" "warn"
+    fi
   fi
 fi
 
