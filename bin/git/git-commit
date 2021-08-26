@@ -62,11 +62,13 @@ output "$(printf "GPG key: $COLOR_YELLOW%s$COLOR_RESET" "$GIT_GPG_KEY")" "info"
 output "$(printf "Branch:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_branch")" "info"
 output "$(printf "Commit:\t $COLOR_CYAN%s$COLOR_RESET 📝" "$commit_message")" "info"
 
-output $commit_push
-
 if [ "$interactive" -eq 0 ]; then
   if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
     output "An error occurred when record changes" 'error'
+  else
+    output "Commit id: $(git rev-parse --short HEAD)" "success"
+    output "Commit sha: $(git rev-parse HEAD)" "success"
+    # output "https://github.com/soprun/docker-project/commit/$(git rev-parse HEAD)" "success"
   fi
 
   if [ "$interactive" -eq 1 ]; then
