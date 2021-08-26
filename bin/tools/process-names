@@ -1,4 +1,3 @@
 #!/bin/bash
 
-
-ps axc | sed "s/.*:..... /\"/" | sed s/$/\"/
+ps axc | sed 's/.*:..... /"/' | sed s/$/\"/

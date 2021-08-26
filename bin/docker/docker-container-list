@@ -29,5 +29,4 @@ docker container list --all --size
 # docker container list --format "table {{.ID}}\t{{.Names}}\t{{.Labels}}"
 # docker container list --format "table {{.ID}}\t{{.Names}}\t{{.Size}}"
 
-
 #docker container list --format "table {{.ID}}\t{{.Names}}"

@@ -30,7 +30,8 @@ source "${SHELL_HOME}/shell-common"
 #
 # valid_ip
 
-ip-validate() {
+ip-validate()
+{
   local ip="${1:-0.0.0.0}"
   local if_error_occurs_exit="$(if_boolean "${2:-true}")"
 

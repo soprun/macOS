@@ -38,8 +38,6 @@
 #)"
 #nc="$(tput sgr0)" # no color
 
-
-
 ## Cursor movement commands
 #tput cup Y X # Move cursor to screen postion X,Y (top left is 0,0)
 #tput cuf N   # Move N characters forward (right)

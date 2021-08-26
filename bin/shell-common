@@ -39,35 +39,35 @@ declare USAGE
 
 for i in "$@"; do
   case "$i" in
-  -v | --verbose)
-    shift
-    declare -ir verbose=1
-    ;;
-  -vv)
-    shift
-    declare -ir verbose=2
-    ;;
-  -vvv)
-    shift
-    declare -ir verbose=3
-    ;;
-  -v=* | --verbose=*)
-    shift
-    name=${i#--}
-    declare -ir verbose=${name#*=}
-    ;;
-  --debug)
-    shift
-    declare -ir debug=1
-    ;;
-  --help)
-    shift
-    declare -ir help=1
-    ;;
-  --quiet)
-    shift
-    declare -ir quiet=1
-    ;;
+    -v | --verbose)
+      shift
+      declare -ir verbose=1
+      ;;
+    -vv)
+      shift
+      declare -ir verbose=2
+      ;;
+    -vvv)
+      shift
+      declare -ir verbose=3
+      ;;
+    -v=* | --verbose=*)
+      shift
+      name=${i#--}
+      declare -ir verbose=${name#*=}
+      ;;
+    --debug)
+      shift
+      declare -ir debug=1
+      ;;
+    --help)
+      shift
+      declare -ir help=1
+      ;;
+    --quiet)
+      shift
+      declare -ir quiet=1
+      ;;
   esac
 done
 
@@ -176,7 +176,8 @@ readonly bg_color_magenta=$(tput setab 5)
 readonly bg_color_cyan=$(tput setab 6)
 readonly bg_color_white=$(tput setab 7)
 
-function if_boolean() {
+function if_boolean()
+{
   local var="${1:-}"
 
   if [ "${var}" == 1 ] || [ "${var}" == true ] || [ "${var}" == 1 ]; then
@@ -187,13 +188,15 @@ function if_boolean() {
   echo false
 }
 
-function line_break() {
+function line_break()
+{
   local -r text=${1:-}
   printf "\r%s%s${text_reset}\n" "${text}" "$(printf "%*s" "$(($(tput cols) - ${#text}))" '' | tr ' ' -)"
 }
 
 # USAGE:
-function output {
+function output
+{
   local text="${1:-}"
   local text_color="${text_reset}"
 
@@ -204,43 +207,43 @@ function output {
   local logger_priority="user.info"
 
   case "${label}" in
-  "debug")
-    label_color="$(tput setaf 8)"
-    text_color="$(tput setaf 7)"
-    logger_priority='user.debug'
-    ;;
-  "success")
-    label_color="${color_green}"
-    logger_priority='user.success'
-    ;;
-  "info")
-    label_color="${color_blue}"
-    logger_priority='user.info'
-    ;;
-  "notice" | "alert")
-    label_color="${color_blue}"
-    logger_priority='user.notice'
-    ;;
-  "warn" | "warning")
-    label_color="${color_yellow}"
-    logger_priority='user.warn'
-    ;;
-  "heading" | "header" | "title")
-    text_color="\033[44m${text_bold}${text_half}"
-    unset label
-    ;;
-  "error")
-    label_color="${color_red}"
-    logger_priority='user.error'
-    ;;
-  "line")
-    label_line=true
-    label_color="$(tput setaf 250)"
-    text_color="${color_blue}"
-    ;;
-  *)
-    unset label
-    ;;
+    "debug")
+      label_color="$(tput setaf 8)"
+      text_color="$(tput setaf 7)"
+      logger_priority='user.debug'
+      ;;
+    "success")
+      label_color="${color_green}"
+      logger_priority='user.success'
+      ;;
+    "info")
+      label_color="${color_blue}"
+      logger_priority='user.info'
+      ;;
+    "notice" | "alert")
+      label_color="${color_blue}"
+      logger_priority='user.notice'
+      ;;
+    "warn" | "warning")
+      label_color="${color_yellow}"
+      logger_priority='user.warn'
+      ;;
+    "heading" | "header" | "title")
+      text_color="\033[44m${text_bold}${text_half}"
+      unset label
+      ;;
+    "error")
+      label_color="${color_red}"
+      logger_priority='user.error'
+      ;;
+    "line")
+      label_line=true
+      label_color="$(tput setaf 250)"
+      text_color="${color_blue}"
+      ;;
+    *)
+      unset label
+      ;;
   esac
 
   local script_name
@@ -297,19 +300,22 @@ function output {
 #
 #exit 1
 
-function error_exit() {
+function error_exit()
+{
   output "$*" "error" >&2
   exit 1
 }
 
 # complain to STDERR and exit with error
-function die() {
+function die()
+{
   echo "$*" >&2
   exit 2
 }
 
 # Return: [info]: shell-common:source[179]
-function debug() {
+function debug()
+{
   local script_name
   script_name="$(basename "${0}")"
   script_name="${script_name%.*}"
@@ -321,11 +327,13 @@ function debug() {
   output "${output}" 'info' >/dev/tty
 }
 
-function command_exists() {
+function command_exists()
+{
   command -v "$@" >/dev/null 2>&1
 }
 
-function command_eval() {
+function command_eval()
+{
   # "$@" >/dev/null 2>&1
   # eval "$@" >/dev/null 2>&1
   # output "$(eval "$@" >/dev/null)" 'info' 2>&1
@@ -352,7 +360,8 @@ function command_eval() {
 #}
 
 # backup_file "${HOME}/.ssh/config" true
-function backup_file() {
+function backup_file()
+{
   local source_file ignore target_file
 
   source_file="${1}"
@@ -410,7 +419,8 @@ source "${SOURCE_DIR}/shell-read-boolean"
 
 # type -a realpath
 # realpath is a function
-realpath() {
+realpath()
+{
   f=$@
   if [ -d "$f" ]; then
     base=""
@@ -427,11 +437,13 @@ realpath() {
 # Launch scripts...
 #######################################################################
 
-function usage_option_title() {
+function usage_option_title()
+{
   printf "${text_bold}${color_green}%s:\n" "${1:-}"
 }
 
-function usage_option_line() {
+function usage_option_line()
+{
   local option="${1:-}"
   local description="${2:-}"
   printf "\t${color_cyan}%-10s\t${text_reset}%s\n" "${option}" "${description}"

@@ -9,9 +9,9 @@ name="$(echo "${identity}" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q)"
 file="$HOME/.ssh/$name.pub"
 
 if [ ! -f "$file" ]; then
-	error_exit "File '$identity' does not exists!"
+  error_exit "File '$identity' does not exists!"
 fi
 
-pbcopy < "$file"
+pbcopy <"$file"
 
 output 'Export ssh key and copy the clipboard.' 'success'

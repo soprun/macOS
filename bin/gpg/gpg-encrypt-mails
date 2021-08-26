@@ -1,16 +1,12 @@
 #!/bin/bash
 
-
 # How to encrypt and decrypt GPG mails in the terminal
 # https://makandracards.com/makandra-orga/481783-how-to-encrypt-and-decrypt-gpg-mails-in-the-terminal
-
 
 # Encrypting
 # gpg --encrypt --armor --recipient <receiver@email.address> [--recipient <receiver2@email.address>]
 # <type message>
 # <ctrl d>
-
-
 
 # Now copy the PGP message to your mail client and send that mail.
 # You need one -r flag per receiver address

@@ -9,7 +9,8 @@ USAGE='check-connection {string:host} {int:port} {boolean:is_exit} {int:attempts
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-check-connection() {
+check-connection()
+{
   local host="${1:-}"
   local -i port="${2:-}"
   local is_exit="${3:-true}"
@@ -37,7 +38,9 @@ check-connection() {
   done
 
   if [ "${i}" -eq "${attempts}" ]; then
-    output "== Connection refused:\033[0m $({ nc -z "${host}" "${port}"; } 2>&1)" "error"
+    output "== Connection refused:\033[0m $({
+      nc -z "${host}" "${port}"
+    } 2>&1)" "error"
 
     if [ "$(if_boolean "${is_exit}")" = true ]; then
       exit 1

@@ -9,7 +9,8 @@ source "${SHELL_HOME}/shell-common"
 #   error_exit "Email is invalid: ${email}!"
 # }
 
-function email-validator() {
+function email-validator()
+{
   local -r email="${1:-}"
   local -r regex="^([A-Za-z]+[A-Za-z0-9]*((\.|\-|\_)?[A-Za-z]+[A-Za-z0-9]*){1,})@(([A-Za-z]+[A-Za-z0-9]*)+((\.|\-|\_)?([A-Za-z]+[A-Za-z0-9]*)+){1,})+\.([A-Za-z]{2,})+$"
 

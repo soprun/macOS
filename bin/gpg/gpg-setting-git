@@ -7,7 +7,7 @@ source "${SHELL_HOME}/shell-common"
 output "Setting up Git" "heading"
 
 # Read email from the --card-status
-CARD_MAIL=$(gpg --card-status )
+CARD_MAIL=$(gpg --card-status)
 
 output $CARD_MAIL
 

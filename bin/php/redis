@@ -5,7 +5,6 @@
 php -i | grep redis
 php -r "var_dump(extension_loaded('redis'));"
 
-
 ## To verify the module is loaded on the CLI, run either:
 
 # php --info | grep <module> .

@@ -12,39 +12,39 @@ declare -i ip_version=4
 
 while getopts ":-:v:" OPTION; do
   case $OPTION in
-  -)
-    #    support long options: https://stackoverflow.com/a/28466267/519360
-    if [ "$OPTION" = "-" ]; then # long option: reformulate OPT and OPTARG
-      OPTION="${OPTARG%%=*}"     # extract long option name
-      OPTARG="${OPTARG#$OPTION}" # extract long C argument (may be empty)
-      OPTARG="${OPTARG#=}"       # if long option argument, remove assigning `=`
-    fi
+    -)
+      #    support long options: https://stackoverflow.com/a/28466267/519360
+      if [ "$OPTION" = "-" ]; then # long option: reformulate OPT and OPTARG
+        OPTION="${OPTARG%%=*}"     # extract long option name
+        OPTARG="${OPTARG#$OPTION}" # extract long C argument (may be empty)
+        OPTARG="${OPTARG#=}"       # if long option argument, remove assigning `=`
+      fi
 
-    [ $OPTIND -ge 1 ] && optind=$(expr $OPTIND - 1) || optind=$OPTIND
+      [ $OPTIND -ge 1 ] && optind=$(expr $OPTIND - 1) || optind=$OPTIND
 
-    eval OPTION="\$$optind"
+      eval OPTION="\$$optind"
 
-    OPTARG=$(echo $OPTION | cut -d'=' -f2)
-    OPTION=$(echo $OPTION | cut -d'=' -f1)
+      OPTARG=$(echo $OPTION | cut -d'=' -f2)
+      OPTION=$(echo $OPTION | cut -d'=' -f1)
 
-    case $OPTION in
-    --ipv4)
-      declare -ir ip_version=4
+      case $OPTION in
+        --ipv4)
+          declare -ir ip_version=4
+          ;;
+        --ipv6)
+          declare -ir ip_version=6
+          ;;
+      esac
+      shift
       ;;
-    --ipv6)
-      declare -ir ip_version=6
+    ??*)
+      # bad long option
+      error_exit "Option -${OPTARG} requires an argument." >&2
       ;;
-    esac
-    shift
-    ;;
-  ??*)
-    # bad long option
-    error_exit "Option -${OPTARG} requires an argument." >&2
-    ;;
-  ?)
-    # bad short option (error reported via getopts)
-    error_exit "Unknown option ${OPTARG}" >&2
-    ;;
+    ?)
+      # bad short option (error reported via getopts)
+      error_exit "Unknown option ${OPTARG}" >&2
+      ;;
   esac
 done
 

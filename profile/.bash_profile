@@ -96,4 +96,3 @@ PROMPT='%{%f%b%k%}$(build_prompt)'
 #export EDITOR='vim'
 #export EDITOR='phpstorm'
 export EDITOR='code'
-

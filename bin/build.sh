@@ -4,8 +4,6 @@
 
 #set -e
 
-
-
 ##!/usr/bin/env bash
 
 # OUTPUT-COLORING
@@ -13,44 +11,45 @@ red=$(tput setaf 1)
 green=$(tput setaf 2)
 NC=$(tput setaf 0) # or perhaps: tput sgr0
 
-output() {
-    #  local style_start
-    #  local style_end
+output()
+{
+  #  local style_start
+  #  local style_end
 
-    if [ "${2:-}" != "" ]; then
-        case $2 in
-        "success")
-            style_start="\033[0;32m"
-            style_end="\033[0m"
-            ;;
-        "info")
-            style_start="\033[31;34m"
-            style_end="\033[0m"
-            ;;
-        "error")
-            style_start="\033[31;31m"
-            style_end="\033[0m"
-            ;;
-        "warning")
-            style_start="\033[33m"
-            style_end="\033[39m"
-            ;;
-        "heading")
-            style_start="\n\033[1;34m\x1b[7m"
-            style_end="\033[22;39m\n"
-            ;;
-        esac
-    fi
+  if [ "${2:-}" != "" ]; then
+    case $2 in
+      "success")
+        style_start="\033[0;32m"
+        style_end="\033[0m"
+        ;;
+      "info")
+        style_start="\033[31;34m"
+        style_end="\033[0m"
+        ;;
+      "error")
+        style_start="\033[31;31m"
+        style_end="\033[0m"
+        ;;
+      "warning")
+        style_start="\033[33m"
+        style_end="\033[39m"
+        ;;
+      "heading")
+        style_start="\n\033[1;34m\x1b[7m"
+        style_end="\033[22;39m\n"
+        ;;
+    esac
+  fi
 
-    echo "\033[0m${style_start}${1}${style_end}\033[0m\n"
-    sleep .3
+  echo "\033[0m${style_start}${1}${style_end}\033[0m\n"
+  sleep .3
 }
 
-function error_exit() {
-    output "$1" "error" >&2
-    exit 1
+function error_exit()
+{
+  output "$1" "error" >&2
+  exit 1
 }
-
 
 #verbose=0
 #test=0
@@ -66,11 +65,10 @@ function error_exit() {
 #    esac
 #done
 
-
 if [ 1 -eq "$debug" ]; then
-    output "Debug mode is enabled!" "warning"
+  output "Debug mode is enabled!" "warning"
 
-    set -x
+  set -x
 fi
 
 #output "verbose: $verbose"
@@ -90,34 +88,36 @@ commands+=("docker image ls -a")
 commands+=("pwds")
 commands+=('curl -X GET "http://httpbin.org/status/500" -H "accept: text/plain"')
 
-waitall() { # PID...
-    ## Wait for children to exit and indicate whether all exited with 0 status.
-    local errors=0
-    while :; do
-        debug "Processes remaining: $*"
-        for pid in "$@"; do
-            shift
-            if kill -0 "$pid" 2>/dev/null; then
-                debug "$pid is still alive."
-                set -- "$@" "$pid"
-            elif wait "$pid"; then
-                debug "$pid exited with zero exit status."
-            else
-                debug "$pid exited with non-zero exit status."
-                ((++errors))
-            fi
-        done
-        (("$#" > 0)) || break
-        # TODO: how to interrupt this sleep when a child terminates?
-        sleep ${WAITALL_DELAY:-1}
+waitall()
+{ # PID...
+  ## Wait for children to exit and indicate whether all exited with 0 status.
+  local errors=0
+  while :; do
+    debug "Processes remaining: $*"
+    for pid in "$@"; do
+      shift
+      if kill -0 "$pid" 2>/dev/null; then
+        debug "$pid is still alive."
+        set -- "$@" "$pid"
+      elif wait "$pid"; then
+        debug "$pid exited with zero exit status."
+      else
+        debug "$pid exited with non-zero exit status."
+        ((++errors))
+      fi
     done
-    ((errors == 0))
+    (("$#" > 0)) || break
+    # TODO: how to interrupt this sleep when a child terminates?
+    sleep ${WAITALL_DELAY:-1}
+  done
+  ((errors == 0))
 }
 
-debug() {
-    if [ 1 -eq "$debug" ] || [ 1 -eq "$test" ] || [ 1 -eq "$verbose" ]; then
-        echo "DEBUG: $*" >&2
-    fi
+debug()
+{
+  if [ 1 -eq "$debug" ] || [ 1 -eq "$test" ] || [ 1 -eq "$verbose" ]; then
+    echo "DEBUG: $*" >&2
+  fi
 }
 
 output "Starting service" "info"
@@ -130,15 +130,15 @@ output "Starting service" "info"
 #}; done
 
 for command in "${commands[@]}"; do
-    output "Command \"$command\" started!" "info"
-    $command &>/dev/null 2>&1 &
-    PID=$!
-    output "Command \"$command\" PID ${red}(${!})" "info"
-    waitall $PID
-    exited_status=$?
-    output "Command \"$command\" exit status: $exited_status" "info"
+  output "Command \"$command\" started!" "info"
+  $command &>/dev/null 2>&1 &
+  PID=$!
+  output "Command \"$command\" PID ${red}(${!})" "info"
+  waitall $PID
+  exited_status=$?
+  output "Command \"$command\" exit status: $exited_status" "info"
 
-    unset command
+  unset command
 done
 unset commands
 

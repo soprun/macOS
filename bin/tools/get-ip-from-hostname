@@ -19,7 +19,8 @@ source "${SHELL_HOME}/shell-common"
 dns_server="208.67.222.123"
 
 # function to get IP address
-function get_ip {
+function get_ip
+{
   ip_address=""
   if [ -n "$1" ]; then
     hostname="${1}"

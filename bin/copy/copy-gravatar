@@ -4,7 +4,8 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-function copy-gravatar() {
+function copy-gravatar()
+{
   local -r email="${1:-${ID_EMAIL}}"
 
   # read_boolean "Email address correct? ${color_green}${text_bold}${email}" true && {

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-function read_boolean() {
+function read_boolean()
+{
   local title
   local input
   local timeout=60
@@ -20,7 +21,7 @@ function read_boolean() {
   read -rp "${title}" -t "${timeout}" input
   input="${input:-${default_answer}}"
 
-  if [[ "${input}" =~ ^([yY][eE][sS]|[yY]|true|1)$ ]]; then
+  if [[ ${input} =~ ^([yY][eE][sS]|[yY]|true|1)$ ]]; then
     return 1
   fi
 

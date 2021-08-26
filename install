@@ -107,7 +107,6 @@ unset files
 #  error_exit "An error occurred, failed to apply chmod"
 #}
 
-
 # https://shankarkulumani.com/2019/03/gpg.html
 # https://menduz.com/posts/2020.11.08
 
@@ -120,7 +119,6 @@ unset files
 #curl -o "$GNUPGHOME/gpg-agent.conf" https://raw.githubusercontent.com/drduh/config/master/gpg-agent.conf
 #chmod 600 "$GNUPGHOME/gpg.conf"
 #chmod 600 "$GNUPGHOME/gpg-agent.conf"
-
 
 #base=https://github.com/docker/machine/releases/download/v0.16.0 \
 #  && curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/usr/local/bin/docker-machine \

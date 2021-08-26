@@ -43,8 +43,8 @@ output "Pass:\t\t${COLOR_BLUE}${passphrase:-${COLOR_RED}Not specified!}" "info"
 output "Comment:\t${COLOR_BLUE}${comment:-${COLOR_RED}Not specified!}" "info"
 
 read_boolean "Generate new key pair?" true || {
-#  rm -f "${key_private}"
-#  rm -f "${key_public}"
+  #  rm -f "${key_private}"
+  #  rm -f "${key_public}"
 
   # Generate Keypair - Enter and password
   ssh-keygen \

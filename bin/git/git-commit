@@ -22,24 +22,24 @@ fi
 # commit_message="Signing commit $(date +%Y-%m-%dT%H:%M:%S%z)"
 commit_message="Signing commit $(date +%d-%m-%Y)"
 commit_push=false
-commit_branch=$(git rev-parse --abbrev-ref HEAD) > /dev/null 2> /dev/null
+commit_branch=$(git rev-parse --abbrev-ref HEAD) >/dev/null 2>/dev/null
 
 # Getops does not support long option names
 while [[ $# -gt 0 ]]; do
   case $1 in
-  -m=* | --message=*)
-    commit_message="${1#*=}"
-    shift # past value
-    ;;
-  -p | --push)
-    commit_push=true
-    shift # past value
-    ;;
-  *)
-    output "Unknown option $1" "error"
-    output "Usage: ${0} [-m|--message=\"commit...\" --push]" "error"
-    exit 1
-    ;;
+    -m=* | --message=*)
+      commit_message="${1#*=}"
+      shift # past value
+      ;;
+    -p | --push)
+      commit_push=true
+      shift # past value
+      ;;
+    *)
+      output "Unknown option $1" "error"
+      output "Usage: ${0} [-m|--message=\"commit...\" --push]" "error"
+      exit 1
+      ;;
   esac
 done
 

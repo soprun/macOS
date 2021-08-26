@@ -15,7 +15,6 @@ echo -n "${public_key}" | pbcopy
 
 public_key_hash=$(echo -n "${public_key}" | openssl dgst -sha256)
 
-
 output "GPG_KEY: ${ID_GPG_KEY}" "info"
 output "GPG_KEY: $public_key_hash" "info"
 
@@ -23,9 +22,7 @@ output "GPG_KEY: $public_key_hash" "info"
 
 # gpg --openpgp --interactive --textmode --fingerprint "$ID_GPG_KEY"
 
-
 #gpg --card-status --openpgp --interactive --textmode
 
 #gpg --openpgp --interactive --armor --fingerprint "$ID_GPG_KEY"
 #gpg --openpgp --interactive --armor --list-keys "$ID_GPG_KEY"
-

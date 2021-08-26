@@ -74,49 +74,49 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-	common-aliases
-	osx
-	extract
-	colorize
+  common-aliases
+  osx
+  extract
+  colorize
 
-	safe-paste
-	colorize
-	command-not-found
+  safe-paste
+  colorize
+  command-not-found
 
-	git
-	git-flow
-	git-flow-completion
-	git-auto-fetch
-	git-prompt
+  git
+  git-flow
+  git-flow-completion
+  git-auto-fetch
+  git-prompt
 
-	composer
+  composer
 
-	history
-	history-sync
+  history
+  history-sync
 
-	docker
-	docker-compose
-	# docker-completion
-	symfony
+  docker
+  docker-compose
+  # docker-completion
+  symfony
 
-	brew
+  brew
 
-	ssh-agent
-	gpg-agent
+  ssh-agent
+  gpg-agent
 
-	zsh-completions
-	zsh-syntax-highlighting
-	zsh-autosuggestions
-	command-time
-	history-substring-search
+  zsh-completions
+  zsh-syntax-highlighting
+  zsh-autosuggestions
+  command-time
+  history-substring-search
 
-	iterm2
+  iterm2
 
-	# dotenv
-	# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/zsh_reload#zsh_reload-plugin
-	zsh_reload
+  # dotenv
+  # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/zsh_reload#zsh_reload-plugin
+  zsh_reload
 
-	zsh-interactive-cd
+  zsh-interactive-cd
 )
 
 # shellcheck source=/dev/null
@@ -165,9 +165,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # include .bash_profile if it exists
 if [ -e "${HOME}/.bash_profile" ]; then
-	# shellcheck disable=SC1091
-	# shellcheck source=./.bash_profile
-	source "${HOME}/.bash_profile"
+  # shellcheck disable=SC1091
+  # shellcheck source=./.bash_profile
+  source "${HOME}/.bash_profile"
 fi
 
 # https://github.com/junegunn/fzf#search-syntax
@@ -232,8 +232,9 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 # PS1="%{%f%b%k%}33$(build_prompt)12"
 # PS2="%_>33"
 
-function docker_context_prompt() {
-        PS1="context: $(docker version --format='{{.Client.Context}}')> "
+function docker_context_prompt()
+{
+  PS1="context: $(docker version --format='{{.Client.Context}}')> "
 }
 
 PROMPT_COMMAND=docker_context_prompt
@@ -246,7 +247,8 @@ PROMPT_COMMAND=docker_context_prompt
 #
 
 if type complete &>/dev/null; then
-  _npm_completion () {
+  _npm_completion()
+  {
     local words cword
     if type _get_comp_words_by_ref &>/dev/null; then
       _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
@@ -257,10 +259,10 @@ if type complete &>/dev/null; then
 
     local si="$IFS"
     IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
-                           COMP_LINE="$COMP_LINE" \
-                           COMP_POINT="$COMP_POINT" \
-                           npm completion -- "${words[@]}" \
-                           2>/dev/null)) || return $?
+      COMP_LINE="$COMP_LINE" \
+      COMP_POINT="$COMP_POINT" \
+      npm completion -- "${words[@]}" \
+      2>/dev/null)) || return $?
     IFS="$si"
     if type __ltrim_colon_completions &>/dev/null; then
       __ltrim_colon_completions "${words[cword]}"
@@ -268,18 +270,20 @@ if type complete &>/dev/null; then
   }
   complete -o default -F _npm_completion npm
 elif type compdef &>/dev/null; then
-  _npm_completion() {
+  _npm_completion()
+  {
     local si=$IFS
-    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-                 COMP_LINE=$BUFFER \
-                 COMP_POINT=0 \
-                 npm completion -- "${words[@]}" \
-                 2>/dev/null)
+    compadd -- $(COMP_CWORD=$((CURRENT - 1)) \
+      COMP_LINE=$BUFFER \
+      COMP_POINT=0 \
+      npm completion -- "${words[@]}" \
+      2>/dev/null)
     IFS=$si
   }
   compdef _npm_completion npm
 elif type compctl &>/dev/null; then
-  _npm_completion () {
+  _npm_completion()
+  {
     local cword line point words si
     read -Ac words
     read -cn cword
@@ -288,10 +292,10 @@ elif type compctl &>/dev/null; then
     read -ln point
     si="$IFS"
     IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-                       COMP_LINE="$line" \
-                       COMP_POINT="$point" \
-                       npm completion -- "${words[@]}" \
-                       2>/dev/null)) || return $?
+      COMP_LINE="$line" \
+      COMP_POINT="$point" \
+      npm completion -- "${words[@]}" \
+      2>/dev/null)) || return $?
     IFS="$si"
   }
   compctl -K _npm_completion npm

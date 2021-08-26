@@ -14,6 +14,6 @@ source "${SHELL_HOME}/shell-common"
 #docker rmi "$(docker images --all --quiet --filter "dangling=true")" &>/dev/null
 #exit 0
 
-if docker rmi --force "$(docker images --all --quiet --filter "dangling=true")" &> /dev/null; then
-	output 'Remove all untagged images 🖼' 'success'
+if docker rmi --force "$(docker images --all --quiet --filter "dangling=true")" &>/dev/null; then
+  output 'Remove all untagged images 🖼' 'success'
 fi

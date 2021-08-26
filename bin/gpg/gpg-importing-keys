@@ -10,5 +10,4 @@ username=$(ssh -T git@github.com 2>&1 | sed 's/^Hi //' | sed 's/\! .*//')
 
 #output $username
 
-
 curl --silent "https://github.com/${username}.gpg" | gpg --import

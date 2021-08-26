@@ -42,8 +42,7 @@ TARGET_DIR="${BACKUP_DIR}/$(date +%F-%T)"
 
 mkdir "${TARGET_DIR}"
 
-output  "${SOURCE_FILE}" "${TARGET_DIR}"
-
+output "${SOURCE_FILE}" "${TARGET_DIR}"
 
 #output "$(dirname "${PROJECT_DIR}")"
 #output "$(echo "$PROJECT_DIR" | awk -F "/" '{print $1}')"

@@ -4,7 +4,6 @@
 # shellcheck source=../shell-common
 #source "${SHELL_HOME}/shell-common"
 
-
 # Example
 # pingnmap -nt -i google.com -p 80
 
@@ -27,26 +26,26 @@
 
 while getopts ':nti:p:v' opt; do #putting : in the beginnnig suppresses the errors for invalid options
   case "$opt" in
-  'i')
-    ip="${OPTARG}"
-    ;;
-  'p')
-    port="${OPTARG}"
-    ;;
-  'n')
-    nmap_yes=1
-    ;;
-  't')
-    ping_yes=1
-    ;;
-  'v')
-    echo "pingnmap version 1.0.0"
-    ;;
-  *)
-    echo "Invalid option $opt"
-    echo "Usage : "
-    echo "pingmap -[n|t[i|p]|v]"
-    ;;
+    'i')
+      ip="${OPTARG}"
+      ;;
+    'p')
+      port="${OPTARG}"
+      ;;
+    'n')
+      nmap_yes=1
+      ;;
+    't')
+      ping_yes=1
+      ;;
+    'v')
+      echo "pingnmap version 1.0.0"
+      ;;
+    *)
+      echo "Invalid option $opt"
+      echo "Usage : "
+      echo "pingmap -[n|t[i|p]|v]"
+      ;;
   esac
 done
 if [ ! -z "$nmap_yes" ] && [ "$nmap_yes" -eq "1" ]; then

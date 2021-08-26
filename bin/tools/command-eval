@@ -10,8 +10,6 @@ source "${SHELL_HOME}/shell-common"
 # # Запретить вывод команд перед их исполнением.
 #set +o verbose
 
-
-
 #command_exists() {
 #  command -v "$@" >/dev/null 2>&1
 #}

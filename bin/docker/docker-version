@@ -4,6 +4,5 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-output "$(docker version | grep -i -A2 '^server' | grep ' Version:' |
-  awk '{print $NF; exit}' | tr -d '[:alpha:]-,.' | cut -c 1-4)"
-
+output "$(docker version | grep -i -A2 '^server' | grep ' Version:' \
+  | awk '{print $NF; exit}' | tr -d '[:alpha:]-,.' | cut -c 1-4)"

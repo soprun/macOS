@@ -12,11 +12,11 @@ declare encoding="-base64"
 
 for i in "$@"; do
   case "$i" in
-  -base64 | -hex)
-    shift                    # Remove option from command line
-    name=${i#--}             # Delete option prefix
-    declare -r encoding="$i" # set default value
-    ;;
+    -base64 | -hex)
+      shift                    # Remove option from command line
+      name=${i#--}             # Delete option prefix
+      declare -r encoding="$i" # set default value
+      ;;
   esac
 done
 
@@ -29,5 +29,3 @@ echo -n "${output}"
 
 #output "encoding: ${encoding}; length: ${length};" "info"
 #output "${output}" "success"
-
-
