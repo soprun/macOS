@@ -74,9 +74,9 @@ if [ "$interactive" -eq 0 ]; then
       output "An error occurred when pushing" "warn"
     fi
   fi
-fi
 
-exit 0
+  exit 0
+fi
 
 read_boolean "Commit changes?" true || {
   if ! git commit -S --all --message "$commit_message" >/dev/null 2>/dev/null; then
