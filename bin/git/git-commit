@@ -6,6 +6,9 @@ set -e
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
+# Usage Example
+# $ git-commit --push --no-interactive --message="Commit message..."
+
 if [ "$(git config --global --get user.name)" != "$GIT_NAME" ]; then
   error_exit "An error occurred, the user.name parameter does not match the identity."
 fi
@@ -29,32 +32,29 @@ declare -i interactive=1
 # Getops does not support long option names
 while [[ $# -gt 0 ]]; do
   case $1 in
-  -m=* | --message=*)
-    commit_message="${1#*=}"
-    shift # past value
-    ;;
-  -p | --push)
-    commit_push=1
-    shift # past value
-    ;;
-  --no-interactive)
-    interactive=0
-    shift # past value
-    ;;
-  *)
-    output "Unknown option $1" "error"
-    output "Usage: ${0} [-m|--message=\"commit...\" --push]" "error"
-    exit 1
-    ;;
+    -m=* | --message=*)
+      commit_message="${1#*=}"
+      shift # past value
+      ;;
+    -p | --push)
+      commit_push=1
+      shift # past value
+      ;;
+    --no-interactive)
+      interactive=0
+      shift # past value
+      ;;
+    *)
+      output "Unknown option $1" "error"
+      output "Usage: ${0} [-m|--message=\"commit...\" --push]" "error"
+      exit 1
+      ;;
   esac
 done
 
 if [ -z "$commit_message" ]; then
   output "Commit message empty!" "error"
 fi
-
-# echo $commit_message
-# echo $commit_push
 
 output "$(printf "Name:\t $COLOR_BLUE%s$COLOR_RESET" "$GIT_NAME")" "info"
 output "$(printf "Email:\t $COLOR_BLUE%s$COLOR_RESET" "$GIT_EMAIL")" "info"

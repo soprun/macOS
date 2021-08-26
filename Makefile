@@ -28,6 +28,7 @@ shfmt: ## A shell parser, formatter, and interpreter with bash support; https://
 	@for file in $(SHELL_FILES); do \
   	shfmt -w -s -i 2 -bn -ci -fn $$file; \
 	done
+	git-commit --push --no-interactive --message="Commit after reformatting the code using sfmt."
 
 # https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md
 .PHONY: super-linter
