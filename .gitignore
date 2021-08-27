@@ -4,3 +4,8 @@
 # files
 .DS_Store
 .env.local
+
+config/ssh/authorized_keys
+config/ssh/known_hosts
+
+/super-linter.log

@@ -3,6 +3,11 @@
 
 DIR := $(shell cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
 
+ifeq ($(shell ! test -f "$(DIR)/.env.local" && printf 'yes'),yes)
+$(shell touch "$(DIR)/.env.local")
+$(info Сreate new empty files .env.local)
+endif
+
 SHELL_FILES_PATH := \
 	$(PWD)/install \
 	$(shell find $(PWD)/bin -type f -print) \
@@ -33,7 +38,7 @@ shfmt: ## A shell parser, formatter, and interpreter with bash support; https://
 # https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md
 .PHONY: super-linter
 super-linter: ## Run Super-Linter locally; https://github.com/github/super-linter
-	docker run --rm \
+	@docker run --rm \
  	--env RUN_LOCAL=true \
  	--env VALIDATE_ALL_CODEBASE=true \
  	--env FILTER_REGEX_EXCLUDE=".*bin-tools/.* .*functions/.* .*iTerm2/.* .*phpstorm/.* " \
@@ -42,10 +47,62 @@ super-linter: ## Run Super-Linter locally; https://github.com/github/super-linte
 
 .PHONY: shellcheck
 shellcheck: ## ShellCheck finds bugs in your shell scripts: https://www.shellcheck.net
-	@for file in $(shell file $(shell find $(PWD)/bin -type f -print) | grep 'shell script' | cut -d: -f1 | sort -u ) ; do \
-		shellcheck --check-sourced --external-sources $$file; \
+	@for file in $(SHELL_FILES); do \
+		shellcheck --check-sourced --external-sources --format=tty $$file; \
 	done
 
 .PHONY: permission
 permission: ## set chmod +x $SHELL_HOME/*
-	chmod +x $SHELL_HOME/*
+		chmod +x $(SHELL_HOME)/*
+
+#chmod -R 700 "$(HOME)/.ssh"
+#chmod -R 700 "$(HOME)/.gnupg"
+# The public key (.pub file) should be 644 (-rw-r--r--).
+#chmod 644 "$(HOME)/.ssh/"
+# The private key (id_rsa) should be 600 (-rw-------).
+#chmod 644 "$(HOME)/.ssh/"
+
+#		@for index in $(SYMLINK_FILES_PATH) ; do \
+#				source_file="$${index%%::*}"; \
+#				target_file="$${index##*::}"; \
+#				! test -f "$${target_file}" && printf "\033[0;33mSkip file \033[0;34m%s\033[0;33m, it doesn't exist!\033[0m\n" "$${target_file}" && continue; \
+#				chmod -R 700 "$${target_file}"; \
+#				printf "File \033[0;34m%s\033[0m, permission \033[0;34m700\033[0m\n" "$${target_file}"; \
+#				ls -l "$${target_file}"; \
+#		done
+
+SYMLINK_FILES_PATH := \
+	"$(DIR)/.env::$(HOME)/.env,600" \
+	"$(DIR)/.env.local::$(HOME)/.env.local," \
+	"$(DIR)/profile/.zshrc::$(HOME)/.zshrc," \
+	"$(DIR)/profile/.bash_profile::$(HOME)/.bash_profile," \
+	"$(DIR)/profile/.bash_aliases::$(HOME)/.bash_aliases," \
+	"$(DIR)/config/.gitconfig::$(HOME)/.gitconfig," \
+	"$(DIR)/config/.gitignore::$(HOME)/.gitignore," \
+	"$(DIR)/config/gpg.conf::$(HOME)/.gnupg/gpg.conf," \
+	"$(DIR)/config/gpg-agent.conf::$(HOME)/.gnupg/gpg-agent.conf," \
+	"$(DIR)/config/ssh/ssh.conf::$(HOME)/.ssh/config," \
+	"$(DIR)/config/ssh/authorized_keys::$(HOME)/.ssh/authorized_keys,600" \
+	"$(DIR)/config/ssh/known_hosts::$(HOME)/.ssh/known_hosts,600"
+
+.PHONY: symlink
+symlink: ## Create symlink
+	@rm -f $(SHELL_HOME)
+	@ln -s $(DIR)/bin $(SHELL_HOME); # 1. Create symlink ./bin/* to >>> ~/bin/
+	@chmod +x $(SHELL_HOME)/*; # 2. Set: chmod +x ~/bin/...
+
+	@for file in $(SYMLINK_FILES_PATH) ; do \
+		source_file="$${file%%::*}"; \
+		target_file="$${file##*::}"; \
+		declare -i permission_file="$${target_file##*,}"; \
+		target_file="$${target_file%%,*}"; \
+		test -f "$${target_file}" \
+		&& printf "\n\033[0;33mSkip file \033[0;34m%s\033[0;33m, it already exists!\033[0m" "$${target_file}" \
+		&& continue; \
+		ln -sf "$${source_file}" "$${target_file}"; \
+		printf "\nCreate symlink: \033[0;32m%s > \033[0;34m%s\033[0m" "$${source_file}" "$${target_file}"; \
+		test -f "$${target_file}" && test "$${permission_file}" -ne 0 \
+		&& chmod "$${permission_file}" "$${target_file}" \
+		&& printf ", permission: \033[0;34m%s\033[0m" "$${permission_file}"; \
+		printf "\n"; \
+	done
