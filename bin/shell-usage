@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# shellcheck source=./shell-common
+
+function usage_option_title() {
+  printf "${text_bold}${color_green}%s:\n" "${1:-}"
+}
+
+function usage_option_line() {
+  local option="${1:-}"
+  local description="${2:-}"
+  printf "\t${color_cyan}%-10s\t${text_reset}%s\n" "${option}" "${description}"
+}
