@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 -include .env
 -include .env.local
 
@@ -8,9 +10,17 @@ $(shell touch "$(DIR)/.env.local")
 $(info Сreate new empty files .env.local)
 endif
 
+# TODO: contivmodel should be removed once its code passes golint and misspell
+EXCLUDE_DIRS := config iTerm2 phpstorm
+PKG_DIRS := $(filter-out $(EXCLUDE_DIRS),$(subst /,,$(sort $(dir $(wildcard */)))))
+
+VERSION := $(shell scripts/getGitVersion.sh)
+BUILD_TAG?=$(shell date +'%Y-%m-%d-%H-%M-%S')-$(shell git rev-parse --short HEAD)
+
 SHELL_FILES_PATH := \
 	$(PWD)/install \
 	$(shell find $(PWD)/bin -type f -print) \
+	$(shell find $(PWD)/scripts -type f -print) \
 	$(shell find $(PWD)/profile -type f -print)
 
 SHELL_FILES := $(shell file $(SHELL_FILES_PATH) | grep 'shell script\|zsh script' | cut -d: -f1 | sort -u  )
@@ -51,9 +61,17 @@ shellcheck: ## ShellCheck finds bugs in your shell scripts: https://www.shellche
 		shellcheck --check-sourced --external-sources --format=tty $$file; \
 	done
 
+default_permissions := $(shell echo -n "$((666 - $(shell umask)))")
+
 .PHONY: permission
-permission: ## set chmod +x $SHELL_HOME/*
-		chmod +x $(SHELL_HOME)/*
+permission: ## set chmod
+	@chmod -R +x $(SHELL_HOME)/*
+
+	@for file in $(SHELL_FILES) ; do \
+		chmod -R +x $$file; \
+	done
+
+# chmod -Rv $(permission_chmod) $(SHELL_HOME)/*
 
 #chmod -R 700 "$(HOME)/.ssh"
 #chmod -R 700 "$(HOME)/.gnupg"
@@ -106,3 +124,6 @@ symlink: ## Create symlink
 		&& printf ", permission: \033[0;34m%s\033[0m" "$${permission_file}"; \
 		printf "\n"; \
 	done
+
+version:
+	$(VERSION)

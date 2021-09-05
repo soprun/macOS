@@ -5,5 +5,7 @@
 	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore
+	editor = code --wait
+	autocrlf = input
 [credential]
 	helper = osxkeychain

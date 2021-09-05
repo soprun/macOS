@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+openssl rsa -in PATH_TO_PEM_FILE -pubout -outform DER | openssl sha256 -binary | openssl base64

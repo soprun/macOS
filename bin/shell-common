@@ -89,8 +89,15 @@ if [ $verbose -ne 0 ]; then
   fi
 fi
 
-if [ $debug -ne 0 ]; then
-  echo -e "\033[0;33m[warning] Debug mode on!\033[0m\n"
+if [ "${debug}" -eq 0 ]; then
+  if [ "${SHELL_DEBUG}" == 1 ] || [ "${SHELL_DEBUG}" == true ]; then
+    # Enable debug when verbose!
+    declare -ir debug=1
+  fi
+fi
+
+if [ "${debug}" -ne 0 ]; then
+  echo -e "\033[0;33m[warning] Debug mode on!\033[0m\n\n"
   set +x
   #  set -T
   set -o functrace

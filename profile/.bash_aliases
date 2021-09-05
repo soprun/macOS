@@ -117,3 +117,5 @@ alias php-ini='code --add "$(php -r "echo php_ini_loaded_file();")"'
 alias php-restart='brew services restart php'
 
 alias composer-install='composer --ignore-platform-reqs --no-scripts install'
+
+alias nproc='sysctl -n hw.ncpu'

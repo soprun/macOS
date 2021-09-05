@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Generating a new SSH key
+# https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
+
+key_private="${HOME}/.ssh/identity"
+key_public="${key_private}.pub"
+
+ssh-keygen -q -t ed25519 -C "${ID_EMAIL}" -f "${key_private}" -N ''
+
+chmod 600 "${key_private}"
+chmod 644 "${key_public}"
