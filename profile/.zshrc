@@ -85,14 +85,14 @@ plugins=(
 
   git
   git-flow
-  git-flow-completion
+#   git-flow-completion
   git-auto-fetch
   git-prompt
 
   composer
 
   history
-  history-sync
+#   history-sync
 
   docker
   docker-compose
@@ -104,11 +104,11 @@ plugins=(
   ssh-agent
   gpg-agent
 
-  zsh-completions
-  zsh-syntax-highlighting
-  zsh-autosuggestions
-  command-time
-  history-substring-search
+#   zsh-completions
+#   zsh-syntax-highlighting
+#   zsh-autosuggestions
+#   command-time
+#   history-substring-search
 
   iterm2
 
@@ -302,3 +302,6 @@ elif type compctl &>/dev/null; then
 fi
 ###-end-npm-completion-###
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
+export PATH="/opt/homebrew/opt/node@14/bin:$PATH"

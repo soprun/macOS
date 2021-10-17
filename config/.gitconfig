@@ -1,6 +1,7 @@
 [user]
 	name = Vladislav Soprun
 	email = develop@soprun.com
+	signingkey = 8120213055C84C2C3324FB08B7502F96C5DC44C2
 [commit]
 	gpgsign = true
 [core]
