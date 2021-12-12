@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+# source "${SHELL_HOME}/shell-common"
+
+# code --add "$(which php)/php.ini"
+
+
+#
+
+# $version=''
+
+# /opt/homebrew/opt/php@8.1/bin/php $@
+
+# $(which php) "$@"
+/opt/homebrew/opt/php@7.4/bin/php "$@"

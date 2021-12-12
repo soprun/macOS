@@ -127,3 +127,15 @@ symlink: ## Create symlink
 
 version:
 	$(VERSION)
+
+
+
+php_config_files := $(shell find $(PWD)/config/php -type f -print)
+#find $(PWD)/bin -type f -print
+
+php-install: ##
+	@for file in $(php_config_files) ; do \
+		echo $${file}; \
+		ln -sf "$${file}" "$(shell php -r "echo PHP_CONFIG_FILE_SCAN_DIR;")/`basename -a $${file}`"; \
+		printf "\n"; \
+	done
