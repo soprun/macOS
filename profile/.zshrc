@@ -147,7 +147,7 @@ else
 fi
 
 # Compilation flags
-export ARCHFLAGS="-arch arm64"
+# export ARCHFLAGS="-arch arm64"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -315,10 +315,6 @@ elif type compctl &>/dev/null; then
 fi
 ###-end-npm-completion-###
 
-export PATH="/usr/local/opt/mysql-client/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-export PATH="/opt/homebrew/opt/node@14/bin:$PATH"
-
 # complete -W "\`grep -oE '^[a-zA-Z0-9_-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-9_-]*$//'\`" make
 
 # if [ -f $(brew --prefix)/etc/bash_completion ]; then
@@ -389,5 +385,25 @@ autoload -U compinit && compinit
 source /opt/homebrew/opt/git-extras/share/git-extras/git-extras-completion.zsh
 
 
-export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
+# export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+# export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
+
+# export PATH="/opt/homebrew/opt/php@8.0/bin:$PATH"
+# export PATH="/opt/homebrew/opt/php@8.0/sbin:$PATH"
+
+export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"
+
+# export VAULT_ADDR=https://127.0.0.1:8200
+# export VAULT_API_ADDR=https:/127.0.0.1:8202
+
+# export VAULT_ADDR="https://127.0.0.1:8200"
+# export VAULT_API_ADDR="https:/127.0.0.1:8202"
+# export VAULT_OIDC_ADDR="https://127.0.0.1:8250"
+# export VAULT_TOKEN=s.JR6xmkEY1tBnrKd12pSMgoOR
+# export VAULT_SKIP_VERIFY=true
+# export VAULT_NAMESPACE=admin
+#
+# autoload -U +X bashcompinit && bashcompinit
+# complete -o nospace -C /opt/homebrew/bin/vault vault
+# complete -C /opt/homebrew/bin/vault vault

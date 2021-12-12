@@ -6,7 +6,8 @@ source "${SHELL_HOME}/shell-common"
 
 ### List used ports on Linux and MacOS
 
-netstat -an | grep 'LISTEN\s'
+# netstat -an | grep 'LISTEN\s'
+netstat -anvp tcp | awk 'NR<3 || /LISTEN/'
 
 # How can I list my open network ports with netstat?
 # https://apple.stackexchange.com/questions/117644/how-can-i-list-my-open-network-ports-with-netstat

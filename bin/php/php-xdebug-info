@@ -4,4 +4,4 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-code --add "$(which php)/php.ini"
+php -r "xdebug_info();" | less -R
