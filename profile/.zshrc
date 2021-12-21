@@ -384,15 +384,14 @@ autoload -U compinit && compinit
 
 source /opt/homebrew/opt/git-extras/share/git-extras/git-extras-completion.zsh
 
-
-# export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-# export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
 
 # export PATH="/opt/homebrew/opt/php@8.0/bin:$PATH"
 # export PATH="/opt/homebrew/opt/php@8.0/sbin:$PATH"
 
-export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"
+# export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"
+# export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"
 
 # export VAULT_ADDR=https://127.0.0.1:8200
 # export VAULT_API_ADDR=https:/127.0.0.1:8202
