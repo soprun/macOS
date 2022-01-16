@@ -64,8 +64,8 @@ export GIT_EMAIL
 # https://runebook.dev/ru/docs/git/git-receive-pack
 export GIT_PUSH_CERT_SIGNER="${GIT_NAME} <${GIT_EMAIL}>"
 export GIT_PUSH_CERT_KEY="${ID_GPG_KEY}"
-export GIT_PUSH_CERT_STATUS="${ID_GPG_KEY}"
-export GIT_PUSH_CERT_NONCE="nonce"
+#export GIT_PUSH_CERT_STATUS="${ID_GPG_KEY}"
+#export GIT_PUSH_CERT_NONCE="nonce"
 
 ### Composer environment variables
 
