@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+gpg --list-signatures --with-colons | awk -F: '$1=="sig" && $2=="?" {if($13){print $13}else{print $5}}'

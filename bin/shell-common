@@ -21,10 +21,13 @@ set +u
 set +o pipefail
 
 #set -euo pipefail
-shopt -s extdebug
+# shopt -s extdebug
 
 # Text reset attributes
 tput sgr0
+
+#set -o pipefail
+#set -Tu
 
 # Save screen
 # tput smcup # switch to secondary screen
@@ -40,15 +43,15 @@ declare USAGE
 for i in "$@"; do
   case "$i" in
   -v | --verbose)
-    shift
+    #    shift
     declare -ir verbose=1
     ;;
   -vv)
-    shift
+    #    shift
     declare -ir verbose=2
     ;;
   -vvv)
-    shift
+    #    shift
     declare -ir verbose=3
     ;;
   -v=* | --verbose=*)
@@ -57,15 +60,15 @@ for i in "$@"; do
     declare -ir verbose=${name#*=}
     ;;
   --debug)
-    shift
+    #    shift
     declare -ir debug=1
     ;;
   --help)
-    shift
+    #    shift
     declare -ir help=1
     ;;
   --quiet)
-    shift
+    #    shift
     declare -ir quiet=1
     ;;
   esac
@@ -453,25 +456,88 @@ function_exists usage_option_title || {
   source "${SOURCE_DIR}/shell-usage"
 }
 
+declare USAGE_OPTIONS_ENABLE
+declare USAGE_GLOBAL_OPTIONS_ENABLE
+declare USAGE_ARGUMENTS_ENABLE
+
+if [ -z "${USAGE_OPTIONS_ENABLE}" ]; then
+  USAGE_OPTIONS_ENABLE=true
+fi
+if [ -z "${USAGE_GLOBAL_OPTIONS_ENABLE}" ]; then
+  USAGE_GLOBAL_OPTIONS_ENABLE=true
+fi
+if [ -z "${USAGE_ARGUMENTS_ENABLE}" ]; then
+  USAGE_ARGUMENTS_ENABLE=true
+fi
+
+declare USAGE
+declare USAGE_COMMAND
+declare USAGE_GLOBAL_OPTIONS
+declare USAGE_COMMAND_OPTIONS
+declare USAGE_COMMAND_ARGUMENTS
+
+declare USAGE_DESCRIPTION
+declare USAGE_OPTIONS
+declare USAGE_ARGUMENTS
+
+if [ -z "${USAGE_GLOBAL_OPTIONS}" ]; then
+  USAGE_GLOBAL_OPTIONS="global options"
+fi
 if [ -z "${USAGE_COMMAND_OPTIONS}" ]; then
-  USAGE_COMMAND_OPTIONS="options"
+  USAGE_COMMAND_OPTIONS="command options"
+fi
+if [ -z "${USAGE_COMMAND_ARGUMENTS}" ]; then
+  USAGE_COMMAND_ARGUMENTS="arguments..."
 fi
 
 if [ -z "${USAGE_COMMAND}" ]; then
-  USAGE_COMMAND="$(usage_option_line "${color_blue}$(basename "$0")" "[${USAGE_COMMAND_OPTIONS}] [arguments]")"
+  if [ -n "${USAGE_GLOBAL_OPTIONS}" ]; then
+    USAGE_GLOBAL_OPTIONS=" [${USAGE_GLOBAL_OPTIONS}]"
+  fi
+  if [ -n "${USAGE_COMMAND_OPTIONS}" ]; then
+    USAGE_COMMAND_OPTIONS=" [${USAGE_COMMAND_OPTIONS}]"
+  fi
+  if [ -n "${USAGE_COMMAND_ARGUMENTS}" ]; then
+    USAGE_COMMAND_ARGUMENTS=" ${USAGE_COMMAND_ARGUMENTS}"
+  fi
+  if [ "$(if_boolean "${USAGE_GLOBAL_OPTIONS_ENABLE}")" = false ]; then
+    unset USAGE_GLOBAL_OPTIONS
+  fi
+  if [ "$(if_boolean "${USAGE_OPTIONS_ENABLE}")" = false ]; then
+    unset USAGE_COMMAND_OPTIONS
+  fi
+  if [ "$(if_boolean "${USAGE_ARGUMENTS_ENABLE}")" = false ]; then
+    unset USAGE_COMMAND_ARGUMENTS
+  fi
+
+  USAGE_COMMAND="$(
+    usage_option_line \
+      "${color_blue}$(basename "$0")" \
+      "${USAGE_GLOBAL_OPTIONS}${USAGE_COMMAND_OPTIONS}${USAGE_COMMAND_ARGUMENTS}"
+  )"
 fi
 
-USAGE="
+if [ -n "${USAGE_DESCRIPTION}" ]; then
+  USAGE+="
+${text_bold}Description:${text_reset} ${USAGE_DESCRIPTION}${text_reset}
+"
+fi
+
+USAGE+="
 $(usage_option_title "Usage")
 ${USAGE_COMMAND}
+"
 
-$(usage_option_title "Options (shell-common)")
-$(usage_option_line "--help" "Display this help message")
+if [ "$(if_boolean "${USAGE_GLOBAL_OPTIONS_ENABLE}")" = true ]; then
+  USAGE+="
+$(usage_option_title "Global options: (shell-common)")
+$(usage_option_line "--help" "Show help")
 $(usage_option_line "--quiet" "Do not output any message")
 $(usage_option_line "--debug" "Switches on debug mode.")
 $(usage_option_line "--version" "Display this application version")
 $(usage_option_line "-v|vv|vvv, --verbose" "Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug")
 "
+fi
 
 if [ -n "${USAGE_ARGUMENTS}" ]; then
   USAGE+="
@@ -483,7 +549,7 @@ fi
 if [ -n "${USAGE_OPTIONS}" ]; then
   output "USAGE_OPTIONS: ${USAGE_OPTIONS}" "debug"
   USAGE+="
-$(usage_option_title "Options ($(basename $0))")
+$(usage_option_title "Command options ($(basename $0))")
 ${USAGE_OPTIONS}
 "
 fi

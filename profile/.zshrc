@@ -127,7 +127,16 @@ plugins=(
   # zsh_reload
 
   zsh-interactive-cd
+
+  symfony-console
 )
+
+# fpath=(~/.zsh/completion $fpath)
+
+# https://awesomeopensource.com/project/bamarni/symfony-console-autocomplete
+
+# https://github.com/jerguslejko/zsh-symfony-completion
+export SYMFONY_CONSOLE_TOOLS="composer artisan valet envoy bin/console"
 
 # shellcheck source=/dev/null
 source "${ZSH}/oh-my-zsh.sh"
@@ -140,11 +149,13 @@ source "${ZSH}/oh-my-zsh.sh"
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
+if [ -n "${SSH_CONNECTION}" ]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='vim'
 fi
+
+export VISUAL="code --wait"
 
 # Compilation flags
 # export ARCHFLAGS="-arch arm64"
@@ -321,16 +332,10 @@ fi
 #  . $(brew --prefix)/etc/bash_completion
 # fi
 
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
-zstyle ':completion:*:*:make:*' tag-order 'targets'
-
-zstyle ':completion:*:*:docker:*' option-stacking yes
-zstyle ':completion:*:*:docker-*:*' option-stacking yes
-
-autoload -U compinit && compinit
+# autoload -U compinit && compinit
+# autoload -Uz compinit && compinit -i
 
 # /opt/homebrew/share/zsh/site-functions
 # /opt/homebrew/Cellar/docker-completion/20.10.9
@@ -370,8 +375,18 @@ autoload -U compinit && compinit
 #   compinit
 # fi
 
+# if [ -f $(brew --prefix)/etc/bash_completion ]; then
+#     . $(brew --prefix)/etc/bash_completion
+# fi
+
+# zstyle ':completion:*:*:make:*' tag-order 'targets'
+# zstyle ':completion:*:*:docker:*' option-stacking yes
+# zstyle ':completion:*:*:docker-*:*' option-stacking yes
+
 # autoload -U compinstall && compinstall
 # autoload -U compinit && compinit
+
+# autoload -Uz compinit && compinit -i
 
 
 # You may also need to force rebuild `zcompdump`:
@@ -384,14 +399,14 @@ autoload -U compinit && compinit
 
 source /opt/homebrew/opt/git-extras/share/git-extras/git-extras-completion.zsh
 
-export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
+# export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+# export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
 
 # export PATH="/opt/homebrew/opt/php@8.0/bin:$PATH"
 # export PATH="/opt/homebrew/opt/php@8.0/sbin:$PATH"
 
-# export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"
-# export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"
+export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"
 
 # export VAULT_ADDR=https://127.0.0.1:8200
 # export VAULT_API_ADDR=https:/127.0.0.1:8202
@@ -406,3 +421,19 @@ export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
 # autoload -U +X bashcompinit && bashcompinit
 # complete -o nospace -C /opt/homebrew/bin/vault vault
 # complete -C /opt/homebrew/bin/vault vault
+
+source ~/.composer_completion
+eval "$(symfony-autocomplete)"
+
+# PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.0.2". You are running 7.4.27. in /Users/soprun/.composer/vendor/composer/platform_check.php on line 24
+# PHP Stack trace:
+# PHP   1. {main}() /Users/soprun/.composer/vendor/bamarni/symfony-console-autocomplete/bin/symfony-autocomplete:0
+# PHP   2. require_once() /Users/soprun/.composer/vendor/bamarni/symfony-console-autocomplete/bin/symfony-autocomplete:11
+# PHP   3. ComposerAutoloaderInita3fed7f24e14ccab1392f793a8f92186::getLoader() /Users/soprun/.composer/vendor/autoload.php:7
+# PHP   4. require() /Users/soprun/.composer/vendor/composer/autoload_real.php:25
+# PHP   5. trigger_error($message = 'Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.0.2". You are running 7.4.27.', $error_type = 256) /Users/soprun/.composer/vendor/composer/platform_check.php:24
+# (eval):2: command not found: Fatal
+# (eval):4: command not found: Call
+# (eval):6: unknown username '/.composer/ve'
+# (eval):8: unknown username '/.composer/ve'
+# (eval):9: unknown file attribute:

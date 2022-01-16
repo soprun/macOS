@@ -6,6 +6,7 @@
 	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
 	editor = code --wait
 	autocrlf = input
 [credential]
@@ -17,3 +18,9 @@
 	clean = git-lfs clean -- %f
 [init]
 	defaultBranch = master
+[http]
+	sslVerify = true
+[tag]
+	forceSignAnnotated = true
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg

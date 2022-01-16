@@ -95,10 +95,12 @@ SYMLINK_FILES_PATH := \
 	"$(DIR)/profile/.zshrc::$(HOME)/.zshrc," \
 	"$(DIR)/profile/.bash_profile::$(HOME)/.bash_profile," \
 	"$(DIR)/profile/.bash_aliases::$(HOME)/.bash_aliases," \
-	"$(DIR)/config/.gitconfig::$(HOME)/.gitconfig," \
-	"$(DIR)/config/.gitignore::$(HOME)/.gitignore," \
-	"$(DIR)/config/gpg.conf::$(HOME)/.gnupg/gpg.conf," \
-	"$(DIR)/config/gpg-agent.conf::$(HOME)/.gnupg/gpg-agent.conf," \
+	"$(DIR)/config/git/.gitattributes::$(HOME)/.gitattributes," \
+	"$(DIR)/config/git/.gitconfig::$(HOME)/.gitconfig," \
+	"$(DIR)/config/git/.gitignore::$(HOME)/.gitignore," \
+	"$(DIR)/config/gpg/dirmngr.conf::$(GNUPGHOME)/dirmngr.conf," \
+	"$(DIR)/config/gpg/gpg.conf::$(GNUPGHOME)/gpg.conf," \
+	"$(DIR)/config/gpg/gpg-agent.conf::$(GNUPGHOME)/gpg-agent.conf," \
 	"$(DIR)/config/ssh/ssh.conf::$(HOME)/.ssh/config," \
 	"$(DIR)/config/ssh/authorized_keys::$(HOME)/.ssh/authorized_keys,600" \
 	"$(DIR)/config/ssh/known_hosts::$(HOME)/.ssh/known_hosts,600"
@@ -115,9 +117,9 @@ symlink: ## Create symlink
 		declare -i permission_file="$${target_file##*,}"; \
 		target_file="$${target_file%%,*}"; \
 		test -f "$${target_file}" \
-		&& printf "\n\033[0;33mSkip file \033[0;34m%s\033[0;33m, it already exists!\033[0m" "$${target_file}" \
+		&& printf "\n\033[0;33mSkip file \033[0;34m%s\033[0;33m it already exists!\033[0m" "$${target_file}" \
 		&& continue; \
-		ln -sf "$${source_file}" "$${target_file}"; \
+		ln -s "$${source_file}" "$${target_file}"; \
 		printf "\nCreate symlink: \033[0;32m%s > \033[0;34m%s\033[0m" "$${source_file}" "$${target_file}"; \
 		test -f "$${target_file}" && test "$${permission_file}" -ne 0 \
 		&& chmod "$${permission_file}" "$${target_file}" \
@@ -139,3 +141,9 @@ php-install: ##
 		ln -sf "$${file}" "$(shell php -r "echo PHP_CONFIG_FILE_SCAN_DIR;")/`basename -a $${file}`"; \
 		printf "\n"; \
 	done
+
+
+
+gpg-install-config: ## install gpg
+	# $(which pinentry-mac)
+	# echo git config --global gpg.program $(shell which gpg)

@@ -52,13 +52,20 @@ export ID_GPG_KEY
 
 ### Git credentials
 
-#export GIT_NAME
-#export GIT_EMAIL
+export GIT_NAME
+export GIT_EMAIL
 #export GIT_GPG_KEY
 #export GIT_GPG_SIGN
 #export GIT_GPG_PROGRAM
 #export GIT_EDITOR
 #export GIT_SSL_NO_VERIFY=true
+
+# git-receive-pack
+# https://runebook.dev/ru/docs/git/git-receive-pack
+export GIT_PUSH_CERT_SIGNER="${GIT_NAME} <${GIT_EMAIL}>"
+export GIT_PUSH_CERT_KEY="${ID_GPG_KEY}"
+export GIT_PUSH_CERT_STATUS="${ID_GPG_KEY}"
+export GIT_PUSH_CERT_NONCE="nonce"
 
 ### Composer environment variables
 
@@ -70,11 +77,33 @@ export PATH="${COMPOSER_HOME}/vendor/bin:$PATH"
 
 ### Docker environment variables
 
+export DOCKER_HOST=unix:///var/run/docker.sock
 export DOCKER_BUILDKIT
 export DOCKER_CLI_EXPERIMENTAL
 export COMPOSE_DOCKER_CLI_BUILD
 # export BUILDX_NO_DEFAULT_LOAD=false
 export BUILDKIT_PROGRESS
+
+# https://earthly.dev/blog/what-is-buildkit-and-what-can-i-do-with-it/#buildkitd
+# https://github.com/moby/buildkit#containerizing-buildkit
+# export BUILDKIT_HOST=docker-container://buildkit
+
+# https://hub.docker.com/r/moby/buildkit
+# To run daemon in a container:
+
+# docker run -d --name buildkit --privileged moby/buildkit:latest
+# export BUILDKIT_HOST=docker-container://buildkit
+# buildctl build --help
+
+# docker run -d --name buildkit --privileged moby/buildkit:latest
+
+#docker run -it --rm  --privileged \
+#    --entrypoint buildctl-daemonless.sh \
+#    moby/buildkit:master \
+#        build \
+#        --frontend dockerfile.v0 \
+#        --local context=/tmp/work \
+#        --local dockerfile=/tmp/work
 
 #export DOCKER_CONTENT_TRUST
 #export DOCKER_CONTENT_TRUST_SERVER
@@ -94,5 +123,7 @@ unset SSH_AGENT_PID
 SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 export SSH_AUTH_SOCK
 
-export VISUAL="code --wait"
-export EDITOR="$VISUAL"
+# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# Setup the gpg-agent for SSH authentication
+# see: https://gist.github.com/mcattarinussi/834fc4b641ff4572018d0c665e5a94d3#setup-the-gpg-agent-for-ssh-authentication

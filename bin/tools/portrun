@@ -1,0 +1,12 @@
+#!/bin/bash
+
+USAGE_DESCRIPTION="What is running on a port?!"
+USAGE_OPTIONS_ENABLE=false
+USAGE_COMMAND_ARGUMENTS="{int:port-80}"
+
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+declare -i port="${1:-80}"
+
+lsof -nP -iTCP:"${port}" -sTCP:LISTEN

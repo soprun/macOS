@@ -32,8 +32,10 @@ alias lsd="ls -lFG | grep --color=never '^d'"
 alias ls="command ls -G"
 
 # Edition hosts file
-alias edit-hosts="sudo code --add /etc/hosts"
-alias edit-hosts-vim="sudo vim /etc/hosts"
+alias edit-hosts="sudo vim /etc/hosts"
+alias edit-hosts-code="code /etc/hosts"
+alias hosts="edit-hosts"
+alias hosts-code="edit-hosts-code"
 
 # IP addresses
 #alias ip=""
@@ -116,6 +118,6 @@ alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 alias php-ini='code --add "$(php -r "echo php_ini_loaded_file();")"'
 alias php-restart='brew services restart php'
 
-alias composer-install='composer --ignore-platform-reqs --no-scripts install'
+# alias composer-install='composer --ignore-platform-reqs --no-scripts install'
 
 alias nproc='sysctl -n hw.ncpu'
