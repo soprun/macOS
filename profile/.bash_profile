@@ -52,13 +52,9 @@ export ID_GPG_KEY
 
 ### Git credentials
 
-export GIT_NAME="${ID_NAME}"
-export GIT_EMAIL="${ID_EMAIL}"
-export GIT_GPG_KEY="${ID_GPG_KEY}"
-#export GIT_GPG_SIGN
-#export GIT_GPG_PROGRAM
-#export GIT_EDITOR
-#export GIT_SSL_NO_VERIFY=true
+export GIT_NAME
+export GIT_EMAIL
+export GIT_GPG_KEY
 
 # git-receive-pack
 # https://runebook.dev/ru/docs/git/git-receive-pack
