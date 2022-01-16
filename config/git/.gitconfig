@@ -26,6 +26,3 @@
 	program = /usr/local/MacGPG2/bin/gpg
 [receive]
 	advertisePushOptions = true
-[gpg "x509"]
-	program = smimesign
-	format = x509
