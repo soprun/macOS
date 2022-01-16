@@ -4,10 +4,10 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-gpg --armor --export-ssh-key "${ID_GPG_KEY}" | pbcopy
+gpg --armor --export-ssh-key "${1-${ID_GPG_KEY}}" | pbcopy
 
 output 'Export ssh key and copy the clipboard.' 'success'
 
-if [ -e "${HOME}/.ssh/id_rsa_yubikey.pub" ]; then
-  output "" "warning"
-fi
+#if [ -e "${HOME}/.ssh/id_rsa_yubikey.pub" ]; then
+#  output "" "warning"
+#fi
