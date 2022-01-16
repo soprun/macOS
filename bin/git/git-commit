@@ -9,15 +9,15 @@ source "${SHELL_HOME}/shell-common"
 # Usage Example
 # $ git-commit --push --no-interactive --message="Commit message..."
 
-if [ "$(git config --global --get user.name)" != "$GIT_NAME" ]; then
+if [ -z "$(git config --global --get user.name)" ]; then
   error_exit "An error occurred, the user.name parameter does not match the identity."
 fi
 
-if [ "$(git config --global --get user.email)" != "$GIT_EMAIL" ]; then
+if [ -z "$(git config --global --get user.email)" ]; then
   error_exit "An error occurred, the user.email parameter does not match the identity."
 fi
 
-if [ "$(git config --global --get commit.gpgsign)" != "$GIT_GPG_SIGN" ]; then
+if [ -z "$(git config --global --get commit.gpgsign)" ]; then
   error_exit "An error occurred, the gpgsign parameter does not match the identity."
 fi
 
