@@ -155,7 +155,7 @@ else
   export EDITOR='vim'
 fi
 
-export VISUAL="code --wait"
+# export VISUAL="code --wait"
 
 # Compilation flags
 # export ARCHFLAGS="-arch arm64"
@@ -437,3 +437,4 @@ eval "$(symfony-autocomplete)"
 # (eval):6: unknown username '/.composer/ve'
 # (eval):8: unknown username '/.composer/ve'
 # (eval):9: unknown file attribute:
+export PATH="/opt/homebrew/opt/node@14/bin:$PATH"

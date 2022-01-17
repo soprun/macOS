@@ -67,7 +67,6 @@ export GIT_PUSH_CERT
 export GIT_PUSH_CERT_SIGNER="Vladislav Soprun <develop@soprun.com>"
 export GIT_PUSH_CERT_KEY="B7502F96C5DC44C2"
 
-
 ### Composer environment variables
 
 export COMPOSER_HOME
