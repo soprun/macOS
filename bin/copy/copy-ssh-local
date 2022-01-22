@@ -4,14 +4,14 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
-identity="${1:-$ID_EMAIL}"
-name="$(echo "${identity}" | awk '{print tolower($0)}' | tr -d '\n ' | md5 -q)"
-file="$HOME/.ssh/$name.pub"
+identity="${1:-$GIT_EMAIL}"
+name="$(echo -n "${identity}" | openssl dgst -md5)"
+file="${HOME}/.ssh/${name}.pub"
 
-if [ ! -f "$file" ]; then
-  error_exit "File '$identity' does not exists!"
+if [ ! -f "${file}" ]; then
+  error_exit "File '${identity}' does not exist!"
 fi
 
-pbcopy <"$file"
+pbcopy <"${file}"
 
 output 'Export ssh key and copy the clipboard.' 'success'
