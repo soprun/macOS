@@ -8,4 +8,9 @@ source "${SHELL_HOME}/shell-common"
 # log_info $(git describe --tags --abbrev=0)
 
 # # gets tags across all branches, not just the current branch
-output "$(git describe --tags "$(git rev-list --tags --max-count=1)")" "info"
+output "Current tag: $(git describe --tags "$(git rev-list --tags --max-count=1)")" "info"
+output "Last tag: $(git tag -l "v*.*.*" --sort=-v:refname | head -n 1)" "info"
+
+# output "Plan text" "title"
+
+git log --tags --no-walk --pretty="format:%d" | sed 2q | sed 's/[()]//g' | sed 's/,[^,]*$//' | sed  's ......  '

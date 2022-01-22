@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# Gets tag from current branch
+# log_info $(git describe --tags --abbrev=0)
+
+# # gets tags across all branches, not just the current branch
+# output "$(git describe --tags "$(git rev-list --tags --max-count=1)")" "info"
+
+# git tag -l | grep -e 'v\d\+\.\d\+\.\d\+' | sort -V -r | head -n 1
+
+#git tag -l | grep -e 'v\d\+\.\d\+\.\d\+' | sort -V -r
+
+git -c versionsort.prereleaseSuffix="-rc" -c versionsort.prereleaseSuffix="-RC" tag --verify --sort=-v:refname -n --list "v*.*.*" | awk '!/rc/'

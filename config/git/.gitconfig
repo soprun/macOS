@@ -26,3 +26,13 @@
 	program = /usr/local/MacGPG2/bin/gpg
 [receive]
 	advertisePushOptions = true
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	type = cat-file -t
+	dump = cat-file -p
+	hist = log --color --graph --date=short --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[log]
+	date = short
