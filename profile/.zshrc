@@ -438,3 +438,6 @@ eval "$(symfony-autocomplete)"
 # (eval):8: unknown username '/.composer/ve'
 # (eval):9: unknown file attribute:
 export PATH="/opt/homebrew/opt/node@14/bin:$PATH"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
+eval "$(rbenv init - zsh)"

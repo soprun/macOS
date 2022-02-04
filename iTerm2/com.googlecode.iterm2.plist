@@ -4,10 +4,14 @@
 <dict>
 	<key>Default Bookmark Guid</key>
 	<string>0F22408B-6C3E-4B9D-B933-27A71C8CEC58</string>
+	<key>Default Toolbelt Width</key>
+	<real>250</real>
 	<key>DeleteProfile_SilenceUntil</key>
 	<real>657271249.04557598</real>
 	<key>DeleteProfile_selection</key>
 	<integer>0</integer>
+	<key>EnableAPIServer</key>
+	<true/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
@@ -196,7 +200,7 @@
 			<key>Character Encoding</key>
 			<integer>4</integer>
 			<key>Close Sessions On End</key>
-			<true/>
+			<integer>2</integer>
 			<key>Columns</key>
 			<integer>135</integer>
 			<key>Command</key>
@@ -661,14 +665,29 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
+	<key>SavePasteHistory</key>
+	<true/>
+	<key>Snippets</key>
+	<array>
+		<dict>
+			<key>guid</key>
+			<string>B5C672CE-D1CC-4C32-BDA3-9762D5397785</string>
+			<key>title</key>
+			<string>to home</string>
+			<key>value</key>
+			<string>cd ${HOME}</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>ToolbeltTools</key>
 	<array>
-		<string>Profiles</string>
 		<string>Actions</string>
 		<string>Notes</string>
 		<string>Snippets</string>
+		<string>Paste History</string>
 	</array>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
