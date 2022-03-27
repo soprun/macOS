@@ -127,3 +127,7 @@ export SSH_AUTH_SOCK
 
 # Setup the gpg-agent for SSH authentication
 # see: https://gist.github.com/mcattarinussi/834fc4b641ff4572018d0c665e5a94d3#setup-the-gpg-agent-for-ssh-authentication
+
+
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+

@@ -121,3 +121,7 @@ alias php-restart='brew services restart php'
 # alias composer-install='composer --ignore-platform-reqs --no-scripts install'
 
 alias nproc='sysctl -n hw.ncpu'
+
+alias composer-suggests-ext='composer suggests --all --list | grep "ext-*"'
+
+# alias git-pull='git pull --rebase --verify-signature'

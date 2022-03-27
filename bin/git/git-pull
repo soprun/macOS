@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# output "$()" "success"
+
+declare error=""
+
+# if ! git pull --rebase --verify-signature 2>/dev/null; then
+
+#ERROR=$(git pull --rebase --verify-signature 2>&1 >/dev/null)
+# echo $ERROR
+
+#output "${ERROR}" "error"
+
+#if !  2>error; then
+#  output "An error occurred when pushing: ${error}" "error"
+#fi
+
+git pull --rebase --verify-signatur
