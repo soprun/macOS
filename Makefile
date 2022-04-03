@@ -69,7 +69,7 @@ permission: ## set chmod
 
 	@for file in $(SHELL_FILES) ; do \
 		chmod -R +x $$file; \
-	done
+	donex
 
 # chmod -Rv $(permission_chmod) $(SHELL_HOME)/*
 
@@ -141,8 +141,6 @@ php-install: ##
 		ln -sf "$${file}" "$(shell php -r "echo PHP_CONFIG_FILE_SCAN_DIR;")/`basename -a $${file}`"; \
 		printf "\n"; \
 	done
-
-
 
 gpg-install-config: ## install gpg
 	# $(which pinentry-mac)

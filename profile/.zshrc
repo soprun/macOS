@@ -441,3 +441,6 @@ export PATH="/opt/homebrew/opt/node@14/bin:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 
 eval "$(rbenv init - zsh)"
+
+# export http_proxy=http://127.0.0.1:7080
+# export https_proxy=http://127.0.0.1:7080
