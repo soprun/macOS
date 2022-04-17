@@ -84,6 +84,17 @@ export COMPOSE_DOCKER_CLI_BUILD
 # export BUILDX_NO_DEFAULT_LOAD=false
 export BUILDKIT_PROGRESS
 
+export BLACKFIRE_CLIENT_ID
+export BLACKFIRE_CLIENT_TOKEN
+export BLACKFIRE_SERVER_ID
+export BLACKFIRE_SERVER_TOKEN
+
+export BLACKFIRE_AGENT_SOCKET="unix:///opt/homebrew/var/run/blackfire-agent.sock"
+# export BLACKFIRE_SOCKET="unix:///opt/homebrew/var/run/blackfire-agent.sock"
+
+# 1: error, 2: warning, 3: info, 4: debug
+export BLACKFIRE_LOG_LEVEL=1
+
 # https://earthly.dev/blog/what-is-buildkit-and-what-can-i-do-with-it/#buildkitd
 # https://github.com/moby/buildkit#containerizing-buildkit
 # export BUILDKIT_HOST=docker-container://buildkit
@@ -129,5 +140,6 @@ export SSH_AUTH_SOCK
 # see: https://gist.github.com/mcattarinussi/834fc4b641ff4572018d0c665e5a94d3#setup-the-gpg-agent-for-ssh-authentication
 
 
-export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+# export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+
 
