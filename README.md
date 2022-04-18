@@ -2,6 +2,7 @@
 
 Collection bash scripts
 
+- https://github.com/trimstray/the-book-of-secret-knowledge
 - https://github.com/mathiasbynens/dotfiles
 - https://github.com/alebcay/awesome-shell
 - https://github.com/drduh/YubiKey-Guide

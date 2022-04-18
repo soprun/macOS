@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# https://github.com/trimstray/the-book-of-secret-knowledge#log-alias-for-a-decent-view-of-your-repo
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+# 1)
+# git log --oneline --decorate --graph --all
+
+# 2)
+git log --graph \
+--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
+--abbrev-commit
