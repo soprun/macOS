@@ -2,13 +2,13 @@
 
 # shellcheck disable=SC1091
 # shellcheck source=../shell-common
-source "${SHELL_HOME}/shell-common"
+# source "${SHELL_HOME}/shell-common"
 
 #ip_address=$(ip-external)
 #echo "$ip_address" | tr -d '\n ' | pbcopy
 #output "Your IP Address: ${COLOR_GREEN}${ip_address}" "info"
 
-public_key=$(gpg --openpgp --interactive --armor --export-key "$ID_GPG_KEY")
+public_key=$(gpg --openpgp --interactive --armor --export "$ID_GPG_KEY")
 
 # Copying public key to clipboard
 echo -n "${public_key}" | pbcopy

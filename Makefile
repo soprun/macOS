@@ -5,6 +5,16 @@ SHELL := /bin/bash
 
 DIR := $(shell cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
 
+GIT_REV := $(shell git rev-list --tags --max-count=1)
+GIT_TAG := $(shell git describe --tags ${REV})
+GIT_SHORT_TAG := $(shell git rev-parse --short HEAD)
+
+COLOR_RESET := \033[0m
+COLOR_RED := \033[0;31m
+COLOR_YELLOW := \033[0;33m
+COLOR_GREEN := \033[0;32m
+COLOR_BLUE := \033[0;34m
+
 ifeq ($(shell ! test -f "$(DIR)/.env.local" && printf 'yes'),yes)
 $(shell touch "$(DIR)/.env.local")
 $(info Сreate new empty files .env.local)
@@ -54,6 +64,22 @@ super-linter: ## Run Super-Linter locally; https://github.com/github/super-linte
  	--env FILTER_REGEX_EXCLUDE=".*bin-tools/.* .*functions/.* .*iTerm2/.* .*phpstorm/.* " \
  	--volume $(PWD):/tmp/lint \
  	github/super-linter
+
+commands_required := git shellcheck shfmt docker
+
+commands-required: ## check commands required
+	@printf  "\n\e[4m\e[1m%s\n\n" "Checking the programs required for the build are installed..."
+	@for command in $(commands_required) ; do \
+  		if command -v "$$command" >/dev/null 2>&1; then \
+        	printf "\e[1m$(COLOR_BLUE)[info]: \e[0mcommand: $(COLOR_GREEN)\"$$command\"$(COLOR_RESET) is installed.\n$(COLOR_RESET)"; \
+        else \
+        	printf "\e[1m$(COLOR_RED)[error]: \e[0mcommand: $(COLOR_YELLOW)\"$$command\"$(COLOR_RESET) is required! 🚨️\n\n$(COLOR_RESET)"; \
+        	printf "\e[94mExecute command: $(COLOR_RESET)\e[4mbrew install $$command\n$(COLOR_RESET)"; \
+        	printf "\e[94mLink to brew: \e[1mhttps://formulae.brew.sh/formula/$$command\n\n$(COLOR_RESET)"; \
+        	exit 1; \
+        fi \
+	done
+
 
 .PHONY: shellcheck
 shellcheck: ## ShellCheck finds bugs in your shell scripts: https://www.shellcheck.net
@@ -145,3 +171,12 @@ php-install: ##
 gpg-install-config: ## install gpg
 	# $(which pinentry-mac)
 	# echo git config --global gpg.program $(shell which gpg)
+
+
+#create-env: ## Сreate new empty files .env.local
+#ifeq ($(shell ! test -f "$(DIR)/.env.local" && printf 'yes'),yes)
+#$(shell touch "$(DIR)/.env.local")
+#$(info Сreate new empty files .env.local)
+#endif
+#	ln -s "$(DIR)/.env" "$(HOME)/.env"
+#	ln -s "$(DIR)/.env.local" "$(HOME)/.env.local"
