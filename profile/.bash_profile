@@ -32,6 +32,8 @@ for dir in "$SHELL_HOME"/*; do
 done
 unset dir
 
+export CLICOLOR
+
 #######################################################################
 # Export environment variables
 #######################################################################
@@ -66,6 +68,18 @@ export GIT_GPG_KEY
 export GIT_PUSH_CERT
 export GIT_PUSH_CERT_SIGNER="Vladislav Soprun <develop@soprun.com>"
 export GIT_PUSH_CERT_KEY="B7502F96C5DC44C2"
+
+# GitHub credentials
+######################################################################
+
+export GITHUB_USER
+export GITHUB_TOKEN
+
+# GitLab credentials:
+######################################################################
+
+export GITLAB_USER
+export GITLAB_TOKEN
 
 ### Composer environment variables
 

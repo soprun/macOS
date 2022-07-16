@@ -180,3 +180,9 @@ gpg-install-config: ## install gpg
 #endif
 #	ln -s "$(DIR)/.env" "$(HOME)/.env"
 #	ln -s "$(DIR)/.env.local" "$(HOME)/.env.local"
+
+
+composer-install:
+	if [ $GITHUB_TOKEN ]; then
+	  composer config -g github-oauth.github.com $GITHUB_TOKEN
+	fi
