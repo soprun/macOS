@@ -1,3 +1,0 @@
-[submodule ".automation"]
-	path = .automation
-	url = https://github.com/soprun/makefile.git
