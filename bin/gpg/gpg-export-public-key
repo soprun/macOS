@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+# shellcheck source=../shell-common
+source "${SHELL_HOME}/shell-common"
+
+#export the public key:
+#$ gpg --armor --export $KEYID > gpg-$KEYID-$(date +%F).asc

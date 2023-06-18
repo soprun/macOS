@@ -4,4 +4,10 @@
 # shellcheck source=../shell-common
 source "${SHELL_HOME}/shell-common"
 
+# Отображает и проверяет последнюю фиксацию
 git verify-commit HEAD
+
+#git verify-commit HEAD --raw
+
+#Альтернативные команды для проверки подписей фиксации
+#git log --show-signature # Отображает все фиксации и проверяет подписанные

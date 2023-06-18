@@ -5,3 +5,7 @@
 source "${SHELL_HOME}/shell-common"
 
 git show HEAD --show-signature
+
+#https://developers.yubico.com/PGP/Git_signing.html#_verifying_commits
+#Проверка фиксаций
+#Подписанные фиксации могут быть проверены в разных местах. Один из способов - вручную отобразить фиксацию

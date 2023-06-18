@@ -9,3 +9,11 @@ git fetch origin
 
 output "Join two or more development histories together" "info"
 git merge --ff --no-signatures -S origin/develop
+
+# Слияние и толкание
+# При объединении ветвей или тегов можно попросить Git проверить подпись объединяемых коммитов. Это делается с помощью
+# Если подписи не могут быть проверены, слияние будет прервано.
+# https://developers.yubico.com/PGP/Git_signing.html#_merging_and_pushing
+
+#git merge --verify-signatures other_branch
+
