@@ -6,9 +6,6 @@ source "${SHELL_HOME}/shell-common"
 
 output "GPG restart" "heading"
 
-pkill gpg
-pkill pinentry
-pkill gpg-agent
-pkill ssh-agent
+pkill gpg && pkill pinentry && pkill gpg-agent && pkill ssh-agent
 
 eval "$(gpg-agent --daemon --enable-ssh-support)"
